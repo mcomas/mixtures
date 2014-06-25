@@ -1,0 +1,595 @@
+\documentclass[preprint, review, 3p, authoryear]{elsarticle}
+
+\usepackage[utf8]{inputenc}
+\usepackage{marginnote}
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[authoryear]{natbib}
+
+\journal{Computational Statistics and Data Analysis}
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Logratio methods in mixture models for compositional data sets}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \address[label1]{}
+%% \address[label2]{}
+
+\author[imae]{M. Comas-Cufí}
+\ead{mcomas@imae.udg.edu}
+\author[imae]{J.A. Martín-Fernández\corref{cor2}}
+\ead{josepantoni.martin@udg.edu}
+\author[imae]{G. Mateu-Figueras}
+\ead{gloria.mateu@udg.edu}
+
+\cortext[cor2]{Corresponding author. Dept. Computer Science, Applied Mathematics and Statistics (UdG), Campus Montilivi (P4), E-17071 Girona, Spain. Tel.: +34 972 418426, Fax: +34 972 418792}
+\address[imae]{Department of Computer Science, Applied Mathematics and Statistics,\\ University of Girona, Spain}
+
+\begin{abstract}
+%% Text of abstract
+Finite mixtures of multivariate distributions have showed increasing importance in recent years. New algortihms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
+However, misleading or incoherent results can be obtained when traditional statistical methods are applied to compositional data sets.
+Compositions are positive vectors whose components represent a relative contribution of different parts to a whole.  This type of data has a
+constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proved be appropriate to analyze compositional data sets. Standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. A new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new method.
+\end{abstract}
+
+\begin{keyword}
+Compositional data \sep
+Finite Mixture\sep
+Log ratio\sep
+Model-based clustering \sep
+Normal distribution\sep
+Orthonormal coordinates\sep
+Simplex
+\end{keyword}
+
+\end{frontmatter}
+
+%%
+\section{Introduction}
+
+
+ \noindent According to \cite{scott1971clustering} and \cite{mclachlan2004finite}, finite mixture models provide reasonable results in several multivariate techniques, e.g. model-based clustering  \citep{banfield1993model,  fraley2002model}. The Gaussian mixture is the most common model 
+due to its theoretical and computational simplicity \citep{mclachlan2004finite}. However, this model shows different limitations. For example, when data dimension increases, the number of parameters of a Gaussian distribution increase quadratically. Different strategies have been presented to overcome this limitation: dimension reduction, regularization, and constrained and parsimonious methods \citep{bouveyron2014model}. Recent works  proposed alternative models to overcome the limitations of Gaussian mixtures. For example, $t$-student mixtures are introduced to allow heavier tails to the data \citep{andrews2012model, lee2013finite, lin2010robust}; and skew-normal and skew-$t$ mixtures are introduced to allow asymmetry to the data \citep{lee2011fitting}. In addition, \cite{browne2013mixture} introduce the Generalized Hyperbolic mixture, a more general mixture model which includes, either asymptotically or explicitly, different type of well-known families of mixture models. Note that all these mixtures models are intended for data in real space. For data in a different sample space, other distributions should be used. 
+For example, \cite{bickel2004multi} use multinomial mixture distributions for discrete data in text classification, and  
+ \cite[][]{bouguila2011count} proposes other extensions of multinomial mixture distributions for count data. 
+Another example is circular data, whose sample space is the sphere.  \cite{banerjee2005clustering} and \cite{mardia2007protein} propose mixtures of Von Mises probability distributions, defined for random vectors in the sphere.
+
+Finite mixture modelling for compositonal data (CoDa) also needs its own mixture distributions because this type of data has a constrained sample space.
+CoDa, also called $D$-part compositions, are vectors $\textbf{x} = (x_1, x_2, ..., x_D)$ with all its components strictly positive  and carring only relative information. A $D$-part composition is usually restricted to sum a fixed constant $\kappa$, i.e.
+\begin{equation}
+\sum_{i=1 }^D x_i = \kappa.
+\label{sum_to_constant}
+\end{equation}
+As a convention, it is usual to assume $\kappa =1$ for probabilities and $\kappa = 100$ for percentages. The sample space of $D$-part compositions is the $D$-simplex, which is defined as
+
+\[
+\mathcal{S}^D = \left\{ \textbf{x} \in \mathbb{R}^k \;|\; x_i > 0,\, i=1,\dots, D;\; x_1 + \
+\dots + x_D = \kappa \right\}.
+\]
+
+Typical examples of CoDa are frequent in economy (income/expenditure distribution), medicine (body composition: fat, bone, muscle), food industry (food composition: fat, sugar, …), geochemistry and chemometrics (chemical composition), ecology (abundance different species), sociology (time-use surveys), and genetics (genotype frequency). 
+When a problem is compositional, one is recognising that the absolute value of each part is irrelevant and the interest is focused on the ratios of the parts. Following this idea, \cite{aitchison1986statistical} introduced the log-ratio methodology to deal with compositional data. With this methodology 
+the compositions are expressed in terms of log-ratio coordinates and the classical techniques are applied to the scores so obtained.
+In the past, not many works \citep[e.g.,][]{albert1982mixtures, bouguila2004unsupervised} introduce finite mixtures models using distributions restricted on the simplex, as the Dirichlet distribution. In consequence, there is a gap where last advances in 
+log-ratio modelling can contribute in the analysis of CoDa. Following \cite{mateu2013normal}, normal and non-normal mixtures of distributions on the simplex 
+can be defined.
+
+This paper is organized as follows: in Section~\ref{coda_section} a brief introduction of compositional data analysis is provided. Section~\ref{standard_section} describes the pros and cons of each traditional mixture models when are applied to compositional data. Section~\ref{codamix_section} is devoted to introduce log-ratio mixture models. A real data set is analyzed in Section~\ref{example_section} to illustrate the new methods. Finally, Section~\ref{conclusion_section} contains conclusions and final remarks. The programming of the data analyses discussed in this work has been conducted using the open-source R statistical environment \citep{R2013soft}. Computer routines implementing the methods can be obtained from the R package \texttt{Mclust}, \texttt{Rmixmod}, \texttt{EMMIXuskew} and also from the website http://www.compositionaldata.com.
+
+
+%%%
+%%% Fent referència als dos paràgrafs anteriors, en aquest paràgraf es presentaran les mixtures en un espai composicional.
+
+
+
+
+\section{Compositional data analysis}
+\label{coda_section}
+
+
+ \noindent \cite{aitchison1986statistical} stated that  there are two basic operations in the simplex $\mathcal{S}^D$: \emph{perturbation} ($\oplus$) and 
+ \emph{powering} ($\odot$). The \emph{perturbation} is defined between two compositions $\textbf{x}$ 
+and $\textbf{y}$,  and the \emph{powering} is defined between a composition $\textbf{x}$ and a scalar value $\alpha$ 
+
+\begin{equation}
+\textbf{x} \oplus \textbf{y} =  \frac{1}{\sum_i x_i y_i}( x_1 y_1, \dots, x_D y_D) \qquad\qquad \alpha
+ \odot \textbf{x} =  \frac{1}{\sum_i x_i^\alpha}( {x_1}^\alpha, \dots, {x_D}^\alpha).
+\label{pert_pow}
+\end{equation}
+
+These operations respectively play analogous roles to translation and scalar multiplication in $\mathbb{R}^D$ and provide a vector space
+structure of dimension $D-1$ to the simplex. \cite{PE01} state that the inner product 
+\begin{equation}
+<\textbf{x}, \textbf{y}>_a = \frac{1}{D} \sum_{i < j} \log \frac{x_i}{x_j} \log \frac{y_i}{y_j}
+\label{inner_prod}
+\end{equation}
+ provides to $\mathcal{S}^D$ the structure of an Euclidean space of dimension $D-1$. Note that a norm and a distance can be derived from the inner product.
+This Euclidean space structure suggests to reformulate the log-ratio methodology as the principle of working on coordinates \citep{MPE2011}. The idea is to express compositions in terms of its coordinates with respect to an orthonormal basis on $\mathcal{S}^D$ and apply
+traditional statistical methods to these coordinates. Once an orthonormal basis $\mathcal{B} = \{\textbf{v}_1, \dots, \textbf{v}_{D-1}\}$ is fixed, any $D$-part composition $\textbf{x}$ can be expressed as the linear combination
+\[
+\textbf{x} = (h_1 \odot \textbf{v}_1) \oplus \dots  \oplus (h_{D-1} \odot \textbf{v}_{D-1}).
+\]
+The vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ is formed by the log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$. 
+An example of orthonormal log-ratio coordinates  \citep{egozcue2003isometric} is 
+\begin{equation}
+\label{eilr}
+h_i=\sqrt{\frac{i}{i+1}}\,\ln\frac{\sqrt[i]
+{\prod_{j=1}^{i-1} x_j}}{x_{i}},\,i=1,\dots,D-1.
+\end{equation}
+
+Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
+preprocessed with specific techniques \citep[e.g.,][]{M+12}.
+
+According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of log-ratio coordinates. Indeed, let $f(\cdot)$ be a density on real space. A density on the simplex (or compositional density) $f^*(\mathbf{x})$ is defined as $f^*(\mathbf{x})=f(h(\mathbf{x}))$, where
+$h(\mathbf{x})$ is the vector of log-ratio coordinates. \cite{mateu2013normal} and \cite{ mateu2007skew} respectively introduce the log-ratio normal and skew-normal models as probability laws on $\mathcal{S}^D$. In particular, the log-ratio normal distribution is defined as
+
+\begin{equation}\label{eq:densSNormal}
+f^{*}(\mathbf{x}) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h(\mathbf{x})- \mbox{\boldmath \(\mu\)} \right)' \mathbf{\Sigma}^{-1} \left( h(\mathbf{x})- \mbox{\boldmath\(\mu\)} \right)\right)\ ,
+\end{equation}
+where $h(\mathbf{x})$ are the coordinates with respect to any orthonormal basis and $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ are their corresponding parameters. Figure \ref{fig01}(left) shows  contour lines of three typical normal distribution on the simplex. Note that distribution in the center of the ternary diagram is the more similar to elliptical contourn lines in real space. However, the arch shape and corner shape are very different from the traditional gaussian shape. These particular shapes are frequent in real data sets from industrial and scientific applications \citep{aitchison1986statistical, Buccianti11}.
+When these distributions are plotted using orthonormal coordinates (Fig. \ref{fig01}(right)) the traditional elliptic contour of
+gaussian distributions in real space.
+
+
+\begin{figure}[htbp]
+\begin{center}
+\begin{tabular}{cc}
+ %   Simplex $\simplex^D$ & $\Longrightarrow$ &Coordinates in $\RR^{D-1}$\\
+  \includegraphics[trim=0cm 6cm 0cm 4cm,width=0.4\textwidth]{fig01_elipsesS3Axes.pdf} &\includegraphics[trim=0cm 6cm 0cm 4cm,width=0.4\textwidth]{fig01_elipsesS3AxesC.pdf} \\
+ \end{tabular}
+ \caption{Contour lines of typical log-ratio normal distribution on the simplex: (left) in the ternary diagram. Dotted lines are the axis of log-ratio basis; (right) in coordinates. }\label{fig01}
+\end{center}
+\end{figure}
+
+
+%\section{Mixtures on the simplex}
+
+\section{Standard approaches to model composition data mixtures}
+\label{standard_section}
+
+
+
+\subsection{Using distributions defined on the real space}
+\label{real_section}
+
+\noindent Two different approaches have been used in the literature to fit finite mixtures to CoDa. 
+In the first approach, the distributions defined on real space are used to define the mixture model and the special geometry of $\mathcal{S}^D$ is not considered. In the second case, described in following section, the finite mixtures are based on Dirichlet distribution and its generalizations.
+
+%Mixtura de normals aplicada a variables composicionals, citar Bauxter
+% 1.- Singularitat de les covariances.
+% 2.- El mètode no modela correctament les dades. Esdeveniment impossibles amb probabilitat positiva.
+% 3.- No hi ha coherència subscomposicional
+
+
+When mixture models are applied to CoDa, some approaches do not take into account neither the constant sum constraint nor the strictly positive component restriction. Most statistical methods fail due to the colinearity derived from the constant sum constraint (Eq. \ref{sum_to_constant}). Such methods depend on the inverse of the sample's covariance matrix, which is singular. To solve this difficulty, the common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. However, when this strategy is applied, is of crucial importance to analyze whether the final results depend on the removed part. Following \cite{barcelo1999comment} it is straightforward to see that the maximum likelihood of the fitted Gaussian mixture is invariant as regards to the removed part. However, misleading result can be obtained when one part is removed and the analysis is based only on the rest of parts.
+Figure \ref{fig02}(left) shows a data set in the ternary diagram and its corresponding projection to the plane of two last parts, when first part is
+removed. When the analysis is based only in the two last parts the three cluster would be detected and its interpretation will be based on
+the absolute values of only two parts. However, this results should be the same when one works with the relative information included in
+the subcompositions formed by the tow last parts. Figure \ref{fig02}(right) shows the projection of the data set to the simplex formed by
+the two last parts. Note that based on the corresponding relative information only two cluster would be idenfified. Moreover, this analysis will be different when the removed part is the second one. This effect is well known in the literature and is related with two basic principles of
+CoDa analysis: the scale invariance principle and the subcompositional coherence \citep{aitchison1986statistical}.
+
+\begin{figure}[htbp]
+\begin{center}
+\begin{tabular}{cc}
+ %   Simplex $\simplex^D$ & $\Longrightarrow$ &Coordinates in $\RR^{D-1}$\\
+  \includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toR2.pdf} &\includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toS2.pdf} \\
+ \end{tabular}
+ \caption{Compositional data set in the ternary diagram and its projections: (left) when one part is removed; (right) when the subcomposition is formed.}\label{fig02}
+\end{center}
+\end{figure}
+
+In addition, when the CoDa have some part taking values close to zero another problem appears: the fitted mixture could be defined outside the simplex. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values 
+beyond the restricted space. In consequence, the fitted model is giving probabilities to impossible events. This fact can be of special importance when decisions depend on probabilities calculated from the mixture model. For example, \cite{baudry2010combining} and \cite{CMM13} estimate posterior probabilities from a mixture model to form clusters combining mixture components.
+
+Above difficulties suggest using appropriate probability distributions in mixture models for CoDa, distributions that take into account 
+the constrained sample space.
+
+\subsection{Using standard distributions defined on the simplex space}
+\label{simplex_section}
+
+\noindent Among the standard distributions defined on the simplex, the Dirichlet distribution is the most widely used. 
+A Dirichlet distributed random vector is formed projecting to the simplex a vector formed by independent and equally scaled gamma distributed components.
+Despite its simplicity and its good mathematical properties it has a very strong independence structure \citep{aitchison1986statistical}. 
+In practice, such independence structure heavily restricts Dirichlet potential modeling application. Most of real CoDa sets have
+not this structure \citep{aitchison1986statistical}. To solve this difficulty, many generalizations of the Dirichlet distribution with less
+independence structure have been proposed: the Connor and Mosimann's distribution
+\citep{Connor:1969}, the scaled Dirichlet distribution \citep{aitchison1986statistical},  and the Liouville distribution \citep{rayens1994dependence}.  More recently, \cite{ongaro2008new} present the Flexible Dirichlet distribution, but future
+developments are required to discover its potential application. Finally \cite{monti2011shifted} introduce the Shifted-scaled Dirichlet distribution. This generalized distribution is defined adding the operations
+perturbation and powering (Eq. \ref{pert_pow}) to the standard Dirichlet distribution. Unfortunately all these attempts
+have limited success to fit the general dependence structure of compositional data \citep{mateu2013normal}.
+
+There is no straightforward method to fit a Dirichlet mixture to a CoDa set. Indeed, contrary to the Gaussian case,
+it is difficult to find in the literature routines or functions for fitting a Dirichlet mixture. However, methods to estimate the parameters of a Dirichlet model are found in the literature. As the Dirichlet distribution is an exponential family, the log-likelihood function is globally concave and a global optimum can be obtained. According to \cite{ng2011dirichlet}, the MLE via Newton-Raphson algorithm converges to the global optimum. \cite{narayanan1991algorithm} provides a Fortran subroutine where three different possibilities are available to estimate the initial parameter required.
+We can also obtain MLE estimates via the EM gradient methods \citep{ng2011dirichlet} or we can use a generalized method of moments
+\citep{hansen1982large}. Using this later method, an approximation to the MLE can be obtained when the classification EM-algorithm (CEM) \citep{celeux1992classification} is applied to determine the clusters. 
+
+%Mixtures defined directly on the simplex (Mixture of Dirichlets)
+
+%The principle of working in coordinates
+
+
+\section{Modeling compositional data using a mixture of distributions defined on the log-ratio coordinates}
+\label{codamix_section}
+
+
+\noindent Our proposal is to model CoDa using log-ratio finite mixtures,
+
+\begin{equation}\label{coda_mixture}
+%\pi_1 f^*(\textbf{x}; \theta_1) + \dots + \pi_k f^*(\textbf{x}; \theta_k),
+\pi_1 f^*(\textbf{x}; \theta_1) + \dots + \pi_k f^*(\textbf{x}; \theta_k),
+\end{equation}
+where $f^*$ are log-ratio distributions with parameters $ \theta_i $, $1\leq i \leq k$, and $\pi_i$ are
+the corresponding nonnegative mixing proportions which sum to one.
+
+Let $h$ be the coordinate function given a certain orthonormal basis $\mathcal{B}$ of $\mathcal{S}^D$. Given a compositional sample
+$X =  \{ \textbf{x}_1, \textbf{x}_2, \dots , \textbf{x}_n \} $  the likelihood expression for the mixture model on $\mathcal{S}^D$ with parameters $ \theta_i $, $1\leq i \leq k$  is
+
+\begin{equation}\label{likeli}
+\prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(\textbf{x}_i; \theta_j).
+\end{equation}
+
+Let $f$ be the real distribution that $f^* = f \circ h$. Then, Eq. \ref{likeli} can be rewritten as
+
+\begin{equation}\label{likeliR}
+\prod_{i=1}^n \sum_{j=1}^k \pi_j f(h(\textbf{x}_i); \theta_j).
+\end{equation}
+
+Following this approach, fitting a $f^*$ mixture to a CoDa set using the MLE, results on fitting a $f$ mixture to a real data set, the set of coordinates with respect to the basis $\mathcal{B}$. 
+According to \cite{mateu2013normal}, in Equation \ref{likeliR} we are not applying a transformation $h$ to a composition, we only change its representation. In consequence, the number of possible densities $f^*$ is  the same than in real space. Due to its theoretical and computational simplicity, our first proposal is to use the normal distribution, i.e. we fit a gaussian mixture to a CoDa set using as $f^*$ the log-ratio normal densities on $\mathcal{S}^D$  (Eq. \ref{eq:densSNormal}). However, in cases where asymmetric distributions provides a better fit, it is possible to use log-ratio skew-normal or log-ratio skew-t on $\mathcal{S}^D$. 
+
+Figure \ref{fig03logratiodens} shows a typical scenario where the purpose is to find groups in a data set. In this case there are for groups .......DESCRIURE LA SIMULACIO....
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[trim=0cm 6cm 0cm 6cm,width=0.7\textwidth]{fig03_logratiodens.pdf}
+\caption{Typical model based clustering scenario using log-ratio normal distribution.}
+\label{fig03logratiodens}
+\end{figure}
+
+It is important to remark that our method is basis invariant. That is, the fitted mixture are preserved when a change of basis and consequently a change of log-ratio coordinates is applied. For example, the log-ratio normal (Eq.~\ref{eq:densSNormal}) mixture model is formulated in terms of Mahalanobis distance and covariance matrix determinant which are basis invariant elements
+ \citep{barcelo1999comment}. 
+
+\section{A real data set: Forensic Glass}
+\label{example_section}
+
+\noindent To illustrate and compare different approaches, we analyzed the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminum (Al); and three groups of glasses: containers, headlamps and vehicle windows. Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminum element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/main_df.pdf}%{fig04_original_solution2.pdf}
+\caption{Forensic Glass data set in ternary diagram: Calcium (Ca), Silica (Si) and Aluminium (Al) chemical elements. Three groups of glasses: containers (black), headlamps (red) and vehicle windows (green).}
+\label{fig04}
+\end{figure}
+
+For each different strategy, the fitted mixture models is applied to classify the data using the maximum a posteriori criterion.
+
+Figure~\ref{fig05component_elimination} shows an example where a standard finite Gaussian mixture is estimated removing one part on the Forensic Glass data set. Despite the theoretical invariance of the maximum likelihood, we stated that in practice the numerical algorithm gets stuck in a local optimum. In such scenario, the invariance of the results is not guaranteed. Another problem appears when the sample space is not taken into an account: the fitted mixture could be defined outside the simplex. At Figure~\ref{fig05component_elimination} (bottom-right) we could appreciate some contour lines outside the ternary diagram.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/elim_component_ternary.pdf}
+\includegraphics[width=\textwidth]{figures/elim_component_real.pdf}
+
+
+
+%\includegraphics[width=0.8\textwidth]{fig05_component_elim2.pdf}
+\caption{USA Forensic Science Service data set considering only the subcomposition given by the Calcium (Ca), Silica (Si) and Aluminium (Al). On the top-left, top-right and bottom-left classification given by a standard Gaussian mixture model in $R^{2}$; that is, respectively removing the first, the second and the third component. On the bottom-right the adjusted mixture represented in the ternary diagram and its zoom. Three different groups of glasses: containers (black), headlamps (red) and vehicle windows (green)} POSAR EL GR\`{A}FIC DEL TERNARI DE LES FIGURES 2 I 4 EN LA MATEIXA ESCALA ANIR\`{A} MILLOR PER COMPARAR
+\label{fig05component_elimination}
+\end{figure}
+
+
+
+Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits
+the Forensic Glass data set. Note that Dirichlet mixture is not be able to capture the dependence structure between the three chemical elements. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/dirichlet_mixture.pdf}
+\caption{USA Forensic Science Service data set: classification given by a standard Dirichlet mixture model. Three different groups of glasses: containers (black), headlamps (red) and vehicle windows (green)}
+\label{fig06fittingdirichlet}
+\end{figure}
+
+To compare results, we fit normal and skew-t mixtures to the Forensic Glass data set. Figure~\ref{fig07fittingcodaGaussian} (top and bottom left) shows the isodensity contour plot of the fitted mixture in the space of log-ratio coordinates. Figure~\ref{fig07fittingcodaGaussian} (top and bottom right) shows the same contour lines in the ternary diagram.  It is important to note that we use the basis $\mathcal{B} = \{ (e^{-\sqrt{2}/2}, e^{\sqrt{2}/2}, e^{0}), (e^{-\sqrt{6}/6}, e^{-\sqrt{6}/6}, e^{\sqrt{6}/3}) \}$ on the simplex $\mathcal{S}^3$ and consequently the log-ratio coordinates in Eq. (\ref{eilr}). CAL DONAR RESULTATS??? Contrary to the Dirichlet case, both log-ratio mixtures are capable to capture the dependence structure of the data set. PERQU\`{E}?? CAL CONV\`{E}NCER MILLOR.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/coda_gaussian_mixture.pdf}\\%{fig07_coda_gaussian_mixture2.pdf}\\
+%\caption{On the left Gaussian mixture fitted to the coordinates given the basis $\mathcal{B} = \{ (e^{-\sqrt{2}/2}, e^{\sqrt{2}/2}, e^{0}), (e^{-\sqrt{6}/6}, e^{-\sqrt{6}/6}, e^{\sqrt{6}/3}) \}$ of the simplex. On the right the same Gaussian mixture represented on the simplex.  }
+\includegraphics[width=0.6\textwidth]{figures/coda_skew_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
+\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture.pdf}%{fig07_coda_skew_mixture2.pdf}
+\caption{Compositional mixtures for USA Forensic Science Service data set: (top-left) Gaussian; (top-right) the same Gaussian mixture represented in the ternary; (bottom-left) skew-$t$ mixture; (bottom-right) the same skew-$t$ mixture represented in the ternary. }
+\label{fig07fittingcodaGaussian}
+\end{figure}
+
+
+\section{Conclusions}
+\label{conclusion_section}
+Standard distributions in finite mixtures for compositional data sets show important difficulties. If densities for real data are used, probabilities to impossible events are obtained and the results depend on the removed part. Dirichlet density and some generalizations on the simplex can not capture the variability of many compositional data sets due to its strong independence structure. Log-ratio distributions are flexible models that could describe different form of variability and dependence structures. Indeed, any mixture model defined on the real space can be used to model data on the simplex space using the principle of working on coordinates. In particular, we have introduced the methodology to fit a mixture of normal and skew-$t$ distributions to the log-ratio coordinates of a compositional sample. This two options extend the range of possibilities we have up to now with the Dirichlet model or generalizations. The log-ratio normal distribution provides a rich enough parametric class of distributions on the appropriate sample space. 
+
+\section*{Acknowledgments}
+This research was supported by the Ministerio de Econom\'ia y Competividad under the project
+``METRICS'' Ref. MTM2012-33236 and the Agència de Gestió d'Ajuts Universitaris i de Recerca (AGAUR), Generalitat de Catalunya (Ref: 2014SGR551).
+
+\section*{References}
+
+\begin{thebibliography}{00}
+
+\bibitem[Aitchison, 1986]{aitchison1986statistical}
+Aitchison, J., 1986. The Statistical Analysis of Compositional Data. Monographs on Statistics and
+Applied Probability. Chapman and Hall Ltd. (Reprinted 2003 with additional material by The
+Blackburn Press), London (UK). 416 p.
+
+\bibitem[Albert and Gupta, 1982]{albert1982mixtures}
+Albert, J.~H. and Gupta, A.~K. (1982).
+\newblock Mixtures of dirichlet distributions and estimation in contingency
+  tables.
+\newblock {\em The Annals of Statistics}, pages 1261--1268.
+
+\bibitem[Andrews and McNicholas, 2012]{andrews2012model}
+Andrews, J.~L. and McNicholas, P.~D. (2012).
+\newblock Model-based clustering, classification, and discriminant analysis via
+  mixtures of multivariate t-distributions.
+\newblock {\em Statistics and Computing}, 22(5):1021--1029.
+
+\bibitem[Bache and Lichman, 2013]{Bache+Lichman:2013}
+Bache, K. and Lichman, M. (2013).
+\newblock {UCI} machine learning repository.
+
+\bibitem[Banerjee et~al., 2005]{banerjee2005clustering}
+Banerjee, A., Dhillon, I.~S., Ghosh, J., and Sra, S. (2005).
+\newblock Clustering on the unit hypersphere using von mises-fisher
+  distributions.
+\newblock In {\em Journal of Machine Learning Research}, pages 1345--1382.
+
+\bibitem[Banfield and Raftery, 1993]{banfield1993model}
+Banfield, J.~D. and Raftery, A.~E. (1993).
+\newblock Model-based Gaussian and non-Gaussian clustering.
+\newblock {\em Biometrics}, pages 803--821.
+
+\bibitem[Barcel{\'o}-Vidal et~al., 1999]{barcelo1999comment}
+Barcel{\'o}-Vidal, C., Mart{\'\i}n-Fern{\'a}ndez, J., and Pawlowsky-Glahn, V.
+  (1999).
+\newblock Comment on ``singularity and nonnormality in the classification of
+  compositional data'' by gc bohling, jc davis, ra olea, and j. harff.
+\newblock {\em Mathematical geology}, 31(5):581--585.
+
+%\bibitem[Barcel{\'o}-Vidal et~al., 2011]{barcelo2011compositional}
+%Barcelo-Vidal, C., Mart{\'\i}n-Fern{\'a}ndez, J.~A., and Mateu-Figueras, G.
+%  (2011).
+%\newblock Compositional differential calculus on the simplex.
+%\newblock {\em Compositional Data Analysis: Theory and Applications, eds. V.
+%  Pawlowsky-Glahn and A. Buccianti, John Wiley \& Sons, Ltd, Chichester, UK}.
+
+\bibitem[Baudry et~al., 2010]{baudry2010combining}
+Baudry, J.-P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
+\newblock Combining mixture components for clustering.
+\newblock {\em Journal of Computational and Graphical Statistics}, 19(2).
+
+\bibitem[Bickel and Scheffer, 2004]{bickel2004multi}
+Bickel, S. and Scheffer, T. (2004).
+\newblock Multi-view clustering.
+\newblock In {\em ICDM}, volume~4, pages 19--26.
+
+%\bibitem[Bouguila, 2008]{bouguila2008clustering}
+%Bouguila, N. (2008).
+%\newblock Clustering of count data using generalized dirichlet multinomial
+%  distributions.
+%\newblock {\em Knowledge and Data Engineering, IEEE Transactions on},
+%  20(4):462--474.
+
+\bibitem[Bouguila, 2011]{bouguila2011count}
+Bouguila, N. (2011).
+\newblock Count data modeling and classification using finite mixtures of
+  distributions.
+\newblock {\em Neural Networks, IEEE Transactions on}, 22(2):186--198.
+
+\bibitem[Bouguila et~al., 2004]{bouguila2004unsupervised}
+Bouguila, N., Ziou, D., and Vaillancourt, J. (2004).
+\newblock Unsupervised learning of a finite mixture model based on the
+  dirichlet distribution and its application.
+\newblock {\em Image Processing, IEEE Transactions on}, 13(11):1533--1543.
+
+\bibitem[Bouveyron and Brunet-Saumard, 2014]{bouveyron2014model}
+Bouveyron, C. and Brunet-Saumard, C. (2014).
+\newblock Model-based clustering of high-dimensional data: a review.
+\newblock {\em Computational Statistics and Data Analysis}, 71:52--78.
+
+\bibitem[Browne and McNicholas, 2014]{browne2013mixture}
+Browne, R. and McNicholas, P. (submitted).
+\newblock A mixture of generalized hyperbolic distributions. arxiv: 13051036.
+
+\bibitem[Buccianti, 2011]{Buccianti11}
+Buccianti, A. (2011). 
+\newblock Natural Laws Governing the Distribution of the Elements in Geochemistry: the Role of the Log-ratio Approach.
+\newblock In {\em Compositional Data Analysis: Theory
+and Applications}, eds. V. Pawlowsky-Glahn and A. Buccianti; Chichester, UK: John Wiley and Sons, 255--266.
+
+\bibitem[Celeux and Govaert, 1992]{celeux1992classification}
+Celeux, G. and Govaert, G. (1992).
+\newblock A classification em algorithm for clustering and two stochastic
+  versions.
+\newblock {\em Computational statistics and Data analysis}, 14(3):315--332.
+
+\bibitem[Comas-Cuf\'i et~al., 2013]{CMM13}
+Comas-Cuf\'i, C., Mateu-Figueras, G., and Mart\'in-Fern\'andez, J. (2013).
+\newblock Compositional entropies in model based clustering.
+\newblock In {\em Abstracts of the 6th International Conference of the ERCIM WG
+  on COMPUTING \& STATISTICS (ERCIM 2013)}. 14-16 December 2013, University of
+  London, UK.
+
+\bibitem[Connor and Mosimann, 1969]{Connor:1969}
+Connor, R. and Mosimann, J. (1969).
+\newblock Concepts of independence for proportions with a generalization of the
+  {D}irichlet distribution.
+\newblock {\em Journal of the American Statistical Association},
+  64(325):194--206.
+
+\bibitem[Egozcue et~al., 2003]{egozcue2003isometric}
+Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcel{\'o}-Vidal,
+  C. (2003).
+\newblock Isometric logratio transformations for compositional data analysis.
+\newblock {\em Mathematical Geology}, 35(3):279--300.
+
+\bibitem[Egozcue and Pawlowsky, 2005]{egozcue2005balances}
+Egozcue, J.~J., and Pawlowsky-Glahn, V. (2005).
+\newblock Groups of parts and their balances in compositional data analysis.
+\newblock {\em Mathematical Geology}, 37(7):795--828.
+
+\bibitem[Fraley and Raftery, 2002]{fraley2002model}
+Fraley, C. and Raftery, A.~E. (2002).
+\newblock Model-based clustering, discriminant analysis, and density
+  estimation.
+\newblock {\em Journal of the American Statistical Association},
+  97(458):611--631.
+
+\bibitem[Hansen, 1982]{hansen1982large}
+Hansen, L.~P. (1982).
+\newblock Large sample properties of generalized method of moments estimators.
+\newblock {\em Econometrica: Journal of the Econometric Society}, pages
+  1029--1054.
+
+\bibitem[Lee and McLachlan, 2011]{lee2011fitting}
+Lee, S. and McLachlan, G.~J. (2011).
+\newblock On the fitting of mixtures of multivariate skew t-distributions via
+  the em algorithm.
+\newblock {\em arXiv preprint arXiv:1109.4706}.
+
+\bibitem[Lee and McLachlan, 2013]{lee2013finite}
+Lee, S. and McLachlan, G.~J. (2013).
+\newblock Finite mixtures of multivariate skew t-distributions: some recent and
+  new results.
+\newblock {\em Statistics and Computing}, pages 1--22.
+
+\bibitem[Lin, 2010]{lin2010robust}
+Lin, T.-I. (2010).
+\newblock Robust mixture modeling using multivariate skew t distributions.
+\newblock {\em Statistics and Computing}, 20(3):343--356.
+
+%\bibitem[Lin et~al., 2007]{lin2007robust}
+%Lin, T.~I., Lee, J.~C., and Hsieh, W.~J. (2007).
+%\newblock Robust mixture modeling using the skew t distribution.
+%\newblock {\em Statistics and Computing}, 17(2):81--92.
+
+\bibitem[Mardia et~al., 2007]{mardia2007protein}
+Mardia, K.~V., Taylor, C.~C., and Subramaniam, G.~K. (2007).
+\newblock Protein bioinformatics and mixtures of bivariate von mises
+  distributions for angular data.
+\newblock {\em Biometrics}, 63(2):505--512.
+
+\bibitem[Mart\'in-Fern\'andez et~al., 2012]{M+12}
+Mart\'in-Fern\'andez, J., Hron, K., Templ, M., Filzmoser, P., and
+  Palarea-Albaladejo (2012).
+\newblock Model-based replacement of rounded zeros in compositional data:
+  Classical and robust approach.
+\newblock {\em Computational Statistics \& Data Analysis}, 56(3):2688--2704.
+
+\bibitem[Mateu-Figueras and Pawlowsky-Glahn, 2007]{mateu2007skew}
+Mateu-Figueras, G. and Pawlowsky-Glahn, V. (2007).
+\newblock The skew-normal distribution on the simplex.
+\newblock {\em Communications in Statistics, Theory and Methods, Special Issue
+  Skew-elliptical Distributions and Their Application}, 36(9):1787--1802.
+
+\bibitem[Mateu-Figueras et~al., 2011]{MPE2011}
+Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J. (2011).
+\newblock The principle of working on coordinates.
+\newblock In {\em Compositional Data Analysis: Theory and Applications}, pages
+  31--42. John Wiley \& Sons.
+
+\bibitem[Mateu-Figueras et~al., 2013]{mateu2013normal}
+Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.-J. (2013).
+\newblock The normal distribution in some constrained sample spaces.
+\newblock {\em SORT-Statistics and Operations Research Transactions},
+  1(1):29--56.
+
+\bibitem[McLachlan and Peel, 2004]{mclachlan2004finite}
+McLachlan, G. and Peel, D. (2004).
+\newblock {\em Finite mixture models}.
+\newblock Wile.
+
+%\bibitem[McLachlan and Basford, 1988]{mclachlan1988mixture}
+%McLachlan, G.~J. and Basford, K.~E. (1988).
+%\newblock Mixture models. inference and applications to clustering.
+%\newblock {\em Statistics: Textbooks and Monographs, New York: Dekker, 1988},
+%  1.
+
+\bibitem[Monti et~al., 2011]{monti2011shifted}
+Monti, G., Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J. (2011).
+\newblock The shifted-scaled dirichlet distribution in the simplex.
+\newblock In {\em Proceedings of the 4th International Workshop on
+  Compositional Data Analysis (2011)}.
+
+\bibitem[Narayanan, 1991]{narayanan1991algorithm}
+Narayanan, A. (1991).
+\newblock Algorithm as 266: maximum likelihood estimation of the parameters of
+  the dirichlet distribution.
+\newblock {\em Journal of the Royal Statistical Society. Series C (Applied
+  Statistics)}, 40(2):365--374.
+
+\bibitem[Ng et~al., 2011]{ng2011dirichlet}
+Ng, K.~W., Tian, G.-L., and Tang, M.-L. (2011).
+\newblock {\em Dirichlet and Related Distributions: Theory, Methods and
+  Applications}, volume 888.
+\newblock John Wiley \& Sons.
+
+\bibitem[Ongaro et~al., 2008]{ongaro2008new}
+Ongaro, A., Migliorati, S., Monti, G.~S., et~al. (2008).
+\newblock A new distribution on the simplex containing the dirichlet family.
+\newblock Technical report, Universitat de Girona. Departament
+  d'Inform{\`a}tica i Matem{\`a}tica Aplicada.
+
+\bibitem[Papageorgiou et~al., 2001]{papageorgiou2001model}
+Papageorgiou, I., Baxter, M., and Cau, M. (2001).
+\newblock Model-based cluster analysis of artefact compositional data.
+\newblock {\em Archaeometry}, 43(4):571--588.
+
+%\bibitem[Pavlov et~al., 2004]{pavlov2004document}
+%Pavlov, D., Balasubramanyan, R., Dom, B., Kapur, S., and Parikh, J. (2004).
+%\newblock Document preprocessing for naive bayes classification and clustering
+%  with mixture of multinomials.
+%\newblock In {\em Proceedings of the tenth ACM SIGKDD international conference
+%  on Knowledge discovery and data mining}, pages 829--834. ACM.
+
+\bibitem[Pawlowsky-Glahn and Egozcue, 2001]{PE01}
+Pawlowsky-Glahn, V. and Egozcue, J. (2001).
+\newblock Geometric approach to statistical analysis on the simplex.
+\newblock {\em Stochastic Environmental Research and Risk Assessment (SERRA)},
+  15(5):384--398.
+
+\bibitem[R~Core~Team, 2013]{R2013soft}
+R Core Team (2013).
+\newblock R: A language and environment for statistical computing. R Foundation for Statistical Computing.
+\newblock {\em Vienna, Austria. \texttt{http://www.R-project.org/}}.
+
+\bibitem[Rayens and Srinivasan, 1994]{rayens1994dependence}
+Rayens, W.~S. and Srinivasan, C. (1994).
+\newblock Dependence properties of generalized liouville distributions on the
+  simplex.
+\newblock {\em Journal of the American Statistical Association},
+  89(428):1465--1470.
+
+\bibitem[Scott and Symons, 1971]{scott1971clustering}
+Scott, A. and Symons, M.~J. (1971).
+\newblock Clustering methods based on likelihood ratio criteria.
+\newblock {\em Biometrics}, pages 387--397.
+
+\bibitem[Tian et~al., 2003]{tian2003bayesian}
+Tian, G.-L., Ng, K.~W., and Geng, Z. (2003).
+\newblock Bayesian computation for contingency tables with incomplete
+  cell-counts.
+\newblock {\em Statistica Sinica}, 13(1):189--206.
+
+\end{thebibliography}
+
+
+
+\end{document}
+
+\endinput 

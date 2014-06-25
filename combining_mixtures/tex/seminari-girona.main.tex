@@ -1,0 +1,49 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{amsmath, amssymb, bbm}
+
+\usepackage{relsize}
+
+\usetheme{Warsaw}
+%\usecolortheme{lily}
+
+\definecolor{obs}{RGB}{53,106,160}
+\definecolor{post}{RGB}{0,110,46}
+\definecolor{class}{RGB}{160,110,46}
+\definecolor{idea}{RGB}{162,162,162}
+
+
+\newcommand{\obs}[1]{{\color{obs}#1}}
+\newcommand{\post}[1]{{\color{post}#1}}
+\newcommand{\idea}[1]{{\uncover<2>{\color{idea}#1}}}
+
+\title{Merging classes}
+\author{Marc Comas Cuf\'{\i}}
+\date{}
+
+\begin{document}
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%%% Introduction
+\section{Introduction}
+
+\input{tex/seminari-girona.introduction.tex}
+
+%%% Mixture models
+\section{Merging classes: mixture models}
+
+\input{tex/seminari-girona.mixture-models.tex}
+
+%%% Further work
+\section{Merging classes: going further}
+
+\input{tex/seminari-girona.further-work.tex}
+
+\end{document}

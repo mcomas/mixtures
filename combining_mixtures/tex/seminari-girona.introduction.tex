@@ -1,0 +1,62 @@
+\begin{frame}[t]
+%Estaria bé tenir un dibuix on es veièssin les classes a dalt (pensar quina forma podrien tenir), les observacions a baix sense que estiguin necessariament ordenades i un vector de probabilitats de pertanyer a cada una de les classes.
+
+\frametitle{Weights or probabilities related to a class}
+\only<1-5>{
+\begin{itemize}
+\item A sample $\obs{\textbf{x}_1}, \dots, \obs{\textbf{x}_n}$
+\item For each $\obs{\textbf{x}_i}$ a vector of probabilities/weights $\post{\tau_{i1}}, \dots, \post{\tau_{ik}}$ giving the relative chances to belong to certain classes $C_1, \dots, C_k$
+\end{itemize}
+}
+\only<6->{
+\begin{itemize}
+\item<6-> A sample $\post{\boldsymbol\tau_1}, \dots, \post{\boldsymbol\tau_n}$
+\item<7> An implicit set classes\\ $\;\;C_1, \dots, C_k$
+\end{itemize}
+}
+\bigskip
+\begin{center}
+\input{tex/seminari-girona.fig.observation-posteriori-diagram.tex}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]
+\frametitle{Where do $\boldsymbol\tau_i$'s come from?}
+
+\begin{description}
+\item[Expert decision] An expert set the weights according to its expertise
+\item[Mixture models]  The a posteriori probabilities
+\begin{eqnarray*} \tau_{ij} &=& \frac{f(x_i; \theta_j)}{\sum_{\ell = 1}^k f(x_i; \theta_\ell) } \end{eqnarray*}
+\item[Fuzzy clustering] The membership weight \uncover<2->{ (if $f'(x; C) := \frac{1}{d(x, C)}^{2/(m-1)}$)  }
+\begin{eqnarray*}
+\tau_{ij} &=& \frac{1}{\sum_{\ell = 1}^k \left( \frac{d(x_i; C_j)}{d(x_i; C_\ell) } \right)^{2/(m-1)}}  \\
+\uncover<3>{ &=& \frac{f'(x_i; C_j)}{\sum_{\ell = 1}^k f'(x_i; C_\ell)} }
+\end{eqnarray*}
+\end{description}
+\end{frame}
+
+
+\begin{frame}[t]
+\frametitle{Our input, our goal: What do we want to do?}
+
+\begin{block}{Input}
+A sample of probabilities to belong to some classe $C_i$, 
+\begin{columns}
+\column{0.4\textwidth}
+\[ T = \left[ \begin{array}{ccccc}
+\idea{(}\tau_{11}\idea{,} & \dots & \tau_{1j}\idea{,} & \dots & \tau_{1k}\idea{),} \\
+\vdots      & &    \vdots                     & &    \vdots                     \\
+\idea{(}\tau_{11}\idea{,} & \dots & \tau_{1j}\idea{,} & \dots & \tau_{1k}\idea{),} \\
+\vdots      & &      \vdots                   & &       \vdots                  \\
+\idea{(}\tau_{11}\idea{,} & \dots & \tau_{1j}\idea{,} & \dots & \tau_{1k}\idea{)}
+\end{array} \right] 
+\idea{ \in \mathcal{S}_{[C_1,\dots,C_k]}^k } \]
+\column{0.3\textwidth}
+
+\end{columns}
+\end{block}
+\begin{alertblock}{Goal}
+\alert{Merge} classes (sequentially) to obtain a hierarchy over the set of classes % $\{C_1, \dots, C_k\}$. %In other words, obtain a binary tree with a set of leafs $\{C_1, \dots, C_k\}$
+\end{alertblock}
+
+\end{frame}
