@@ -1,0 +1,52 @@
+\begin{frame}[t]
+\frametitle{Fuzzy clustering VS Mixture modeling}
+
+% \begin{columns}
+% \column{0.5\textwidth}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+% \column{0.5\textwidth}
+% \begin{itemize}
+% \item 
+% \end{itemize}
+% \end{columns}
+
+\begin{columns}
+\column{0.5\textwidth}
+Fuzzy-clustering\medskip
+\begin{itemize}
+\item Initialize $(\omega_{i1}^0, \dots, \omega_{ik}^0)$.
+\end{itemize}
+\column{0.5\textwidth}
+
+Gaussian mixture modeling\medskip
+\begin{itemize}
+\item Initialize $(\tau_{i1}^0, \dots, \tau_{ik}^0)$.
+\end{itemize}
+\end{columns}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{itemize}
+\item $c^{\ell+1}_j = \frac{\sum_{i=1}^n \omega_{i j}^{\red{m}} \obs{x_i}}{\sum_{i=1}^n \omega_{i j}^{\red{m}}}$
+\end{itemize}
+\column{0.5\textwidth}
+\begin{itemize}
+\item $\mu^{\ell+1}_j = \frac{\sum_{i=1}^n \tau_{i j} \obs{x_i}}{\sum_{i=1}^n \tau_{i j}}$
+\end{itemize}
+\end{columns}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{itemize}
+\item $\omega^{\ell+1}_{ij} = \frac{1}{\sum_{\ell = 1}^k \left( \frac{d(x_i; C_j)}{d(x_i; C_\ell) } \right)^{2/({\red{m}}-1)}}$
+\end{itemize}
+\column{0.5\textwidth}
+\begin{itemize}
+\item $\tau^{\ell+1}_{ij} = \frac{f(x_i; \mu_j, \Sigma_\ell)}{\sum_{\ell = 1}^k f(x_i; \mu_\ell, \Sigma_\ell) }$
+\end{itemize}
+\end{columns}
+
+
+\end{frame}

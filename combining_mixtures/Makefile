@@ -5,10 +5,11 @@ seminari-girona : pdf/seminari-girona.pdf
 pdf/seminari-girona.pdf : tex/seminari-girona.main.tex tex/seminari-girona.fig.observation-posteriori-diagram.tex \
                           tex/seminari-girona.introduction.tex  \
                           tex/seminari-girona.mixture-models.tex \
-                          tex/seminari-girona.further-work.tex
+                          tex/seminari-girona.further-work.tex \
+                          tex/seminari-girona.fuzzy-clustering.tex
 	pdflatex -output-directory pdf -jobname seminari-girona tex/seminari-girona.main.tex
 	pdflatex -output-directory pdf -jobname seminari-girona tex/seminari-girona.main.tex
-	rm pdf/seminari-girona.aux pdf/seminari-girona.log pdf/seminari-girona.nav pdf/seminari-girona.out pdf/seminari-girona.snm pdf/seminari-girona.toc
+	rm -f pdf/seminari-girona.aux pdf/seminari-girona.log pdf/seminari-girona.nav pdf/seminari-girona.out pdf/seminari-girona.snm pdf/seminari-girona.toc tex/*.log
 
 
 #DGEN = data/sim-mo_AA-BB-CC.RData 
