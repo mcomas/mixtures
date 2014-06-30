@@ -6,13 +6,70 @@
 \begin{itemize}
 \item A sample $\obs{\textbf{x}_1}, \dots, \obs{\textbf{x}_n}$
 \item Classes $\class{C_1}, \dots, \class{C_k}$
-\item<3-> For each $\obs{\textbf{x}_i}$ a vector of probabilities/weights $\post{\tau_{i1}}, \dots, \post{\tau_{ik}}$ giving the relative chances to belong to certain classes $\class{C_1}, \dots, \class{C_k}$
+\item<3-> For each $\obs{\textbf{x}_i}$ a vector of probabilities $\post{\tau_{i1}}, \dots, \post{\tau_{ik}}$ giving the relative chances to belong to certain classes $\class{C_1}, \dots, \class{C_k}$
 \end{itemize}
 
 \bigskip
 \begin{center}
 \input{tex/seminari-girona.fig.observation-posteriori-diagram.tex}
 \end{center}
+\end{frame}
+
+
+\begin{frame}[t]
+\frametitle{Partitioning a finite set}
+\begin{block}{Partition of a finite set}
+Let $I^k = \{1, \dots, k \}$ be a finite set. A \emph{partition of $I^k$}  is a set $\mathcal{I}$ of subsets of $I^k$, each subset  called part, such that 
+\begin{itemize}
+\item $\bigcup_{I \in \mathcal{I}} = I^k$ and 
+\item $I \cap J = \emptyset$  for every $I, J \in \mathcal{I}$ different.
+\end{itemize}
+\end{block}
+
+\medskip
+\pause
+
+\begin{columns}
+\column{0.5\textwidth}%
+For example if $I^4$
+\begin{itemize}
+\item $\mathcal{I} = \{ \{1, 2, 3, 4\} \}$
+\item $\mathcal{I} = \{ \{1 \}, \{2, 4\}, 3 \}$
+\item $\mathcal{I} = \{ \{1\}, \{2\}, \{3\}, \{4\} \}$
+\end{itemize}
+\column{0.5\textwidth}
+\only<4>{%
+For example if $F = \{H, O, L, A\}$
+\begin{itemize}
+\item $\mathcal{I} = \{ \{H, O, L, A \} \}$
+\item $\mathcal{I} = \{ \{H \}, \{O, A \}, L \}$
+\item $\mathcal{I} = \{ \{H\}, \{O \}, \{L \}, \{A \} \}$
+\end{itemize}
+}%
+\end{columns}
+
+\medskip
+\pause
+\begin{itemize}
+\item[] For any finite set $F$, the partition can be defined naturally indexing its elements.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+\frametitle{Hierarchical combination of a finite set}
+\begin{block}{Hierarchical combination of a finite set}
+A hierarchical combination of a finite set with $k$ elements is a sequence of partitions $\mathcal{I}_1, \mathcal{I}_2, \dots \mathcal{I}_k$ of $I^k$, such that for each i, $1 \leq i \leq k$,
+\begin{itemize}
+\item $\mathcal{I}_i$ has $i$ elements and
+\item if a part $I \in \mathcal{I}_{i-1}$ then there is a part $J \in \mathcal{I}_i$ with $J = I$ or there are two parts $J_1, J_2 \in \mathcal{I}_i$ with $I = J_1 \cup J_2$.
+\end{itemize}
+\end{block}
+
+For example,
+\begin{itemize}
+\item A hierarchical combination of a finite set defines a binary partition of the finite set.
+\end{itemize}
+
 \end{frame}
 
 % Especificació del problema a resoldre.
