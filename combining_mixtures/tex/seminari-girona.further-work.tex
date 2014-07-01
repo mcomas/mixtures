@@ -1,16 +1,47 @@
-\begin{frame}
+\begin{frame}[t]
+\frametitle{Where do $\boldsymbol\tau_i$'s come from?}
+
+\begin{description}
+\item[Mixture models]  The a posteriori probabilities
+\begin{eqnarray*} \tau_{ij} &=& \frac{\pi_j f(x_i; \theta_j)}{\sum_{\ell = 1}^k \pi_\ell f(x_i; \theta_\ell) } \end{eqnarray*}
+\item[Expert decision] An expert set the weights according to its expertise
+\item[Fuzzy clustering] The membership weight \uncover<2->{ (if $f'(x; C) := \frac{1}{d(x, C)}^{2/(m-1)}$)  }
+\begin{eqnarray*}
+\tau_{ij} &=& \frac{1}{\sum_{\ell = 1}^k \left( \frac{d(x_i; C_j)}{d(x_i; C_\ell) } \right)^{2/(m-1)}}  \\
+\uncover<3>{ &=& \frac{f'(x_i; C_j)}{\sum_{\ell = 1}^k f'(x_i; C_\ell)} }
+\end{eqnarray*}
+\end{description}
+\end{frame}
+
+
+
+\begin{frame}[T]
 \frametitle{Whats does "merge" usually mean  in general?}
 %\frametitle{Merging operation}
-
-
+\small
 \begin{itemize}
-\item What if we apply geometric mean instead of amalgamation
+\item In mixture models  we have used the amalgamation, $\tau_{ic} = \tau_{ia} + \tau_{ib}$.
 \end{itemize}
+\begin{columns}[t]
+\column{0.5\textwidth}
+
+\textbf{Sequentially}
+\begin{itemize}
+\item Maximum \[\tau_{ic} =  max\left\{ \tau_{ia},  \tau_{ib} \right\} \]
+\item Product \[\tau_{ic} =  \tau_{ia}  \tau_{ib} \]
+\item Geometric mean \[\tau_{ic} = \sqrt{ \tau_{ia}  \tau_{ib} }\]
+\end{itemize}
+\column{0.5\textwidth}
+
+\textbf{Within class}
+\begin{itemize}
+\item Maximum \[\tau_{iC} =  max_{c \in C}   \tau_{ic} \]
+\item Product \[\tau_{iC} =  \prod_{c \in C}  \tau_{ic}  \]
+\item Geometric mean \[\tau_{iC} = \left( \prod_{c \in C} \tau_{i} \right)^{1/|C|}  \]
+\end{itemize}
+\end{columns}
+
 \end{frame}
 
-\begin{frame}
-\frametitle{Ideas}
-\begin{itemize}
-\item Usually, we assume our sample $X$ to be near to the center of a class. Is this assumption really important to merge clusters?
-\end{itemize}
-\end{frame}
+
+\input{tex/seminari-girona.aliments-example.tex}

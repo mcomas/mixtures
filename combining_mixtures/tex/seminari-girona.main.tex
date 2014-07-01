@@ -3,10 +3,12 @@
 \usepackage{color}
 \usepackage{tikz}
 \usepackage{mathtools}
+\usepackage{array}
 \usepackage{amsmath, amssymb, bbm}
-
+\usepackage{verbatim}
 \usepackage{relsize}
-
+\usepackage{multirow}
+\usepackage{rotating}
 \usetheme{Warsaw}
 %\usecolortheme{lily}
 
@@ -15,6 +17,12 @@
 \definecolor{class}{RGB}{160,110,46}
 \definecolor{idea}{RGB}{162,162,162}
 
+\definecolor{gg1}{RGB}{248,118,109}
+\definecolor{gg2}{RGB}{183,159,0}
+\definecolor{gg3}{RGB}{0,186,56}
+\definecolor{gg4}{RGB}{0,191,196}
+\definecolor{gg5}{RGB}{97,156,255}
+\definecolor{gg6}{RGB}{245,100,227}
 
 \newcommand{\obs}[1]{{\color{obs}#1}}
 \newcommand{\post}[1]{{\color{post}#1}}
@@ -22,6 +30,14 @@
 \newcommand{\idea}[1]{{\uncover<2>{\color{idea}#1}}}
 \newcommand{\tidea}[2]{{\uncover<#1>{\color{idea}#2}}}
 \newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+
+\newcommand{\gga}[1]{{\color{gg1}#1}}
+\newcommand{\ggb}[1]{{\color{gg2}#1}}
+\newcommand{\ggc}[1]{{\color{gg3}#1}}
+\newcommand{\ggd}[1]{{\color{gg4}#1}}
+\newcommand{\gge}[1]{{\color{gg5}#1}}
+\newcommand{\ggf}[1]{{\color{gg6}#1}}
 
 \title{Merging classes}
 \author{Marc Comas Cuf\'{\i}}
@@ -37,17 +53,21 @@
 %%% Introduction
 \section{Introduction}
 
-\input{tex/seminari-girona.introduction.tex}
+\input{tex/seminari-girona.intro-combining-mixtures.tex}
+
+%\input{tex/seminari-girona.introduction.tex}
 
 %%% Mixture models
-\section{Merging classes: mixture models}
+\section{Combining components}
 
-\input{tex/seminari-girona.mixture-models.tex}
+\input{tex/seminari-girona.combining-components.tex}
+
+\input{tex/seminari-girona.combining-general-approach.tex}
 
 %%% Further work
 \section{Merging classes: going further}
 
 \input{tex/seminari-girona.further-work.tex}
 
-\input{tex/seminari-girona.fuzzy-clustering.tex}
+%\input{tex/seminari-girona.fuzzy-clustering.tex}
 \end{document}

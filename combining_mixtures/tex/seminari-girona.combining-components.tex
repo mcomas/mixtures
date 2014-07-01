@@ -1,0 +1,164 @@
+\begin{frame}
+\frametitle{Whats does "merge" usually mean  in mixture modeling?}
+\begin{itemize}
+\item Merging component $C_a$ with component $C_b$ to a new component $C_c$ means that observation related to component $C_{ab}$ either is related to component $C_a$ or to component $C_b$.
+\item Mixture models assume that an observation comes from a unique component (belongs to a unique component).
+\item For an observation $\textbf{x}_i$ 
+\begin{eqnarray*} 
+\uncover<2>{ \tau_{i c}  \;=\;} P( \{ \textbf{x}_i \in C_{c} \})  &=& P( \{ \textbf{x}_i \in C_{a} \} \cup \{ \textbf{x}_i \in C_{b} \} ) \\
+&=& P( \{ \textbf{x}_i \in C_{a} \}) + P( \{ \textbf{x}_i \in C_{b} \} )  \uncover<2>{ \;=\; \tau_{i a} + \tau_{i b} }
+\end{eqnarray*} 
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+\frametitle{Entropy approach}
+\begin{block}{Entropy approach (Baudry et~al., 2010)}
+The components to be merged are those that maximize the entropy of a posteriori probabilities
+\end{block}
+\small
+\only<1-2>{
+\uncover<2>{Maximize}
+\[
+\overbrace{ 
+\uncover<2>{-\left(} \sum_{i=1}^n \left\{ \tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b})\right\} + \sum_{i=1}^n \sum_{\substack{\ell = 1\\\ell \neq a,b}}^k  \tau_{i \ell} \log(\tau_{i \ell}) \uncover<2>{\right)+}
+}^{
+\substack{\text{entropy }\\\text{before merging}}  
+} 
+\]
+\[
+\underbrace{ 
+\uncover<2>{+\left( } \sum_{i=1}^n  (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b}) + \sum_{i=1}^n  \sum_{\substack{\ell = 1\\\ell \neq a,b}}^k  \tau_{i \ell} \log(\tau_{i \ell}) \uncover<2>{\right)}
+}_{
+\substack{\text{entropy }\\\text{after merging}}   
+} 
+\]
+}
+\only<3>{
+Maximize
+\[
+- \sum_{i=1}^n \left\{ \tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b})\right\} + \sum_{i=1}^n  (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b})
+\]
+}
+%\only<4>{
+%Minimize
+%\[
+% \sum_{i=1}^n \left\{ \tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b})\right\} - \sum_{i=1}^n  (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b})
+%\]
+%}
+\end{frame}
+
+\begin{frame}
+\frametitle{Directly estimated misclassification probabilities (DEMP)}
+\small
+\begin{block}{DEMP approach (Hennig, 2010)}
+The components to be merged are those that maximize the misclassification probability
+\[
+P\left( \{ \widetilde{\gamma}(x_i) = a \} | \{ \gamma(x_i) = b \} \right)
+\]
+\[
+\begin{array}{rcl}
+\{ \gamma(x_i) = b \} &:=& \text{\emph{``$x_i$ comes from component $b$''}} \text{ and} \\
+\{\widetilde{\gamma}(x_i) = a\} &:=& \text{\emph{``$x_i$ is classified at component $a$''}}
+\end{array}
+\]
+\end{block}
+
+\[
+P\left( \{ \widetilde{\gamma}(x_i) = a \} \cap \{ \gamma(x_i) = b\} \right) \;=\; 
+\frac{1}{n}%
+\sum_{h=1}^n P( \{ \gamma(x_h) = b \} | x_h) 
+\mathbbm{1}\left( \{ \widetilde{\gamma}(x_n) = a \} \right)
+\]
+
+Maximizing%
+\[
+\frac{P\left( \{ \widetilde{\gamma}(x_i) = a \} \cap \{ \gamma(x_i) = b \} \right)}{ P\left( \{ \gamma(x_i) = b \} \right) } = 
+\frac{%
+  \frac{1}{n}%
+  \sum_{h=1}^n \tau_{hb}
+  \mathbbm{1}\left( \{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \} \right)
+}{%
+  \pi_b
+}
+\]
+\end{frame}
+
+\begin{frame}[t]
+\frametitle{Log-ratio approach}
+\small
+\begin{block}{Log-ratio approach (ERCIM'13)}
+The components to be merged are those that minimize
+\[
+\frac{1}{n_a} \sum_{x_i \in G_a}%
+\only<1,3>{\left\| (\tau_{ia}, \tau_{ib}) \right\|_{\mathcal{A}}}%
+\only<2>{\frac{1}{\sqrt{2}} \log (\frac{\tau_{ia}}{\tau_{ib}})}
+\mathbbm{1}\left( \{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \}\right)
+\]
+\[\begin{array}{rcl}
+G_a &:=& \text{ elements classified to component $a$ } \\
+n_a &:=& \text{ number of elements classified to component $a$ }
+\end{array}\]
+\end{block}
+
+
+\begin{itemize}
+\item As DEMP approach, the log-ratio approach is not symmetric. 
+\item Lower values of $\left\| (\tau_{ia}, \tau_{ib}) \right\|_{\mathcal{A}}$ means that the confusion between component $a$ and $b$ is high.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Methods summary}
+\small
+\begin{tabular}{ >{\centering}m{0.7in} | >{\centering}m{0.8in} | >{\centering}m{1.3in} m{0in}}
+\textbf{Method} & \textbf{optimization} & \textbf{criteria} & \\\hline\hline
+Entropy     & max  & 
+$\substack{- \sum_{i=1}^n \left\{ \tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b})\right\} + \\
+\sum_{i=1}^n  (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b})}$  & \\ [2em]
+\hline
+DEMP        & max & $\frac{ \frac{1}{n} \sum_{h=1}^n \tau_{hb} \mathbbm{1}\left( \{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \} \right) }{ \pi_b }$ &\\ [2em]
+\hline
+Log-ratio   & min & $\frac{1}{n_a} \sum_{x_i \in G_a} \left\| (\tau_{ia}, \tau_{ib}) \right\|_{\mathcal{A}}$ & \\ [2em]
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Comparing methods using Rand Index}
+\centering
+\begin{columns}[T]
+\column{0.5\textwidth}
+\uncover<2>{\includegraphics[width=\textwidth]{pdf/comparing-three-methods.pdf}}
+
+\column{0.5\textwidth}
+\scriptsize
+
+
+\textbf{Simulation:}
+
+\begin{itemize}
+\item $f_i$: 100 gaussian mixture with $3$ components with $\omega \in \{ 0.01, 0.02, 0.04, 0.08, 0.16, 0.32\}$
+\item Two gaussian mixture with 9 components are fitted to a sample coming from $f_i$ (spherical \& unrestricted) 
+\item Using each method $(100 \times 6 \times 2)$, a component hierarchy is calculated
+\item Level $3$ of hierarchy is compared to the initial cluster using Rand Index.
+% ( $100 \times 6 \times 2$ simulations for each method )
+\end{itemize}
+\medskip
+\medskip
+
+\pause
+\begin{verbatim}
+             entropy   demp  atchison
+  omega=0.01  0.8120 0.9294    0.9874
+  omega=0.02  0.7295 0.8902    0.9732
+  omega=0.04  0.6193 0.8614    0.9412
+  omega=0.08  0.4893 0.7901    0.8813
+  omega=0.16  0.3314 0.6464    0.7320
+  omega=0.32  0.2103 0.4327    0.5083
+\end{verbatim}
+
+\end{columns}
+
+\end{frame}

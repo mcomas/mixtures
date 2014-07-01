@@ -6,7 +6,11 @@ pdf/seminari-girona.pdf : tex/seminari-girona.main.tex tex/seminari-girona.fig.o
                           tex/seminari-girona.introduction.tex  \
                           tex/seminari-girona.mixture-models.tex \
                           tex/seminari-girona.further-work.tex \
-                          tex/seminari-girona.fuzzy-clustering.tex
+                          tex/seminari-girona.fuzzy-clustering.tex \
+                          tex/seminari-girona.intro-combining-mixtures.tex \
+                          tex/seminari-girona.combining-components.tex \
+                          tex/seminari-girona.combining-general-approach.tex \
+                          tex/seminari-girona.aliments-example.tex
 	pdflatex -output-directory pdf -jobname seminari-girona tex/seminari-girona.main.tex
 	pdflatex -output-directory pdf -jobname seminari-girona tex/seminari-girona.main.tex
 	rm -f pdf/seminari-girona.aux pdf/seminari-girona.log pdf/seminari-girona.nav pdf/seminari-girona.out pdf/seminari-girona.snm pdf/seminari-girona.toc tex/*.log

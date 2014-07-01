@@ -1,0 +1,585 @@
+\begin{frame}[t, label=first-aliments]
+\frametitle{Protein consumption Europe }
+\scriptsize
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrrrrrrr}
+  \hline
+ & RM & WM & E & M & F & C & S & N & FV \\
+  \hline
+AL & 14.19 & 1.97 & 0.70 & 12.50 & 0.28 & 59.41 & 0.84 & 7.72 & 2.39 \\
+  AT & 10.30 & 16.20 & 4.98 & 23.03 & 2.43 & 32.41 & 4.17 & 1.50 & 4.98 \\
+  BE & 15.46 & 10.65 & 4.70 & 20.05 & 5.15 & 30.47 & 6.53 & 2.41 & 4.58 \\
+\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots&\vdots\\
+  SU & 10.12 & 5.01 & 2.29 & 18.06 & 3.26 & 47.44 & 6.96 & 3.70 & 3.16 \\
+  WD & 14.38 & 15.76 & 5.17 & 23.71 & 4.29 & 23.46 & 6.56 & 1.89 & 4.79 \\
+  YG & 4.97 & 5.65 & 1.36 & 10.73 & 0.68 & 63.16 & 3.39 & 6.44 & 3.62 \\
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+\tiny Protein consumption percentage comming from different source.
+RM: red meat, WM: white meat, E: eggs, M: milk, F: fish, C: cereals, S: starch, N: nuts, FV: fruits and vegetables. \\EUROSTAT, 1999
+
+\medskip
+\small
+\begin{itemize}
+\item Merging approach: $\tau_{iC} = \left( \prod_{c \in C} \tau_{i} \right)^{1/|C|}$ (geometric mean)
+\item $\varphi(\boldsymbol\tau_i, a) = \tau_{ia}$
+\item $\omega(\boldsymbol\tau_i, a, b) = \log \tau_{ia}/\tau_{ib}$
+\end{itemize}
+\hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}
+\end{frame}
+
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 25
+-> Albania
+-> Austria
+-> Belgium
+-> Bulgaria
+-> Czechoslovakia
+-> Danemark
+-> EastGermany
+-> Finland
+-> France
+-> Greece
+-> Hungary
+-> Ireland
+-> Italy
+-> Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Romania
+-> Spain
+-> Sweden
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> WestGermany
+-> Yugoslavia
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 24
+-> Albania
+-> Austria
+-> EastGermany | Belgium
+-> Bulgaria
+-> Czechoslovakia
+-> Danemark
+-> Finland
+-> France
+-> Greece
+-> Hungary
+-> Ireland
+-> Italy
+-> Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Romania
+-> Spain
+-> Sweden
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> WestGermany
+-> Yugoslavia
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 23
+-> Albania
+-> Austria
+-> Bulgaria
+-> Czechoslovakia
+-> Danemark
+-> Finland
+-> France
+-> Greece
+-> Hungary
+-> Ireland
+-> Italy
+-> Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Romania
+-> Spain
+-> Sweden
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> EastGermany | Belgium | WestGermany
+-> Yugoslavia
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 22
+-> Albania
+-> Austria
+-> Bulgaria
+-> Czechoslovakia
+-> Danemark
+-> Finland
+-> France
+-> Hungary
+-> Ireland
+-> Greece | Italy
+-> Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Romania
+-> Spain
+-> Sweden
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> EastGermany | Belgium | WestGermany
+-> Yugoslavia
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 21
+-> Albania
+-> Austria
+-> Bulgaria
+-> Czechoslovakia
+-> Danemark
+-> Finland
+-> France
+-> Hungary
+-> Ireland
+-> Greece | Italy
+-> Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Sweden
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> EastGermany | Belgium | WestGermany
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 20
+-> Albania
+-> Austria
+-> Bulgaria
+-> Czechoslovakia
+-> Finland
+-> France
+-> Hungary
+-> Ireland
+-> Greece | Italy
+-> Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Danemark | Sweden
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> EastGermany | Belgium | WestGermany
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 19
+-> Albania
+-> Bulgaria
+-> Czechoslovakia
+-> Finland
+-> France
+-> Hungary
+-> Ireland
+-> Greece | Italy
+-> Austria | Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Danemark | Sweden
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> EastGermany | Belgium | WestGermany
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 18
+-> Albania
+-> Bulgaria
+-> Czechoslovakia
+-> Finland
+-> France
+-> Hungary
+-> Ireland
+-> Greece | Italy
+-> Austria | Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 17
+-> Albania
+-> Bulgaria
+-> Czechoslovakia
+-> Finland
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France
+-> Hungary
+-> Ireland
+-> Greece | Italy
+-> Austria | Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 16
+-> Albania
+-> Bulgaria
+-> Czechoslovakia
+-> Finland
+-> Hungary
+-> Ireland
+-> Greece | Italy
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France | Austria | 
+Netherlands
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 15
+-> Albania
+-> Bulgaria
+-> Czechoslovakia
+-> Finland
+-> Hungary
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France | Austria | 
+Netherlands | Ireland
+-> Greece | Italy
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 14
+-> Albania
+-> Bulgaria
+-> Czechoslovakia
+-> Finland
+-> Hungary
+-> Greece | Italy
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France | Austria | 
+Netherlands | Ireland | Switzerland
+-> UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 13
+-> Albania
+-> Bulgaria
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France | Austria | 
+Netherlands | Ireland | Switzerland | Czechoslovakia
+-> Finland
+-> Hungary
+-> Greece | Italy
+-> Norway
+-> Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 12
+-> Albania
+-> Bulgaria
+-> Finland
+-> Hungary
+-> Greece | Italy
+-> Norway
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France | Austria | 
+Netherlands | Ireland | Switzerland | Czechoslovakia | Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 11
+-> Albania
+-> Bulgaria
+-> Hungary
+-> Greece | Italy
+-> Finland | Norway
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France | Austria | 
+Netherlands | Ireland | Switzerland | Czechoslovakia | Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions = 10
+-> Albania
+-> Bulgaria
+-> Hungary
+-> Greece | Italy
+-> Danemark | Sweden | EastGermany | Belgium | WestGermany | France | Austria | 
+Netherlands | Ireland | Switzerland | Czechoslovakia | Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> Finland | Norway | UnitedKingdrom
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  9
+-> Albania
+-> Bulgaria
+-> Hungary
+-> Greece | Italy
+-> Finland | Norway | UnitedKingdrom | Danemark | Sweden | EastGermany | Belgium | 
+WestGermany | France | Austria | Netherlands | Ireland | Switzerland | 
+Czechoslovakia | Poland
+-> Portugal
+-> Yugoslavia | Romania
+-> Spain
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  8
+-> Albania
+-> Bulgaria
+-> Hungary
+-> Greece | Italy
+-> Finland | Norway | UnitedKingdrom | Danemark | Sweden | EastGermany | Belgium | 
+WestGermany | France | Austria | Netherlands | Ireland | Switzerland | 
+Czechoslovakia | Poland
+-> Yugoslavia | Romania
+-> Portugal | Spain
+-> SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  7
+-> Albania
+-> Bulgaria
+-> Hungary
+-> Greece | Italy
+-> Finland | Norway | UnitedKingdrom | Danemark | Sweden | EastGermany | Belgium | 
+WestGermany | France | Austria | Netherlands | Ireland | Switzerland | 
+Czechoslovakia | Poland
+-> Yugoslavia | Romania
+-> Portugal | Spain | SovietUnion
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  6
+-> Albania
+-> Bulgaria
+-> Hungary
+-> Portugal | Spain | SovietUnion | Greece | Italy
+-> Finland | Norway | UnitedKingdrom | Danemark | Sweden | EastGermany | Belgium | 
+WestGermany | France | Austria | Netherlands | Ireland | Switzerland | 
+Czechoslovakia | Poland
+-> Yugoslavia | Romania
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  5
+-> Albania
+-> Bulgaria
+-> Hungary
+-> Portugal | Spain | SovietUnion | Greece | Italy | Finland | Norway | 
+UnitedKingdrom | Danemark | Sweden | EastGermany | Belgium | WestGermany | France | 
+Austria | Netherlands | Ireland | Switzerland | Czechoslovakia | Poland
+-> Yugoslavia | Romania
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  4
+-> Albania
+-> Bulgaria
+-> Portugal | Spain | SovietUnion | Greece | Italy | Finland | Norway | 
+UnitedKingdrom | Danemark | Sweden | EastGermany | Belgium | WestGermany | France | 
+Austria | Netherlands | Ireland | Switzerland | Czechoslovakia | Poland
+-> Hungary | Yugoslavia | Romania
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  3
+-> Albania
+-> Hungary | Yugoslavia | Romania | Bulgaria
+-> Portugal | Spain | SovietUnion | Greece | Italy | Finland | Norway | 
+UnitedKingdrom | Danemark | Sweden | EastGermany | Belgium | WestGermany | France | 
+Austria | Netherlands | Ireland | Switzerland | Czechoslovakia | Poland
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t]
+\frametitle{Protein consumption Europe \hyperlink{last-aliments<1>}{\beamergotobutton{Skip example}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  2
+-> Albania
+-> Hungary | Yugoslavia | Romania | Bulgaria | Portugal | Spain | SovietUnion | 
+Greece | Italy | Finland | Norway | UnitedKingdrom | Danemark | Sweden | 
+EastGermany | Belgium | WestGermany | France | Austria | Netherlands | Ireland | 
+Switzerland | Czechoslovakia | Poland
+\end{verbatim}
+
+\end{frame}
+\begin{frame}[fragile, t, label=last-aliments]
+\frametitle{Protein consumption Europe \hyperlink{first-aliments<1>}{\beamergotobutton{Go to first}}}
+\scriptsize
+\begin{verbatim}
+# partitions =  1
+-> Albania | Hungary | Yugoslavia | Romania | Bulgaria | Portugal | Spain | 
+SovietUnion | Greece | Italy | Finland | Norway | UnitedKingdrom | Danemark | 
+Sweden | EastGermany | Belgium | WestGermany | France | Austria | Netherlands | 
+Ireland | Switzerland | Czechoslovakia | Poland
+\end{verbatim}
+
+\end{frame}
