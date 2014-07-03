@@ -34,7 +34,7 @@
 Finite mixtures of multivariate distributions have showed increasing importance in recent years. New algortihms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
 However, misleading or incoherent results can be obtained when traditional statistical methods are applied to compositional data sets.
 Compositions are positive vectors whose components represent a relative contribution of different parts to a whole.  This type of data has a
-constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proved be appropriate to analyze compositional data sets. Standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. A new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new method.
+constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proven to be appropriate to analyze compositional data sets. Standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. A new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new method.
 \end{abstract}
 
 \begin{keyword}
@@ -54,7 +54,14 @@ Simplex
 
 
  \noindent According to \cite{scott1971clustering} and \cite{mclachlan2004finite}, finite mixture models provide reasonable results in several multivariate techniques, e.g. model-based clustering  \citep{banfield1993model,  fraley2002model}. The Gaussian mixture is the most common model 
-due to its theoretical and computational simplicity \citep{mclachlan2004finite}. However, this model shows different limitations. For example, when data dimension increases, the number of parameters of a Gaussian distribution increase quadratically. Different strategies have been presented to overcome this limitation: dimension reduction, regularization, and constrained and parsimonious methods \citep{bouveyron2014model}. Recent works  proposed alternative models to overcome the limitations of Gaussian mixtures. For example, $t$-student mixtures are introduced to allow heavier tails to the data \citep{andrews2012model, lee2013finite, lin2010robust}; and skew-normal and skew-$t$ mixtures are introduced to allow asymmetry to the data \citep{lee2011fitting}. In addition, \cite{browne2013mixture} introduce the Generalized Hyperbolic mixture, a more general mixture model which includes, either asymptotically or explicitly, different type of well-known families of mixture models. Note that all these mixtures models are intended for data in real space. For data in a different sample space, other distributions should be used. 
+due to its theoretical and computational simplicity \citep{mclachlan2004finite}. 
+However, because of its simplicity, Gaussian mixtures have some limitation when observations need to be modeled.
+%
+% No se si cal parlar sobre problemes de dimensionalitat. Ho treiem? 
+%
+%For example, when data dimension increases, the number of parameters of a Gaussian distribution increase quadratically. Different strategies have been presented to overcome this limitation: dimension reduction, regularization, and constrained and parsimonious methods \citep{bouveyron2014model}.
+%
+Recent works  proposed alternative models to overcome this limitation. For example, $t$-student mixtures are introduced to allow heavier tails to the data \citep{andrews2012model, lee2013finite, lin2010robust}; and skew-normal and skew-$t$ mixtures are introduced to allow asymmetry to the data \citep{lee2011fitting}. In addition, \cite{browne2013mixture} introduce the Generalized Hyperbolic mixture, a more general mixture model which includes, either asymptotically or explicitly, different type of well-known families of mixture models. Note that all these mixtures models are intended for data in real space. For data in a different sample space, other distributions should be used. 
 For example, \cite{bickel2004multi} use multinomial mixture distributions for discrete data in text classification, and  
  \cite[][]{bouguila2011count} proposes other extensions of multinomial mixture distributions for count data. 
 Another example is circular data, whose sample space is the sphere.  \cite{banerjee2005clustering} and \cite{mardia2007protein} propose mixtures of Von Mises probability distributions, defined for random vectors in the sphere.
@@ -114,13 +121,18 @@ traditional statistical methods to these coordinates. Once an orthonormal basis 
 \[
 \textbf{x} = (h_1 \odot \textbf{v}_1) \oplus \dots  \oplus (h_{D-1} \odot \textbf{v}_{D-1}).
 \]
-The vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ is formed by the log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$. 
-An example of orthonormal log-ratio coordinates  \citep{egozcue2003isometric} is 
+%The vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ is formed by the log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$. 
+The components of vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ are the orthonormal log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$.\footnote{An example of orthonormal log-ratio coordinates  \citep{egozcue2003isometric} is given by
 \begin{equation}
 \label{eilr}
 h_i=\sqrt{\frac{i}{i+1}}\,\ln\frac{\sqrt[i]
-{\prod_{j=1}^{i-1} x_j}}{x_{i}},\,i=1,\dots,D-1.
+{\prod_{j=1}^{i} x_j}}{x_{i+1}},\,i=1,\dots,D-1.
 \end{equation}
+which is are the orthonormal log-ratio coordinates of $\textbf{x}$ respect 
+\[
+\mathcal{B} = \left\{ e^{\left( 1/\sqrt{i(i+1)}, \dots, 1/\sqrt{i(i+1)}, -\sqrt{ i/(i+1)}, 0, \dots, 0\right)} \right\}_{i=1,\dots,D-1}.
+\]
+}
 
 Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
 preprocessed with specific techniques \citep[e.g.,][]{M+12}.
