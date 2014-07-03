@@ -4,9 +4,9 @@
 \begin{itemize}
 \item A mixture model is a probability distribution with density function, $f$, defined as a linear combination of density functions, $f_1, \dots f_k$, coming from other probability distributions.
 \[
-f(x, \blue{\pi_1}, \dots, \blue{\pi_k}, \blue{\theta_1}, \dots, \blue{\theta_k}) = \blue{\pi_1} f_1(x, \blue{\theta_1}) + \dots \blue{\pi_k} f_k(x, \blue{\theta_k})
+f(x, \blue{\pi_1}, \dots, \blue{\pi_k}, \blue{\theta_1}, \dots, \blue{\theta_k}) = \blue{\pi_1} f_1(x, \blue{\theta_1}) + \dots + \blue{\pi_k} f_k(x, \blue{\theta_k})
 \]
-\item Given a given sample $X$ parameters $\blue{\pi_1}, \dots, \blue{\pi_k}, \blue{\theta_1}, \dots, \blue{\theta_k}$ can be estimated using the $EM$ algorithm.
+\item Given a  sample $X$, parameters $\blue{\pi_1}, \dots, \blue{\pi_k}, \blue{\theta_1}, \dots, \blue{\theta_k}$ can be estimated using the $EM$ algorithm.
 \item $EM$-algorithm needs the number of components is fixed.
 \end{itemize}
 \end{frame}
@@ -14,7 +14,7 @@ f(x, \blue{\pi_1}, \dots, \blue{\pi_k}, \blue{\theta_1}, \dots, \blue{\theta_k})
 \begin{frame}[t]
 \frametitle{Mixture models: Gaussian example}
 \begin{block}{Example: fitting a gaussian mixture}
-Given a sample $X$ and setting the number of components to $6$. $EM$-algorithm can fin the Gaussian mixture which fits ``better'' (with maximum likelihood) to sample $X$.
+Given a sample $X$ and setting the number of components to $6$. $EM$-algorithm can find the Gaussian mixture which fits ``better'' (with maximum likelihood) to sample $X$.
 \end{block}
 \medskip
 \begin{columns}
@@ -119,15 +119,15 @@ combine sequentially the components to obtain a hierarchy over the set of compon
 \frametitle{Our input, our goal: What do we want to do?}
 
 \begin{block}{Input}
-A sample of probabilities to belong to some classe $C_i$, 
+A sample of probabilities to belong to each component $C_i$, 
 \begin{columns}
 \column{0.4\textwidth}
 \[ T = \left[ \begin{array}{ccccc}
 \idea{(}\tau_{11}\idea{,} & \dots & \tau_{1j}\idea{,} & \dots & \tau_{1k}\idea{),} \\
 \vdots      & &    \vdots                     & &    \vdots                     \\
-\idea{(}\tau_{11}\idea{,} & \dots & \tau_{1j}\idea{,} & \dots & \tau_{1k}\idea{),} \\
+\idea{(}\tau_{i1}\idea{,} & \dots & \tau_{ij}\idea{,} & \dots & \tau_{ik}\idea{),} \\
 \vdots      & &      \vdots                   & &       \vdots                  \\
-\idea{(}\tau_{11}\idea{,} & \dots & \tau_{1j}\idea{,} & \dots & \tau_{1k}\idea{)}
+\idea{(}\tau_{n1}\idea{,} & \dots & \tau_{nj}\idea{,} & \dots & \tau_{nk}\idea{)}
 \end{array} \right] 
 \idea{ \in \mathcal{S}_{[C_1,\dots,C_k]}^k } \]
 \column{0.3\textwidth}
@@ -136,6 +136,6 @@ A sample of probabilities to belong to some classe $C_i$,
 
 \pause
 \begin{alertblock}{Goal}
-\alert{Merge} classes (sequentially) to obtain a hierarchy over the set of components % $\{C_1, \dots, C_k\}$. %In other words, obtain a binary tree with a set of leafs $\{C_1, \dots, C_k\}$
+\alert{Merge} components (sequentially) to obtain a hierarchy over the set of components % $\{C_1, \dots, C_k\}$. %In other words, obtain a binary tree with a set of leafs $\{C_1, \dots, C_k\}$
 \end{alertblock}
 \end{frame}

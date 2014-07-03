@@ -9,7 +9,9 @@
 \usepackage{relsize}
 \usepackage{multirow}
 \usepackage{rotating}
+\usepackage{ragged2e}
 \usetheme{Warsaw}
+\usepackage{dsfont}
 %\usecolortheme{lily}
 
 \definecolor{obs}{RGB}{53,106,160}
@@ -51,23 +53,65 @@
 \end{frame}
 
 %%% Introduction
-\section{Introduction}
+\section{Mixture models}
+\frame{\sectionpage}
 
 \input{tex/seminari-girona.intro-combining-mixtures.tex}
 
-%\input{tex/seminari-girona.introduction.tex}
-
 %%% Mixture models
 \section{Combining components}
+\frame{\sectionpage}
 
 \input{tex/seminari-girona.combining-components.tex}
 
 \input{tex/seminari-girona.combining-general-approach.tex}
 
 %%% Further work
-\section{Merging classes: going further}
+\section{Merging classes}
+\frame{\sectionpage}
 
 \input{tex/seminari-girona.further-work.tex}
 
+%%%%%%%%%%%%%
+%%% Last part
+\section{Conclusions}
+\begin{frame}
+\frametitle{Conclusions}
+\begin{itemize}
+\item Our approach works with compositions. This allows us to define generic methods for different problems in a common framework.
+\item From a simulation study, 
+\begin{itemize}
+\item entropy does not work properly when the level of overlapping increase and
+\item From a simulation study, those methods based on Log-ratio approach seems to work lightly better than methods based on DEMP approach.
+\end{itemize}
+\item Modifying the merging methodology we can build a hierarchy over the components of a compositional sample. Can be this hierarchy useful to define a binary partition with ``good'' properties? 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[plain]
+
+  \begin{columns}
+    \begin{column}{0.65\textwidth}
+      \begin{center}
+
+        \font\endfont = cmss10 at 15.40mm
+        
+        \endfont 
+        \baselineskip 15.0mm
+
+        Gr\`{a}cies!!!
+
+      \end{center}    
+
+    \end{column}
+    \begin{column}{0.35\textwidth}
+      \begin{center}
+        \pgfimage[width=\textwidth]{tern.png}          
+      \end{center}
+    \end{column}
+  \end{columns}
+
+\end{frame}
 %\input{tex/seminari-girona.fuzzy-clustering.tex}
 \end{document}

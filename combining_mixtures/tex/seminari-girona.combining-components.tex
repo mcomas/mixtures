@@ -67,8 +67,8 @@ P\left( \{ \widetilde{\gamma}(x_i) = a \} | \{ \gamma(x_i) = b \} \right)
 \[
 P\left( \{ \widetilde{\gamma}(x_i) = a \} \cap \{ \gamma(x_i) = b\} \right) \;=\; 
 \frac{1}{n}%
-\sum_{h=1}^n P( \{ \gamma(x_h) = b \} | x_h) 
-\mathbbm{1}\left( \{ \widetilde{\gamma}(x_n) = a \} \right)
+\sum_{h=1}^n P( \{ \gamma(x_h) = b \} | x_h) \;
+\mathlarger{\mathbbm{1}}\left\{ \widetilde{\gamma}(x_n) = a  \right\}
 \]
 
 Maximizing%
@@ -76,8 +76,8 @@ Maximizing%
 \frac{P\left( \{ \widetilde{\gamma}(x_i) = a \} \cap \{ \gamma(x_i) = b \} \right)}{ P\left( \{ \gamma(x_i) = b \} \right) } = 
 \frac{%
   \frac{1}{n}%
-  \sum_{h=1}^n \tau_{hb}
-  \mathbbm{1}\left( \{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \} \right)
+  \sum_{h=1}^n \tau_{hb} \;
+  \mathlarger{\mathbbm{1}}\left\{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \right\}
 }{%
   \pi_b
 }
@@ -93,7 +93,7 @@ The components to be merged are those that minimize
 \frac{1}{n_a} \sum_{x_i \in G_a}%
 \only<1,3>{\left\| (\tau_{ia}, \tau_{ib}) \right\|_{\mathcal{A}}}%
 \only<2>{\frac{1}{\sqrt{2}} \log (\frac{\tau_{ia}}{\tau_{ib}})}
-\mathbbm{1}\left( \{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \}\right)
+%\mathlarger{\mathbbm{1}}\left( \{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \}\right)
 \]
 \[\begin{array}{rcl}
 G_a &:=& \text{ elements classified to component $a$ } \\
@@ -118,7 +118,7 @@ Entropy     & max  &
 $\substack{- \sum_{i=1}^n \left\{ \tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b})\right\} + \\
 \sum_{i=1}^n  (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b})}$  & \\ [2em]
 \hline
-DEMP        & max & $\frac{ \frac{1}{n} \sum_{h=1}^n \tau_{hb} \mathbbm{1}\left( \{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \} \right) }{ \pi_b }$ &\\ [2em]
+DEMP        & max & $\frac{ \frac{1}{n} \sum_{h=1}^n \tau_{hb} \; \mathlarger{\mathbbm{1}}\left\{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \right\}  }{ \pi_b }$ &\\ [2em]
 \hline
 Log-ratio   & min & $\frac{1}{n_a} \sum_{x_i \in G_a} \left\| (\tau_{ia}, \tau_{ib}) \right\|_{\mathcal{A}}$ & \\ [2em]
 \end{tabular}
@@ -129,36 +129,35 @@ Log-ratio   & min & $\frac{1}{n_a} \sum_{x_i \in G_a} \left\| (\tau_{ia}, \tau_{
 \frametitle{Comparing methods using Rand Index}
 \centering
 \begin{columns}[T]
-\column{0.5\textwidth}
+\column{0.45\textwidth}
 \uncover<2>{\includegraphics[width=\textwidth]{pdf/comparing-three-methods.pdf}}
 
-\column{0.5\textwidth}
+\column{0.6\textwidth}
 \scriptsize
-
 
 \textbf{Simulation:}
 
 \begin{itemize}
-\item $f_i$: 100 gaussian mixture with $3$ components with $\omega \in \{ 0.01, 0.02, 0.04, 0.08, 0.16, 0.32\}$
-\item Two gaussian mixture with 9 components are fitted to a sample coming from $f_i$ (spherical \& unrestricted) 
-\item Using each method $(100 \times 6 \times 2)$, a component hierarchy is calculated
-\item Level $3$ of hierarchy is compared to the initial cluster using Rand Index.
+\item For $6$ different levels of overlapping, $\omega$, 100~gaussian mixture, $f_i$,  with $3$ components have been generated ($6 \times 100$ different mixtures)
+\item Two gaussian mixture with 9 components are fitted to a sample coming from $f_i$ (spherical \& unrestricted) ($6 \times 100 \times 2$ different adjustments)
+\item Using each method a component hierarchy is calculated ($100 \times 6 \times 2 \times 3$  hierarchies)
+\item Level $3$ of each hierarchy is compared to the initial cluster using standard methodologies (Rand Index).
 % ( $100 \times 6 \times 2$ simulations for each method )
 \end{itemize}
-\medskip
-\medskip
-
+\begin{center}
 \pause
-\begin{verbatim}
-             entropy   demp  atchison
-  omega=0.01  0.8120 0.9294    0.9874
-  omega=0.02  0.7295 0.8902    0.9732
-  omega=0.04  0.6193 0.8614    0.9412
-  omega=0.08  0.4893 0.7901    0.8813
-  omega=0.16  0.3314 0.6464    0.7320
-  omega=0.32  0.2103 0.4327    0.5083
-\end{verbatim}
 
+\begin{verbatim}
+  MEAN COMPARISON  | ENTROPY     DEMP AITCHISON
+  -----------------+---------------------------
+       w=0.01      |    0.81     0.92      0.98
+       w=0.02      |    0.72     0.89      0.97
+       w=0.04      |    0.61     0.86      0.94
+       w=0.08      |    0.48     0.79      0.88
+       w=0.16      |    0.33     0.64      0.73
+       w=0.32      |    0.21     0.43      0.50
+\end{verbatim}
+\end{center}
 \end{columns}
 
 \end{frame}
