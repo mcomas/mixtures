@@ -7,7 +7,7 @@ require(grid)
 #source('R/coda-functions/ggplot_ternary.R')
 load('data/selected-glass-data.RData')
 load('data/dirichlet_mixture.RData')
-devtools::load_all('../mixpack')
+devtools::load_all('../../packages/mixpack')
                     #pretty(range(z.points), n=50))
 
 

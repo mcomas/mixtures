@@ -122,23 +122,22 @@ traditional statistical methods to these coordinates. Once an orthonormal basis 
 \textbf{x} = (h_1 \odot \textbf{v}_1) \oplus \dots  \oplus (h_{D-1} \odot \textbf{v}_{D-1}).
 \]
 %The vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ is formed by the log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$. 
-The components of vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ are the orthonormal log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$.\footnote{An example of orthonormal log-ratio coordinates  \citep{egozcue2003isometric} is given by
+The components of vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ are the orthonormal log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$. An example of orthonormal log-ratio coordinates  \citep{egozcue2003isometric} is given by
 \begin{equation}
 \label{eilr}
 h_i=\sqrt{\frac{i}{i+1}}\,\ln\frac{\sqrt[i]
 {\prod_{j=1}^{i} x_j}}{x_{i+1}},\,i=1,\dots,D-1.
 \end{equation}
-which is are the orthonormal log-ratio coordinates of $\textbf{x}$ respect 
+which are the orthonormal log-ratio coordinates of $\textbf{x}$ respect 
 \[
 \mathcal{B} = \left\{ e^{\left( 1/\sqrt{i(i+1)}, \dots, 1/\sqrt{i(i+1)}, -\sqrt{ i/(i+1)}, 0, \dots, 0\right)} \right\}_{i=1,\dots,D-1}.
 \]
-}
 
-Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
-preprocessed with specific techniques \citep[e.g.,][]{M+12}.
 
-According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of log-ratio coordinates. Indeed, let $f(\cdot)$ be a density on real space. A density on the simplex (or compositional density) $f^*(\mathbf{x})$ is defined as $f^*(\mathbf{x})=f(h(\mathbf{x}))$, where
-$h(\mathbf{x})$ is the vector of log-ratio coordinates. \cite{mateu2013normal} and \cite{ mateu2007skew} respectively introduce the log-ratio normal and skew-normal models as probability laws on $\mathcal{S}^D$. In particular, the log-ratio normal distribution is defined as
+% Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
+% preprocessed with specific techniques \citep[e.g.,][]{M+12}.
+
+According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of orthonormal log-ratio coordinates. Indeed, let $f(\cdot)$ be a density on real space. A density on the simplex (or compositional density) $f^*(\mathbf{x})$ is defined as $f^*(\mathbf{x})=f(h(\mathbf{x}))$, where $h(\mathbf{x})$ is the vector of log-ratio coordinates. \cite{mateu2013normal} and \cite{ mateu2007skew} respectively introduce the log-ratio normal and skew-normal models as probability laws on $\mathcal{S}^D$. In particular, the log-ratio normal distribution is defined as
 
 \begin{equation}\label{eq:densSNormal}
 f^{*}(\mathbf{x}) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h(\mathbf{x})- \mbox{\boldmath \(\mu\)} \right)' \mathbf{\Sigma}^{-1} \left( h(\mathbf{x})- \mbox{\boldmath\(\mu\)} \right)\right)\ ,
@@ -164,40 +163,69 @@ gaussian distributions in real space.
 \section{Standard approaches to model composition data mixtures}
 \label{standard_section}
 
+\noindent Two different approaches have been used in the literature to fit finite mixtures to CoDa. 
+In the first approach, the distributions defined on real space are used to define the mixture model and the special geometry of $\mathcal{S}^D$ is not considered. In the second case, described in following section, the finite mixtures are based on Dirichlet distribution and its generalizations.
 
 
 \subsection{Using distributions defined on the real space}
 \label{real_section}
 
-\noindent Two different approaches have been used in the literature to fit finite mixtures to CoDa. 
-In the first approach, the distributions defined on real space are used to define the mixture model and the special geometry of $\mathcal{S}^D$ is not considered. In the second case, described in following section, the finite mixtures are based on Dirichlet distribution and its generalizations.
 
 %Mixtura de normals aplicada a variables composicionals, citar Bauxter
 % 1.- Singularitat de les covariances.
 % 2.- El mètode no modela correctament les dades. Esdeveniment impossibles amb probabilitat positiva.
 % 3.- No hi ha coherència subscomposicional
+%From a purely probabilistic point of view, 
+
+When CoDa is modeled using a distribution defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, the density function of a distributions defined on the real space evaluates strictly positive values for negative components and therefore. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. In consequence, the fitted model is giving probabilities to impossible events. This fact can be of special importance when decisions depend on probabilities calculated from the mixture model. For example, \cite{baudry2010combining} and \cite{CMM13} estimate posterior probabilities from a mixture model to form clusters combining mixture components.
+%Although in practice, one should expect that this positive probabilities are small enough to not take them into an account
 
 
-When mixture models are applied to CoDa, some approaches do not take into account neither the constant sum constraint nor the strictly positive component restriction. Most statistical methods fail due to the colinearity derived from the constant sum constraint (Eq. \ref{sum_to_constant}). Such methods depend on the inverse of the sample's covariance matrix, which is singular. To solve this difficulty, the common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. However, when this strategy is applied, is of crucial importance to analyze whether the final results depend on the removed part. Following \cite{barcelo1999comment} it is straightforward to see that the maximum likelihood of the fitted Gaussian mixture is invariant as regards to the removed part. However, misleading result can be obtained when one part is removed and the analysis is based only on the rest of parts.
-Figure \ref{fig02}(left) shows a data set in the ternary diagram and its corresponding projection to the plane of two last parts, when first part is
-removed. When the analysis is based only in the two last parts the three cluster would be detected and its interpretation will be based on
-the absolute values of only two parts. However, this results should be the same when one works with the relative information included in
-the subcompositions formed by the tow last parts. Figure \ref{fig02}(right) shows the projection of the data set to the simplex formed by
-the two last parts. Note that based on the corresponding relative information only two cluster would be idenfified. Moreover, this analysis will be different when the removed part is the second one. This effect is well known in the literature and is related with two basic principles of
+
+When mixture models are applied to CoDa, some approaches do not take into account . Most statistical methods fail due to the colinearity derived from the constant sum constraint (Eq. \ref{sum_to_constant}). Such methods depend on the inverse of the sample's covariance matrix, which is singular. To solve this difficulty, the common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. 
+%However, when this strategy is applied, is of crucial importance to analyze whether the final results depend on the removed part. Following \cite{barcelo1999comment} it is straightforward to see that the maximum likelihood of the fitted Gaussian mixture is invariant as regards to the removed part. 
+However, misleading result can be obtained when one part is removed and the analysis is based only on the rest of parts. Suppose the following simple example: 
+\begin{quote}
+\emph{Ernie} and \emph{Bert} are interested on classifying a compositional dataset, $(A, B)$,  with $2$ components $A$, $B$. Dataset $(A,B)$ comes from compositional dataset $(A,B,C)$ with three components, but neither Ernie nor Bert really knows component $C$. Ernie and Bert decide to follow two different approaches to analize the compositional dataset $(A,B)$
+\begin{itemize}
+\item Ernie applies a classification method to dataset $(A,B)$. With dataset $(A,B)$ Ernie can detect three clusters (see Figure~\ref{fig02}).
+\item By contrast, Bert clousures the composition $(A,B)$ (force components $A$ and $B$ to sum a constant) and apply the same classification method than Ernie. With clousured dataset, red and blue clusters overlap and Bert can only detect two clusters (see Figure~\ref{fig02}). 
+\end{itemize}
+Someone can argue that Bert's approach makes no sense, but it is quite common to present compositional dataset clousured to a certain constant.
+\end{quote}
+
+This effect is well known in the literature and is related with two basic principles of
 CoDa analysis: the scale invariance principle and the subcompositional coherence \citep{aitchison1986statistical}.
 
 \begin{figure}[htbp]
 \begin{center}
 \begin{tabular}{cc}
- %   Simplex $\simplex^D$ & $\Longrightarrow$ &Coordinates in $\RR^{D-1}$\\
-  \includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toR2.pdf} &\includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toS2.pdf} \\
+  \includegraphics[width=0.5\textwidth]{figures/subcomposition_coherenceA.pdf} \includegraphics[width=0.5\textwidth]{figures/subcomposition_coherenceB.pdf}  \\
  \end{tabular}
- \caption{Compositional data set in the ternary diagram and its projections: (left) when one part is removed; (right) when the subcomposition is formed.}\label{fig02}
+ \caption{Compositional data set in the ternary diagram and its projections: (left) ternary diagram of dataset $(A,B,C)$; (center) Ernie's approach; (right) Bert's approach.}\label{fig02}
 \end{center}
 \end{figure}
 
-In addition, when the CoDa have some part taking values close to zero another problem appears: the fitted mixture could be defined outside the simplex. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values 
-beyond the restricted space. In consequence, the fitted model is giving probabilities to impossible events. This fact can be of special importance when decisions depend on probabilities calculated from the mixture model. For example, \cite{baudry2010combining} and \cite{CMM13} estimate posterior probabilities from a mixture model to form clusters combining mixture components.
+
+
+% Figure \ref{fig02}(left) shows a data set in the ternary diagram and its corresponding projection to the plane of two last parts, when first part is
+% removed. When the analysis is based only in the two last parts the three cluster would be detected and its interpretation will be based on
+% the absolute values of only two parts. However, this results should be the same when one works with the relative information included in
+% the subcompositions formed by the tow last parts. Figure \ref{fig02}(right) shows the projection of the data set to the simplex formed by
+% the two last parts. Note that based on the corresponding relative information only two cluster would be idenfified. Moreover, this analysis will be different when the removed part is the second one. 
+
+
+% \begin{figure}[htbp]
+% \begin{center}
+% \begin{tabular}{cc}
+%  %   Simplex $\simplex^D$ & $\Longrightarrow$ &Coordinates in $\RR^{D-1}$\\
+%   \includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toR2.pdf} &\includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toS2.pdf} \\
+%  \end{tabular}
+%  \caption{Compositional data set in the ternary diagram and its projections: (left) when one part is removed; (right) when the subcomposition is formed.}\label{fig02}
+% \end{center}
+% \end{figure}
+
+In addition, when the CoDa have some part taking values close to zero another problem appears: the fitted mixture could be defined outside the simplex. 
 
 Above difficulties suggest using appropriate probability distributions in mixture models for CoDa, distributions that take into account 
 the constrained sample space.

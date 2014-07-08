@@ -10,7 +10,7 @@ require(gridExtra)
 
 #source('R/coda-functions/ggplot_ternary.R')
 load('data/selected-glass-data.RData')
-devtools::load_all('../mixpack')
+devtools::load_all('../../packages/mixpack')
 load(file='data/component_elimination.RData')
 
 
