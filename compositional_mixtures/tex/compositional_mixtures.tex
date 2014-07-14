@@ -170,6 +170,12 @@ In the first approach, the distributions defined on real space are used to defin
 \subsection{Using distributions defined on the real space}
 \label{real_section}
 
+The approach of modeling CoDa using a mixture of distributions defined on the real space consists on fitting a mixture defined on \emph{all} the real space (a mixture of multivariate normal distributions, a mixture of t-student distributions, etc) to the sample. 
+
+The main advantatge of using this approach is the simplicity of working without considering the restriction that every component must be positive.
+
+Although the methodology has been applied successfully in real data (see \cite{papageorgiou2001model}), it exhibes some limitations.
+
 
 %Mixtura de normals aplicada a variables composicionals, citar Bauxter
 % 1.- Singularitat de les covariances.
@@ -177,21 +183,20 @@ In the first approach, the distributions defined on real space are used to defin
 % 3.- No hi ha coherència subscomposicional
 %From a purely probabilistic point of view, 
 
-When CoDa is modeled using a distribution defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, the density function of a distributions defined on the real space evaluates strictly positive values for negative components and therefore. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. In consequence, the fitted model is giving probabilities to impossible events. This fact can be of special importance when decisions depend on probabilities calculated from the mixture model. For example, \cite{baudry2010combining} and \cite{CMM13} estimate posterior probabilities from a mixture model to form clusters combining mixture components.
-%Although in practice, one should expect that this positive probabilities are small enough to not take them into an account
+When CoDa is modeled using a mixture of distributions defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, if we model a compositional sample using a mixture of densities defined on the real space, the mixture density is taking positive values on al the real space because of its components, and therefore, it is giving positive probability to impossible events (e.g. it is straighforward that the event $\{ \textbf{x} \in \mathcal{S}^d | x_1 < 0 \}$ of having the first component negative, which is impossible given the restrictions of being compositional, has a positive probability). This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. 
 
 
+Another problem to deal with is the colinearity that appears between components  after clausuring them (i.e. restrict the components to sum a constant, see Eq. \ref{sum_to_constant}). The colinearity implies that the covariance matrix calculated from the sample is singular, and therefore, any method requiring that the covariance matrix is non singular can not be applied directly. Most mixture models are estimated using the EM-algorithm (citar McLachlan o Dempster). In the E-step, the algorithm needs to evaluate a density function computed from the sample. Because most densities depend on the inverse of the covariance matrix (multivariate normal, multivariate skew, etc), EM algorithm can not be applied directly. To solve this difficulty, the common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. 
 
-When mixture models are applied to CoDa, some approaches do not take into account . Most statistical methods fail due to the colinearity derived from the constant sum constraint (Eq. \ref{sum_to_constant}). Such methods depend on the inverse of the sample's covariance matrix, which is singular. To solve this difficulty, the common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. 
-%However, when this strategy is applied, is of crucial importance to analyze whether the final results depend on the removed part. Following \cite{barcelo1999comment} it is straightforward to see that the maximum likelihood of the fitted Gaussian mixture is invariant as regards to the removed part. 
+ 
 However, misleading result can be obtained when one part is removed and the analysis is based only on the rest of parts. Suppose the following simple example: 
 \begin{quote}
-\emph{Ernie} and \emph{Bert} are interested on classifying a compositional dataset, $(A, B)$,  with $2$ components $A$, $B$. Dataset $(A,B)$ comes from compositional dataset $(A,B,C)$ with three components, but neither Ernie nor Bert really knows component $C$. Ernie and Bert decide to follow two different approaches to analize the compositional dataset $(A,B)$
+\emph{Ernie} and \emph{Bert} are classifying, using a method called $\mathcal{M}$, a compositional dataset with two components $a$ and $b$. This two components come from another compositional dataset formed with three components $a$, $b$, $c$ (see figure~\ref{fig02} left). Lets consider that neither Ernie nor Bert really knows that component $C$ exists. Ernie and Bert decide to follow two different strategies to analize the compositional dataset.
 \begin{itemize}
-\item Ernie applies a classification method to dataset $(A,B)$. With dataset $(A,B)$ Ernie can detect three clusters (see Figure~\ref{fig02}).
-\item By contrast, Bert clousures the composition $(A,B)$ (force components $A$ and $B$ to sum a constant) and apply the same classification method than Ernie. With clousured dataset, red and blue clusters overlap and Bert can only detect two clusters (see Figure~\ref{fig02}). 
+\item Ernie decides to apply method $\mathcal{M}$ to components $a$ and $b$ directly. With this strategy, Ernie detects three clusters (see Figure~\ref{fig02} center).
+\item By contrast, Bert decides to clousure the composition formed with components $a$ and $b$ and applying method $\mathcal{M}$.  After clousuring components $a$ and $b$, Bert detects two clusters (see Figure~\ref{fig02} right). 
 \end{itemize}
-Someone can argue that Bert's approach makes no sense, but it is quite common to present compositional dataset clousured to a certain constant.
+Although someone can argue that Bert's approach makes no sense, lets recalc that it is quite common to present compositional dataset clousured to a certain constant.
 \end{quote}
 
 This effect is well known in the literature and is related with two basic principles of
@@ -208,27 +213,7 @@ CoDa analysis: the scale invariance principle and the subcompositional coherence
 
 
 
-% Figure \ref{fig02}(left) shows a data set in the ternary diagram and its corresponding projection to the plane of two last parts, when first part is
-% removed. When the analysis is based only in the two last parts the three cluster would be detected and its interpretation will be based on
-% the absolute values of only two parts. However, this results should be the same when one works with the relative information included in
-% the subcompositions formed by the tow last parts. Figure \ref{fig02}(right) shows the projection of the data set to the simplex formed by
-% the two last parts. Note that based on the corresponding relative information only two cluster would be idenfified. Moreover, this analysis will be different when the removed part is the second one. 
-
-
-% \begin{figure}[htbp]
-% \begin{center}
-% \begin{tabular}{cc}
-%  %   Simplex $\simplex^D$ & $\Longrightarrow$ &Coordinates in $\RR^{D-1}$\\
-%   \includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toR2.pdf} &\includegraphics[trim=2cm 7cm 2cm 7cm,width=0.5\textwidth]{fig02_mixtS3toS2.pdf} \\
-%  \end{tabular}
-%  \caption{Compositional data set in the ternary diagram and its projections: (left) when one part is removed; (right) when the subcomposition is formed.}\label{fig02}
-% \end{center}
-% \end{figure}
-
-In addition, when the CoDa have some part taking values close to zero another problem appears: the fitted mixture could be defined outside the simplex. 
-
-Above difficulties suggest using appropriate probability distributions in mixture models for CoDa, distributions that take into account 
-the constrained sample space.
+%Above difficulties suggest using appropriate probability distributions in mixture models for CoDa, distributions that take into account the constrained sample space.
 
 \subsection{Using standard distributions defined on the simplex space}
 \label{simplex_section}
