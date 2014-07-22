@@ -34,7 +34,7 @@
 Finite mixtures of multivariate distributions have showed increasing importance in recent years. New algortihms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
 However, misleading or incoherent results can be obtained when traditional statistical methods are applied to compositional data sets.
 Compositions are positive vectors whose components represent a relative contribution of different parts to a whole.  This type of data has a
-constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proven to be appropriate to analyse compositional data sets. Standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. A new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new method.
+constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proven to be appropriate to analyse compositional data sets. In this paper, standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. Then, a new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new method.
 \end{abstract}
 
 \begin{keyword}
@@ -57,12 +57,12 @@ Simplex
 \[
 \pi_1 f_1(x ; \theta_1) + \dots + \pi_k f_k(x ; \theta_k)
 \]
-where $f_1, \dots f_k$, called \emph{components}, are probability densities of other distributions with parameters $\theta_1, \dots, \theta_k$ respectively, and $\pi_1, \dots, \pi_k$ are positive numbers with $\sum_{i=1}^k \pi_i = 1$. In this paper, as in most common applications, we consider the components in one family (Gaussian, skew-normal, etc) but with different parameters $\theta_1, \dots, \theta_k$. I.e. a mixture with probability density
+where $f_1, \dots f_k$, called \emph{components}, are probability densities of other distributions with parameters $\theta_1, \dots, \theta_k$ respectively, and $\pi_1, \dots, \pi_k$ are positive numbers with $\sum_{i=1}^k \pi_i = 1$. In this paper, we consider that all the components belong to one family (Gaussian, skew-normal, etc) but with different parameters $\theta_1, \dots, \theta_k$, i.e. we consider mixtures with probability density
 
 \begin{equation}\label{mixt}
 \pi_1 f(x ; \theta_1) + \dots + \pi_k f(x ; \theta_k)
 \end{equation}
-where $f$ is a probability density, $\theta_1, \dots, \theta_k$ are different parameters for the distribution given by $f$ and $\pi_1, \dots, \pi_k$ are positive numbers with $\sum_{i=1}^k \pi_i = 1$.
+where $f$ is a probability density, $\theta_1, \dots, \theta_k$ are different parameters for the fixed probability distribution given by $f$.
 
 
 
@@ -114,7 +114,7 @@ This paper is organized as follows: in Section~\ref{coda_section} a brief introd
 
  \noindent \cite{aitchison1986statistical} stated that  there are two basic operations in the simplex $\mathcal{S}^D$: \emph{perturbation} ($\oplus$) and 
  \emph{powering} ($\odot$). The \emph{perturbation} is defined between two compositions $\textbf{x}$ 
-and $\textbf{y}$,  and the \emph{powering} is defined between a composition $\textbf{x}$ and a scalar value $\alpha$ 
+and $\textbf{y}$,  and the \emph{powering} is defined between a composition $\textbf{x}$ and a scalar value $\alpha$ as
 
 \begin{equation}
 \textbf{x} \oplus \textbf{y} =  \frac{1}{\sum_i x_i y_i}( x_1 y_1, \dots, x_D y_D) \qquad\qquad \alpha
@@ -132,7 +132,7 @@ structure of dimension $D-1$ to the simplex. \cite{PE01} state that the inner pr
 This Euclidean space structure suggests to reformulate the log-ratio methodology as the principle of working on coordinates \citep{MPE2011}. The idea is to express compositions in terms of its coordinates with respect to an orthonormal basis on $\mathcal{S}^D$ and apply
 traditional statistical methods to these coordinates. Once an orthonormal basis $\mathcal{B} = \{\textbf{v}_1, \dots, \textbf{v}_{D-1}\}$ is fixed, any $D$-part composition $\textbf{x}$ can be expressed as the linear combination
 \[
-\textbf{x} = (h_1 \odot \textbf{v}_1) \oplus \dots  \oplus (h_{D-1} \odot \textbf{v}_{D-1}).
+\textbf{x} = (h_1 \odot \textbf{v}_1),\; \oplus \dots  \oplus (h_{D-1} \odot \textbf{v}_{D-1}).
 \]
 %The vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ is formed by the log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$. 
 The components of vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ are the orthonormal log-ratio coordinates of $\textbf{x}$ respect $\mathcal{B}$. An example of orthonormal log-ratio coordinates  \citep{egozcue2003isometric} is given by
@@ -141,7 +141,7 @@ The components of vector $h(\textbf{x})=(h_1, \dots, h_{D-1})$ are the orthonorm
 h_i=\sqrt{\frac{i}{i+1}}\,\ln\frac{\sqrt[i]
 {\prod_{j=1}^{i} x_j}}{x_{i+1}},\,i=1,\dots,D-1.
 \end{equation}
-which are the orthonormal log-ratio coordinates of $\textbf{x}$ respect 
+which are the orthonormal log-ratio coordinates of $\textbf{x}$ respect to the basis
 \[
 \mathcal{B} = \left\{ e^{\left( 1/\sqrt{i(i+1)}, \dots, 1/\sqrt{i(i+1)}, -\sqrt{ i/(i+1)}, 0, \dots, 0\right)} \right\}_{i=1,\dots,D-1}.
 \]
@@ -157,7 +157,7 @@ f^{*}(\mathbf{x}) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\fra
 \end{equation}
 where $h(\mathbf{x})$ are the coordinates with respect to any orthonormal basis and $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ are their corresponding parameters. Figure \ref{fig01}(left) shows  contour lines of three typical normal distribution on the simplex. Note that distribution in the centre of the ternary diagram is the more similar to elliptical contour lines in real space. However, the arch shape and corner shape are very different from the traditional Gaussian shape. These particular shapes are frequent in real data sets from industrial and scientific applications \citep{aitchison1986statistical, Buccianti11}.
 When these distributions are plotted using orthonormal coordinates (Fig. \ref{fig01}(right)) the traditional elliptic contour of
-Gaussian distributions in real space.
+Gaussian distributions in real space are obtained.
 
 
 \begin{figure}[thbp]
@@ -183,20 +183,14 @@ In the first approach, next subsection, distributions defined on real space are 
 \subsection{Using distributions defined on the real space}
 \label{real_section}
 
-CoDa can be modelled using a mixture of distributions defined on the real space. The approach assumes that our CoDa sample is generated from a distribution with probability density given by
-
-\begin{equation}
-\pi_1 f(x ; \theta_1) + \dots + \pi_k f(x ; \theta_k)
-\end{equation}
-
-where $f$, $f: \mathbb{R}^D \rightarrow \mathbb{R}^+$, is a density function defined on the real space (a multivariate normal distributions, a  t-student distributions, etc).
+CoDa are in some cases modelled using a mixture of distributions defined on the real space. Consequently the approach assumes that $\mathcal{S}^D$ is a subset of $\mathbb{R}^D$ and its particular Euclidean space structure described in Section 2 is not considered. Instead, the CoDa sample is assumed to be generated from a distribution with probability density given by Eq.~\ref{mixt} where $f$, $f: \mathbb{R}^D \rightarrow \mathbb{R}^+$, is a density function defined on the real space (a multivariate normal distributions, a  t-student distributions, etc).
 
 The main advantage of using this approach is the simplicity of working without considering the restriction that every component must be positive.
 
-Although the methodology has been applied successfully in CoDa \citep[see][]{papageorgiou2001model}, it exhibits some limitations.
+Although this methodology has been applied in CoDa \citep[see][]{papageorgiou2001model}, it exhibits some limitations.
 
 
-When CoDa is modelled using a mixture of distributions defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, if we model a compositional sample using a mixture of densities defined on the real space, the mixture density is taking positive values on al the real space because of its components, and therefore, it is giving positive probability to impossible events (e.g. it is straightforward that the event $\{ \textbf{x} \in \mathcal{S}^d | x_1 < 0 \}$ of having the first component negative, which is impossible given the restrictions of being compositional, has a positive probability). This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. 
+When CoDa is modelled using a mixture of distributions defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, if we model a compositional sample using a mixture of densities defined on the real space, the mixture density is taking positive values in all the real space because of its components, and therefore, it is giving positive probability to impossible events (e.g. it is straightforward to see that the \emph{impossible} event $\{ \textbf{x} \in \mathcal{S}^d | x_i < 0 \}$ of having the $i$-th component negative has positive probability). This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. 
 
 
 Another problem to deal with is the collinearity that appears between components  after closuring them (i.e. restrict the components to sum a constant, see Eq. \ref{sum_to_constant}). The collinearity implies that the covariance matrix calculated from the sample is singular, and therefore, any method requiring that the covariance matrix is non singular can not be applied directly. Most mixture models are estimated using the EM-algorithm (citar McLachlan o Dempster). In the E-step, the algorithm needs to evaluate a density function computed from the sample. Because most densities depend on the inverse of the covariance matrix (multivariate normal, multivariate skew, etc), EM algorithm can not be applied directly. To solve this difficulty, the common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. However, when one part is removed,  misleading result can be obtained. Suppose the following simple example: 
@@ -228,7 +222,7 @@ CoDa analysis: the scale invariance principle and the sub-compositional coherenc
 \subsection{Using standard distributions defined on the simplex space}
 \label{simplex_section}
 
-\noindent Among the standard distributions defined on the simplex, the Dirichlet distribution is the most widely used. 
+\noindent Among the standard distributions defined on the simplex (distributions with density function $f: \mathcal{S}^D\rightarrow R^+$), the Dirichlet distribution is the most widely used. 
 A Dirichlet distributed random vector is formed projecting to the simplex a vector formed by independent and equally scaled gamma distributed components.
 Despite its simplicity and its good mathematical properties it has a very strong independence structure \citep{aitchison1986statistical}. 
 In practice, such independence structure heavily restricts Dirichlet potential modelling application. Most of real CoDa sets have
@@ -242,11 +236,8 @@ have limited success to fit the general dependence structure of compositional da
 There is no straightforward method to fit a Dirichlet mixture to a CoDa set. Indeed, contrary to the Gaussian case,
 it is difficult to find in the literature routines or functions for fitting a Dirichlet mixture. However, methods to estimate the parameters of a Dirichlet model are found in the literature. As the Dirichlet distribution is an exponential family, the log-likelihood function is globally concave and a global optimum can be obtained. According to \cite{ng2011dirichlet}, the MLE via Newton-Raphson algorithm converges to the global optimum. \cite{narayanan1991algorithm} provides a Fortran subroutine where three different possibilities are available to estimate the initial parameter required.
 We can also obtain MLE estimates via the EM gradient methods \citep{ng2011dirichlet} or we can use a generalized method of moments
-\citep{hansen1982large}. Using this later method, an approximation to the MLE can be obtained when the classification EM-algorithm (CEM) \citep{celeux1992classification} is applied to determine the clusters. 
+\citep{hansen1982large}.  To obtain an approximation to the MLE estimator of a Dirichlet mixture, it is possible to apply the classification EM-algorithm \citep[CEM algorithm,][]{celeux1992classification} using any of the described approaches to fit a Dirichlet model.
 
-%Mixtures defined directly on the simplex (Mixture of Dirichlets)
-
-%The principle of working in coordinates
 
 
 \section{Modeling compositional data using a mixture of distributions defined on the log-ratio coordinates}
