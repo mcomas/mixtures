@@ -1,5 +1,6 @@
 \documentclass[preprint, review, 3p, authoryear]{elsarticle}
 
+\usepackage{setspace}
 \usepackage[utf8]{inputenc}
 \usepackage{marginnote}
 \usepackage{amsmath, amssymb}
@@ -8,6 +9,8 @@
 \usepackage[authoryear]{natbib}
 
 \journal{Computational Statistics and Data Analysis}
+
+\doublespacing
 \begin{document}
 
 \begin{frontmatter}
@@ -150,12 +153,14 @@ which are the orthonormal log-ratio coordinates of $\textbf{x}$ respect to the b
 % Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
 % preprocessed with specific techniques \citep[e.g.,][]{M+12}.
 
-According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of orthonormal log-ratio coordinates. Indeed, let $f(\cdot)$ be a density on real space. A density on the simplex (or compositional density) $f^*(\mathbf{x})$ is defined as $f^*(\mathbf{x})=f(h(\mathbf{x}))$, where $h(\mathbf{x})$ is the vector of log-ratio coordinates. \cite{mateu2013normal} and \cite{ mateu2007skew} respectively introduce the log-ratio normal and skew-normal models as probability laws on $\mathcal{S}^D$. In particular, the log-ratio normal distribution is defined as
+According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of orthonormal log-ratio coordinates. Indeed, let $f^*(\cdot \;; \theta)$ be a density defined on real space with parameters $\theta$. A density on the simplex (or compositional density) $f(\mathbf{x}\;; \theta)$ with parameters $\theta$ is defined as $f(\mathbf{x}\;; \theta)=f^*(h(\mathbf{x})\;; \theta)$, where $h(\mathbf{x})$ is the vector of log-ratio coordinates. \cite{mateu2013normal} and \cite{ mateu2007skew} respectively introduce the log-ratio normal and skew-normal models as probability laws on $\mathcal{S}^D$. In particular, the log-ratio normal distribution is defined as
 
 \begin{equation}\label{eq:densSNormal}
-f^{*}(\mathbf{x}) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h(\mathbf{x})- \mbox{\boldmath \(\mu\)} \right)' \mathbf{\Sigma}^{-1} \left( h(\mathbf{x})- \mbox{\boldmath\(\mu\)} \right)\right)\ ,
+f(\mathbf{x}\;; \mu, \Sigma) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h(\mathbf{x})- \mbox{\boldmath \(\mu\)} \right)' \mathbf{\Sigma}^{-1} \left( h(\mathbf{x})- \mbox{\boldmath\(\mu\)} \right)\right)\ ,
 \end{equation}
-where $h(\mathbf{x})$ are the coordinates with respect to any orthonormal basis and $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ are their corresponding parameters. Figure \ref{fig01}(left) shows  contour lines of three typical normal distribution on the simplex. Note that distribution in the centre of the ternary diagram is the more similar to elliptical contour lines in real space. However, the arch shape and corner shape are very different from the traditional Gaussian shape. These particular shapes are frequent in real data sets from industrial and scientific applications \citep{aitchison1986statistical, Buccianti11}.
+where $h(\mathbf{x})$ are the coordinates with respect to any orthonormal basis and $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ are their corresponding parameters. 
+% No sé si estaria bé fer notar que els paràmetres de la distribució estan definits en l'espai real
+Figure \ref{fig01}(left) shows  contour lines of three typical normal distribution on the simplex. Note that distribution in the centre of the ternary diagram is the more similar to elliptical contour lines in real space. However, the arch shape and corner shape are very different from the traditional Gaussian shape. These particular shapes are frequent in real data sets from industrial and scientific applications \citep{aitchison1986statistical, Buccianti11}.
 When these distributions are plotted using orthonormal coordinates (Fig. \ref{fig01}(right)) the traditional elliptic contour of
 Gaussian distributions in real space are obtained.
 
@@ -186,7 +191,6 @@ In the first approach, next subsection, distributions defined on real space are 
 CoDa are in some cases modelled using a mixture of distributions defined on the real space. Consequently the approach assumes that $\mathcal{S}^D$ is a subset of $\mathbb{R}^D$ and its particular Euclidean space structure described in Section 2 is not considered. Instead, the CoDa sample is assumed to be generated from a distribution with probability density given by Eq.~\ref{mixt} where $f$, $f: \mathbb{R}^D \rightarrow \mathbb{R}^+$, is a density function defined on the real space (a multivariate normal distributions, a  t-student distributions, etc).
 
 The main advantage of using this approach is the simplicity of working without considering the restriction that every component must be positive.
-
 Although this methodology has been applied in CoDa \citep[see][]{papageorgiou2001model}, it exhibits some limitations.
 
 
@@ -222,9 +226,9 @@ CoDa analysis: the scale invariance principle and the sub-compositional coherenc
 \subsection{Using standard distributions defined on the simplex space}
 \label{simplex_section}
 
-\noindent Among the standard distributions defined on the simplex (distributions with density function $f: \mathcal{S}^D\rightarrow R^+$), the Dirichlet distribution is the most widely used. 
-A Dirichlet distributed random vector is formed projecting to the simplex a vector formed by independent and equally scaled gamma distributed components.
-Despite its simplicity and its good mathematical properties it has a very strong independence structure \citep{aitchison1986statistical}. 
+\noindent Among standard distributions defined on the simplex (distributions with density function $f: \mathcal{S}^D\rightarrow R^+$), the Dirichlet distribution is the most widely used. 
+A Dirichlet distributed random vector is the projection into the simplex of a random vector formed by independent and equally scaled gamma distributed components. 
+Despite its simplicity and its good mathematical properties, by construction it has a very strong independence structure \citep{aitchison1986statistical}. 
 In practice, such independence structure heavily restricts Dirichlet potential modelling application. Most of real CoDa sets have
 not this structure \citep{aitchison1986statistical}. To solve this difficulty, many generalizations of the Dirichlet distribution with less
 independence structure have been proposed: the Connor and Mosimann's distribution
@@ -233,10 +237,13 @@ developments are required to discover its potential application. Finally \cite{m
 perturbation and powering (Eq. \ref{pert_pow}) to the standard Dirichlet distribution. Unfortunately all these attempts
 have limited success to fit the general dependence structure of compositional data \citep{mateu2013normal}.
 
-There is no straightforward method to fit a Dirichlet mixture to a CoDa set. Indeed, contrary to the Gaussian case,
-it is difficult to find in the literature routines or functions for fitting a Dirichlet mixture. However, methods to estimate the parameters of a Dirichlet model are found in the literature. As the Dirichlet distribution is an exponential family, the log-likelihood function is globally concave and a global optimum can be obtained. According to \cite{ng2011dirichlet}, the MLE via Newton-Raphson algorithm converges to the global optimum. \cite{narayanan1991algorithm} provides a Fortran subroutine where three different possibilities are available to estimate the initial parameter required.
+A finite mixture of distributions defined on the simplex space is a probability distribution with probability density function given by Eq.~\ref{mixt} where $f$, $f: \mathcal{S}^D \rightarrow \mathbb{R}^+$, is a density function defined on the simplex space (Dirichlet, Generalized Dirichlet, etc).
+
+
+In practice, there is no straightforward method to fit a Dirichlet mixture to a CoDa set (neither any of its generalizations). Indeed, contrary to the Gaussian case or mixtures defined on the real space, it is difficult to find in the literature routines or functions for fitting a Dirichlet mixture. However, methods to estimate the parameters of a Dirichlet model are found in the literature. As the Dirichlet distribution is an exponential family, the log-likelihood function is globally concave and a global optimum can be obtained. According to \cite{ng2011dirichlet}, the MLE via Newton-Raphson algorithm converges to the global optimum. \cite{narayanan1991algorithm} provides a Fortran subroutine where three different possibilities are available to estimate the initial parameter required.
 We can also obtain MLE estimates via the EM gradient methods \citep{ng2011dirichlet} or we can use a generalized method of moments
-\citep{hansen1982large}.  To obtain an approximation to the MLE estimator of a Dirichlet mixture, it is possible to apply the classification EM-algorithm \citep[CEM algorithm,][]{celeux1992classification} using any of the described approaches to fit a Dirichlet model.
+\citep{hansen1982large}.  
+To obtain an approximation to the MLE estimator of a Dirichlet mixture, it is possible to apply the classification EM-algorithm \citep[CEM algorithm,][]{celeux1992classification} using any of the described approaches to fit a Dirichlet model.
 
 
 
@@ -244,30 +251,27 @@ We can also obtain MLE estimates via the EM gradient methods \citep{ng2011dirich
 \label{codamix_section}
 
 
-\noindent Our proposal is to model CoDa using log-ratio finite mixtures,
+\noindent Our proposal consists in modeling  CoDa using log-ratio finite mixtures, i.e. to model CoDa with a finite mixture with density function given by Eq.~\ref{mixt} where $f$ are log-ratio distributions as defined in Section~\ref{coda_section}.
+The main advantatges of using this approach are: the sample space is taken into an account and fitting a mixture model to a CoDa sample  is as simple (or difficult) as in the real space.
 
-\begin{equation}\label{coda_mixture}
-%\pi_1 f^*(\textbf{x}; \theta_1) + \dots + \pi_k f^*(\textbf{x}; \theta_k),
-\pi_1 f^*(\textbf{x}; \theta_1) + \dots + \pi_k f^*(\textbf{x}; \theta_k),
-\end{equation}
-where $f^*$ are log-ratio distributions with parameters $ \theta_i $, $1\leq i \leq k$, and $\pi_i$ are
-the corresponding non-negative mixing proportions which sum to one.
+Because log-ratio finite mixtures are build considering the Simplex space structure, their density function is defined on the simplex, $f:\mathcal{S}^D\rightarrow \mathbb{R}^+$. 
 
-Let $h$ be the coordinate function given a certain orthonormal basis $\mathcal{B}$ of $\mathcal{S}^D$. Given a compositional sample
-$X =  \{ \textbf{x}_1, \textbf{x}_2, \dots , \textbf{x}_n \} $  the likelihood expression for the mixture model on $\mathcal{S}^D$ with parameters $ \theta_i $, $1\leq i \leq k$  is
+Let $h$ be the coordinate function given a certain orthonormal basis $\mathcal{B}$ of $\mathcal{S}^D$. Given a CoDa sample $X =  \{ \textbf{x}_1, \textbf{x}_2, \dots , \textbf{x}_n \}$, fitting a log-ratio finite mixture with components $f(\cdot; \theta_1), \dots, f(\cdot;\theta_k)$, it is equivalent to fit a finite mixture with components $f^*(\cdot; \theta_1), \dots, f^*(\cdot;\theta_k)$. Indeed, the likelihood expression for the mixture model on $\mathcal{S}^D$ with parameters $ \theta_i $, $1\leq i \leq k$  is
 
 \begin{equation}\label{likeli}
-\prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(\textbf{x}_i; \theta_j).
+\prod_{i=1}^n \sum_{j=1}^k \pi_j f(\textbf{x}_i; \theta_j).
 \end{equation}
 
 Let $f$ be the real distribution that $f^* = f \circ h$. Then, Eq. \ref{likeli} can be rewritten as
 
 \begin{equation}\label{likeliR}
-\prod_{i=1}^n \sum_{j=1}^k \pi_j f(h(\textbf{x}_i); \theta_j).
+\prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(h(\textbf{x}_i); \theta_j),
 \end{equation}
-
+which is the likelihood estimator of a finite mixture model with components on family $f^*$.
 Following this approach, fitting a $f^*$ mixture to a CoDa set using the MLE, results on fitting a $f$ mixture to a real data set, the set of coordinates with respect to the basis $\mathcal{B}$. 
-According to \cite{mateu2013normal}, in Equation \ref{likeliR} we are not applying a transformation $h$ to a composition, we only change its representation. In consequence, the number of possible densities $f^*$ is  the same than in real space. Due to its theoretical and computational simplicity, our first proposal is to use the normal distribution, i.e. we fit a Gaussian mixture to a CoDa set using as $f^*$ the log-ratio normal densities on $\mathcal{S}^D$  (Eq. \ref{eq:densSNormal}). However, in cases where asymmetric distributions provides a better fit, it is possible to use log-ratio skew-normal or log-ratio skew-t on $\mathcal{S}^D$. 
+%According to \cite{mateu2013normal}, in Equation \ref{likeliR} we are not applying a transformation $h$ to a composition, we only change its representation. 
+%In consequence, the number of possible densities $f^*$ is  the same than in real space. 
+%Due to its theoretical and computational simplicity, our first proposal is to use the normal distribution, i.e. we fit a Gaussian mixture to a CoDa set using as $f^*$ the log-ratio normal densities on $\mathcal{S}^D$  (Eq. \ref{eq:densSNormal}). However, in cases where asymmetric distributions provides a better fit, it is possible to use log-ratio skew-normal or log-ratio skew-t on $\mathcal{S}^D$. 
 
 Figure \ref{fig03logratiodens} shows a typical scenario where the purpose is to find groups in a data set. In this case there are for groups .......DESCRIURE LA SIMULACIO....
 
