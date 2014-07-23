@@ -13,7 +13,7 @@ FIGURES = figures/main_df.pdf figures/elim_component_real.pdf figures/elim_compo
 pdf/compositional_mixtures.pdf : tex/compositional_mixtures.tex $(FIGURES) $(DATA)
 	pdflatex -output-directory pdf tex/compositional_mixtures.tex
 	pdflatex -output-directory pdf tex/compositional_mixtures.tex
-	rm pdf/compositional_mixtures.aux; rm pdf/compositional_mixtures.log; rm pdf/compositional_mixtures.spl
+	rm -f pdf/compositional_mixtures.aux pdf/compositional_mixtures.log pdf/compositional_mixtures.spl
 
 figures/main_df.pdf : R/plot_glass_data.R
 	Rscript R/plot_glass_data.R

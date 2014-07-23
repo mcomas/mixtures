@@ -1,4 +1,5 @@
-\documentclass[preprint, review, 3p, authoryear]{elsarticle}
+%\documentclass[preprint, review, 3p, authoryear]{elsarticle}
+\documentclass[10pt, a4paper]{article}
 
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
@@ -8,29 +9,28 @@
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
 
-\journal{Computational Statistics and Data Analysis}
+\title{Logratio methods in mixture models for compositional data sets}
+\author{M. Comas-Cufí \and J.A. Martín-Fernández \and G. Mateu-Figueras}
 
 \doublespacing
 \begin{document}
 
-\begin{frontmatter}
 
-\title{Logratio methods in mixture models for compositional data sets}
+\maketitle
+%\begin{frontmatter}
 
-%% use optional labels to link authors explicitly to addresses:
-%% \author[label1,label2]{}
-%% \address[label1]{}
-%% \address[label2]{}
+%\title{Logratio methods in mixture models for compositional data sets}
 
-\author[imae]{M. Comas-Cufí}
-\ead{mcomas@imae.udg.edu}
-\author[imae]{J.A. Martín-Fernández\corref{cor2}}
-\ead{josepantoni.martin@udg.edu}
-\author[imae]{G. Mateu-Figueras}
-\ead{gloria.mateu@udg.edu}
+%\journal{Computational Statistics and Data Analysis}
+% \author[imae]{M. Comas-Cufí}
+% \ead{mcomas@imae.udg.edu}
+% \author[imae]{J.A. Martín-Fernández\corref{cor2}}
+% \ead{josepantoni.martin@udg.edu}
+% \author[imae]{G. Mateu-Figueras}
+% \ead{gloria.mateu@udg.edu}
+% \cortext[cor2]{Corresponding author. Dept. Computer Science, Applied Mathematics and Statistics (UdG), Campus Montilivi (P4), E-17071 Girona, Spain. Tel.: +34 972 418426, Fax: +34 972 418792}
+% \address[imae]{Department of Computer Science, Applied Mathematics and Statistics,\\ University of Girona, Spain}
 
-\cortext[cor2]{Corresponding author. Dept. Computer Science, Applied Mathematics and Statistics (UdG), Campus Montilivi (P4), E-17071 Girona, Spain. Tel.: +34 972 418426, Fax: +34 972 418792}
-\address[imae]{Department of Computer Science, Applied Mathematics and Statistics,\\ University of Girona, Spain}
 
 \begin{abstract}
 %% Text of abstract
@@ -38,19 +38,23 @@ Finite mixtures of multivariate distributions have showed increasing importance 
 However, misleading or incoherent results can be obtained when traditional statistical methods are applied to compositional data sets.
 Compositions are positive vectors whose components represent a relative contribution of different parts to a whole.  This type of data has a
 constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proven to be appropriate to analyse compositional data sets. In this paper, standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. Then, a new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new method.
+
+{\bf Keywords:} Compositional data, Finite Mixture, Log ratio, Model-based clustering, Normal distribution, Orthonormal coordinates, Simplex
 \end{abstract}
 
-\begin{keyword}
-Compositional data \sep
-Finite Mixture\sep
-Log ratio\sep
-Model-based clustering \sep
-Normal distribution\sep
-Orthonormal coordinates\sep
-Simplex
-\end{keyword}
 
-\end{frontmatter}
+
+% \begin{keyword}
+% Compositional data \sep
+% Finite Mixture\sep
+% Log ratio\sep
+% Model-based clustering \sep
+% Normal distribution\sep
+% Orthonormal coordinates\sep
+% Simplex
+% \end{keyword}
+
+%\end{frontmatter}
 
 %%
 \section{Introduction}

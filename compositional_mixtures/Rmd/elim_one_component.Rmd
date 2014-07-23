@@ -1,0 +1,121 @@
+---
+title: "Eliminating one component"
+author: "M. Comas-Cufí"
+date: "23/07/2014"
+output: pdf_document
+---
+
+Consider the following example:
+
+Suppose that a compositional sample $X$ with two components, $a$ and $b$, is originated from two different source $S_1$ and $S_2$. 
+
+* $S_1$ has a higher ammount of component $a$ compared to component $b$
+* $S_2$ has a higher ammount of component $b$ compared to component $a$
+
+```{r, echo=F, include=FALSE}
+require(ggplot2)
+require(gridExtra)
+
+N1 = 100
+N2 = 100
+SD = 0.25
+## Random data generation
+S1.comp = data.frame('a' = exp(rnorm(N1, mean = 0, sd=SD)), 
+                     'b' = exp(rnorm(N1, mean =-1, sd=SD)),
+                     'c' = exp(rnorm(N1, mean =-2, sd=SD)))
+S2.comp = data.frame('a' = exp(rnorm(N2, mean =-1, sd=SD)), 
+                     'b' = exp(rnorm(N2, mean = 0, sd=SD)),
+                     'c' = exp(c(rnorm(N2/2, mean = 1, sd=SD), rnorm(N2/2, mean = -1.5, sd=SD))))
+
+```
+
+```{r, include=F}
+## Clousuring
+S1 = round(S1.comp[,c('a','b')] / apply(S1.comp[,c('a','b')], 1, sum) *100, 2)
+S2 = round(S2.comp[,c('a','b')] / apply(S2.comp[,c('a','b')], 1, sum) *100, 2)
+## Labels
+S1$src = 'S1'
+S2$src = 'S2'
+X = rbind(S1, S2)
+```
+
+Here, we can see four elements coming from source $S_1$
+
+```{r, echo=FALSE}
+X[1:4,c('src', 'a', 'b')]
+```
+
+and four elements coming from source $S_2$
+
+```{r, echo=FALSE}
+X[c(N1+1:2, N1+N2/2+1:2),c('src', 'a', 'b')]
+```
+
+To represent the compositional sample $X$ with components $a$ and $b$, we can use a typical $\mathbb{R}^2$ scatterplot repsentation
+
+
+```{r, echo=F, fig.width=4, fig.height=3}
+ggplot(data=X, aes(x=a, y=b, col=src)) + geom_point(size=2)
+```
+
+or we can represent the amount of part $a$ with an histogram (to better identify the sources, a histogram for each source has been ploted)
+
+```{r, echo=F, fig.width=3.5, fig.height=3}
+ggplot(data=X, aes(x=a, fill=src)) + geom_histogram(binwidth=2.5) + facet_grid(src~.) + ylab(NULL)+theme(legend.position="none")
+```
+
+> **Observation:** At this point, using component $a$ and $b$, it is natural to indentify two different groups. The first one with a higher amount of element $a$ compared to $b$, and the second one with a higher amount of element $b$ compared to $a$.
+
+Now, suppose another component $c$ is included as follows: for observations coming from source $S_1$ component $c$ is lower compared to component $a$ and $b$, and for observations coming from source $S_2$, in some cases component $c$ is higher that component $a$ and $b$, and in other cases component $c$ is lower than component $a$ and $b$.
+
+```{r, include=F}
+## Clousuring
+S1 = round(S1.comp[,c('a','b','c')] / apply(S1.comp[,c('a','b','c')], 1, sum) *100, 2)
+S2 = round(S2.comp[,c('a','b','c')] / apply(S2.comp[,c('a','b','c')], 1, sum) *100, 2)
+## Labels
+S1$src = 'S1'
+S2$src = 'S2'
+X = rbind(S1, S2)
+```
+
+Here we show the same observations coming from source $S_1$ than before with component $c$ included
+
+```{r, echo=FALSE}
+X[1:4,c('src', 'a', 'b', 'c')]
+```
+
+and the four observations coming from source $S_2$ (note that the first two observations component $c$ is higher than $a$ and $b$, while in last two observations component $c$ is lower than $a$ and $b$)
+
+```{r, echo=FALSE}
+X[c(N1+1:2, N1+N2/2+1:2),c('src', 'a', 'b', 'c')]
+```
+
+
+```{r, include=FALSE}
+require(ggtern)
+```
+
+A representation of sample $X$ with components $a$, $b$ and $c$.
+
+```{r, echo=F, fig.width=5, fig.height=5}
+ggtern(X, aes(x=a, y=b, z=c, col=src))+geom_point()
+```
+
+
+> To think in a practical example, suppose parts a and b are elements of importance in our analisis, and part c is another residual part, for example water. 
+> * The sample comming from source 1 was collected in days where the amount of water was very low. 
+> * The sample coming from source 2 was collected in two different days, one with a very low level of water and another with a higher level of water (maybe, it was raining). 
+
+*****************
+
+#### What does `eliminating component c` mean ?
+
+> At this point we should be clear in what does it mean, when we decide to eliminate a component.
+
+If we decide to eliminate component $c$ from the rest of our analysis, the effect of this component should disappear after its deletion. But in fact, eliminating the component $c$ we do not eliminate its effect as we can see
+
+```{r, echo=F, fig.width=4, fig.height=3}
+ggplot(data=X, aes(x=a, y=b, col=src)) + geom_point(size=2)
+```
+
+> The effect of component $c$ is still present because observations coming from source $S_2$ are separated
