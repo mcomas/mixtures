@@ -30,6 +30,10 @@ l_ply(cl2_mm, function(v){
   p3 <<- p3+geom_path(data=df.c, aes(x=Al, y=Ca), alpha=0.4)})
 p3 = p3+geom_vline(aes(xintercept=0), linetype=2)
 
-pdf(file='figures/elim_component_real.pdf', width=17, height=5, pointsize=25)
-grid.arrange(p1 + theme_bw(), p2 + theme_bw(), p3 + theme_bw(), ncol=3)
+p1 = p1 + theme_classic()
+p2 = p2 + theme_classic()
+p3 = p3 + theme_classic()
+
+pdf(file='figures/elim_component_real.pdf', width=10, height=3, pointsize=10)
+grid.arrange(p1, p2, p3, ncol=3)
 dev.off()

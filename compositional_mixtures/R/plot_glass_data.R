@@ -39,7 +39,10 @@ pb = p0 + geom_point(size=3) + coord_tern(Tlim=c(0,.2), Llim=c(0.0,0.2), Rlim=c(
         legend.position="bottom",
         legend.key = element_blank())
 
-pdf(file='figures//main_df.pdf', width=17, height=10, pointsize=25)
+pa = pa+theme_classic() + scale_color_grey()
+pb = pb+theme_classic() + scale_color_grey()
+
+pdf(file='figures//main_df.pdf', width=9.5, height=4.4, pointsize=10)
 grid.newpage()
 vpb_ <- viewport(width = 0.46, height = 0.46, x = 0.15, y = 0.74)  # the larger map
 vpa_ <- viewport(width = 1, height = 1, x = 0.5, y = 0.49 )  # the inset in upper right

@@ -51,8 +51,10 @@ l_ply(cl1_mm, function(v){
   df.c = data.frame('Ca' = 1-v$x-v$y, 'Si' = v$x, 'Al' = v$y, 'glasses'=NA)
   pb <<- pb+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.4)})
 
+pa = pa+theme_classic()
+pb = pb+theme_classic()
 
-pdf(file='figures/elim_component_ternary.pdf', width=17, height=10, pointsize=25)
+pdf(file='figures/elim_component_ternary.pdf', width=6.5, height=4, pointsize=10)
 grid.newpage()
 vpa_ <- viewport(width = 0.46, height = 0.46, x = 0.15, y = 0.74)  # the larger map
 vpb_ <- viewport(width = 1, height = 1, x = 0.5, y = 0.49 )  # the inset in upper right
