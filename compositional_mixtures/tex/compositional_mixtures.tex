@@ -156,9 +156,9 @@ h_i=\sqrt{\frac{i}{i+1}}\,\ln\frac{\sqrt[i]
 which are the orthonormal log-ratio coordinates of $\textbf{x}$ respect to the basis $\mathcal{B} = \{\textbf{v}_1, \dots, \textbf{v}_{D-1}\}$ with
 
 \[
-\textbf{v}_i = \Big( \underbrace{e^{1/\sqrt{i(i+1)}}, \dots, e^{1/\sqrt{i(i+1)}}}_{i}, 1/e^{\sqrt{ i/(i+1)}}, \underbrace{1, \dots, 1}_{D-(i+1)} \Big) / s_i
+\textbf{v}_i = \frac{1}{s_i}\Big( \underbrace{e^{1/\sqrt{i(i+1)}}, \dots, e^{1/\sqrt{i(i+1)}}}_{i}, 1/e^{\sqrt{ i/(i+1)}}, \underbrace{1, \dots, 1}_{D-(i+1)} \Big) 
 \]
-where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$.
+where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$ is a rescaling value to make components sum up to one.
 
 % Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
 % preprocessed with specific techniques \citep[e.g.,][]{M+12}.
