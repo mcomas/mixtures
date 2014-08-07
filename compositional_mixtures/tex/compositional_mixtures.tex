@@ -4,10 +4,12 @@
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
 \usepackage{marginnote}
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath, amssymb, amsthm}
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
+
+\newtheorem{prop}{Proposition}
 
 \title{Logratio methods in mixture models for compositional data sets}
 \author{M. Comas-Cufí \and J.A. Martín-Fernández \and G. Mateu-Figueras}
@@ -75,7 +77,7 @@ where $f$ is a probability density, $\theta_1, \dots, \theta_k$ are different pa
 
 According to \cite{scott1971clustering} and \cite{mclachlan2004finite}, finite mixture models provide reasonable results in several multivariate techniques, e.g. model-based clustering  \citep{banfield1993model,  fraley2002model}. The Gaussian mixture is the most common model 
 due to its theoretical and computational simplicity \citep{mclachlan2004finite}. 
-However, because of its simplicity, Gaussian mixtures have some limitation when observations need to be modelled.
+However, because of its simplicity, Gaussian mixtures have some limitation when observations need to be modeled.
 %
 % No se si cal parlar sobre problemes de dimensionalitat. Ho treiem? 
 %
@@ -86,7 +88,7 @@ For example, \cite{bickel2004multi} use multinomial mixture distributions for di
  \cite[][]{bouguila2011count} proposes other extensions of multinomial mixture distributions for count data. 
 Another example is circular data, whose sample space is the sphere.  \cite{banerjee2005clustering} and \cite{mardia2007protein} propose mixtures of Von Mises probability distributions, defined for random vectors in the sphere.
 
-Finite mixture modelling for compositional data (CoDa) also needs its own mixture distributions because this type of data has a constrained sample space.
+Finite mixture modeling for compositional data (CoDa) also needs its own mixture distributions because this type of data has a constrained sample space.
 CoDa, also called $D$-part compositions, are vectors $\textbf{x} = (x_1, x_2, ..., x_D)$ with all its components strictly positive  and carrying only relative information. A $D$-part composition is usually restricted to sum a fixed constant $\kappa$, i.e.
 \begin{equation}
 \sum_{i=1 }^D x_i = \kappa.
@@ -104,7 +106,7 @@ When a problem is compositional, one is recognising that the absolute value of e
 the compositions are expressed in terms of log-ratio coordinates and the classical techniques are applied to the scores so obtained.
 
 In the past, not many works \citep[e.g.,][]{albert1982mixtures, bouguila2004unsupervised} introduce finite mixtures models using distributions restricted on the simplex, as the Dirichlet distribution. In consequence, there is a gap where last advances in 
-log-ratio modelling can contribute in the analysis of CoDa. Following \cite{mateu2013normal}, normal and non-normal mixtures of distributions on the simplex 
+log-ratio modeling can contribute in the analysis of CoDa. Following \cite{mateu2013normal}, normal and non-normal mixtures of distributions on the simplex 
 can be defined.
 
 This paper is organized as follows: in Section~\ref{coda_section} a brief introduction of compositional data analysis is provided. Section~\ref{standard_section} describes the pros and cons of each traditional mixture models when are applied to compositional data. Section~\ref{codamix_section} is devoted to introduce log-ratio mixture models. A real data set is analyzed in Section~\ref{example_section} to illustrate the new methods. Finally, Section~\ref{conclusion_section} contains conclusions and final remarks. The programming of the data analyses discussed in this work has been conducted using the open-source R statistical environment \citep{R2013soft}. Computer routines implementing the methods can be obtained from the R package \texttt{Mclust}, \texttt{Rmixmod}, \texttt{EMMIXuskew} and also from the website http://www.compositionaldata.com.
@@ -204,7 +206,7 @@ The main advantage of using this approach is the simplicity of working without c
 Although this methodology has been applied in CoDa \citep[see][]{papageorgiou2001model}, it exhibits some limitations.
 
 
-When CoDa is modelled using a mixture of distributions defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, if we model a compositional sample using a mixture of densities defined on the real space, the mixture density is strictly positive in all the real space, and therefore, it is giving positive probability to impossible events. For example, it is straightforward to see that the \emph{impossible} event  of having the $i$-th component negative has positive probability, i.e $P(\{ \textbf{x} \in \mathcal{S}^d | x_i < 0 \}) > 0$. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. 
+When CoDa is modeled using a mixture of distributions defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, if we model a compositional sample using a mixture of densities defined on the real space, the mixture density is strictly positive in all the real space, and therefore, it is giving positive probability to impossible events. For example, it is straightforward to see that the \emph{impossible} event  of having the $i$-th component negative has positive probability, i.e $P(\{ \textbf{x} \in \mathcal{S}^d | x_i < 0 \}) > 0$. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. 
 
 
 Another limitation to deal with is the collinearity that appears between components  after restricting the components to sum a constant, see Eq. \ref{sum_to_constant}. The collinearity implies that the covariance matrix calculated from the sample is singular, and therefore, any method requiring that the covariance matrix is non singular can not be applied directly. Most mixture models are estimated using the EM-algorithm (citar McLachlan o Dempster). In the E-step, the algorithm needs to evaluate a density function computed from the sample. Because most densities depend on the inverse of the covariance matrix (multivariate normal, multivariate skew, etc), EM algorithm can not be applied directly. To solve this difficulty, a common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. However, when one part is removed,  misleading result can be obtained. Suppose the following simple example: 
@@ -247,7 +249,7 @@ Note that although the researcher was interested in analising the relation betwe
 \noindent Among all the distributions defined on the simplex (distributions with density function $f: \mathcal{S}^D\rightarrow R^+$), the Dirichlet distribution is the most widely used and well known. 
 A Dirichlet distributed random vector is the projection into the simplex of a random vector formed by independent and equally scaled gamma distributed components. 
 Despite its simplicity and its good mathematical properties, by construction it has a very strong independence structure \citep{aitchison1986statistical}. 
-In practice, such independence structure heavily restricts Dirichlet potential modelling application. Most of real CoDa sets have
+In practice, such independence structure heavily restricts Dirichlet potential modeling application. Most of real CoDa sets have
 not this structure \citep{aitchison1986statistical}. To solve this difficulty, many generalizations of the Dirichlet distribution with less
 independence structure have been proposed: the Connor and Mosimann's distribution
 \citep{Connor:1969}, the scaled Dirichlet distribution \citep{aitchison1986statistical},  and the Liouville distribution \citep{rayens1994dependence}.  More recently, \cite{ongaro2008new} present the Flexible Dirichlet distribution, but future
@@ -270,10 +272,9 @@ To obtain an approximation to the MLE estimator of a Dirichlet mixture, it is po
 
 
 \noindent Our proposal consists in modeling  CoDa using log-ratio finite mixtures, i.e. to model CoDa with a finite mixture with density function given by Eq.~\ref{mixt} where $f$ are log-ratio distributions as defined in Section~\ref{coda_section}.
-The main advantages of using this approach are: the sample space is taken into an account and fitting a mixture model to a CoDa sample  is as simple (or difficult) as in the real space.
+The main advantages of using this approach are: the sample space is taken into an account and fitting a mixture model to a CoDa sample  is as simple (or difficult) as in the real space. Because log-ratio finite mixtures are build considering the Simplex space structure, their density function is defined on the simplex, $f:\mathcal{S}^D\rightarrow \mathbb{R}^+$. 
 
-Because log-ratio finite mixtures are build considering the Simplex space structure, their density function is defined on the simplex, $f:\mathcal{S}^D\rightarrow \mathbb{R}^+$. 
-
+Fitting a mixture model
 Let $h$ be the coordinate function given a certain orthonormal basis $\mathcal{B}$ of $\mathcal{S}^D$. Given a CoDa sample $X =  \{ \textbf{x}_1, \textbf{x}_2, \dots , \textbf{x}_n \}$, fitting a log-ratio finite mixture with components $f(\cdot; \theta_1), \dots, f(\cdot;\theta_k)$, it is equivalent to fit a finite mixture with components $f^*(\cdot; \theta_1), \dots, f^*(\cdot;\theta_k)$. Indeed, the likelihood expression for the mixture model on $\mathcal{S}^D$ with parameters $ \theta_i $, $1\leq i \leq k$  is
 
 \begin{equation}\label{likeli}
@@ -299,6 +300,16 @@ Figure \ref{fig03logratiodens} shows a typical scenario where the purpose is to 
 \caption{Typical model based clustering scenario using log-ratio normal distribution.}
 \label{fig03logratiodens}
 \end{figure}
+
+\begin{prop}
+Let $\mathcal{B}$ be an orthonormal basis. Let  $\Theta$ be a parameters space. Let $f(\textbf{x} ; \theta_{\mathcal{B}})$ be a probability density function defined on the simplex space $\mathcal{S}^D$ with $\theta_{\mathcal{B}} \in \Theta$.
+
+If for any orthogonal matrix $Q$ there is a parameter $\theta' \in \Theta$ such that 
+\[
+\forall \textbf{x} \in \mathcal{S}^D, \;\; f^*(h_\mathcal{B}(\textbf{x}) \cdot Q ;\; \theta') = f(\textbf{x};\; \theta) 
+\]
+then family $f$ is basis invariant.
+\end{prop}
 
 It is important to remark that our method is basis invariant. That is, the fitted mixture are preserved when a change of basis and consequently a change of log-ratio coordinates is applied. For example, the log-ratio normal (Eq.~\ref{eq:densSNormal}) mixture model is formulated in terms of Mahalanobis distance and covariance matrix determinant which are basis invariant elements
  \citep{barcelo1999comment}. 
