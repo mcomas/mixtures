@@ -9,6 +9,8 @@
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
 
+\DeclareMathOperator*{\argmax}{arg\,max}
+
 \newtheorem{prop}{Proposition}
 
 \title{Logratio methods in mixture models for compositional data sets}
@@ -61,17 +63,19 @@ constrained sample space, the simplex, with its particular algebraic-geometric s
 %%
 \section{Introduction}
 
-\noindent  A \emph{finite mixture distribution} is a probability distribution with probabity density
+\noindent  A \emph{finite mixture distribution} is a probability distribution with probability density function given by the expression
 
 \[
-\pi_1 f_1(x ; \theta_1) + \dots + \pi_k f_k(x ; \theta_k)
+\pi_1 f_1(\;\cdot\; ; \theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \theta_k),
 \]
-where $f_1, \dots f_k$, called \emph{components}, are probability densities of other distributions with parameters $\theta_1, \dots, \theta_k$ respectively, and $\pi_1, \dots, \pi_k$ are positive numbers with $\sum_{i=1}^k \pi_i = 1$. In this paper, we consider that all the components belong to one family (Gaussian, skew-normal, etc) but with different parameters $\theta_1, \dots, \theta_k$, i.e. we consider mixtures with probability density
+
+where $f_1, \dots f_k$ are probability density functions of other distributions with parameters $\theta_1, \dots, \theta_k$ respectively, and $\pi_1, \dots, \pi_k$ are positive numbers with $\sum_{i=1}^k \pi_i = 1$. $f_1, \dots, f_k$ are called \emph{components}. In this paper, we consider that all the components in a mixture belong to a unique family (Gaussian, skew-normal, etc) and parameters $\theta_1, \dots, \theta_k$ belongs to a unique set $\Theta$. I.e. we consider mixtures with probability density
 
 \begin{equation}\label{mixt}
-\pi_1 f(x ; \theta_1) + \dots + \pi_k f(x ; \theta_k)
+\pi_1 f(\;\cdot\; ; \theta_1) + \dots + \pi_k f(\;\cdot\; ; \theta_k)
 \end{equation}
-where $f$ is a probability density, $\theta_1, \dots, \theta_k$ are different parameters for the fixed probability distribution given by $f$.
+
+where $f$ is a probability density function, and $\theta_1, \dots, \theta_k \in \Theta$ are the parameters of each component.
 
 
 
@@ -165,10 +169,10 @@ where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$ is a r
 % Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
 % preprocessed with specific techniques \citep[e.g.,][]{M+12}.
 
-According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of orthonormal log-ratio coordinates. Indeed, let $f^*(\cdot \;; \theta)$ be the density function defined on real space with parameters $\theta$. A density on the simplex (or compositional density) $f(\mathbf{x}\;; \theta)$ with parameters $\theta$ is defined as $f(\mathbf{x}\;; \theta)=f^*(h_\mathcal{B}(\textbf{x})\;; \theta)$. For example, fixed an orthnormal basis $\mathcal{B}$, the log-ratio normal distribution with parameters $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ is defined as
+According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of orthonormal log-ratio coordinates. Indeed, let $f^*(\cdot \;; \theta) : \mathbb{R}^{D-1} \rightarrow \mathbb{R}^+$ be a probability density function defined on real space with parameters $\theta$. Then, \[f_\mathcal{B}(\mathbf{x}\;; \theta) := f^*(h_\mathcal{B}(\textbf{x})\;; \theta)\] defines a probability density function on the Simplex, i.e. $f_\mathcal{B}(\;\cdot\;; \theta): \mathcal{S}^D \rightarrow \mathbb{R}^+$. Note that parameter $\theta$ is defined in the coordinate space. For example, fixed an orthnormal basis $\mathcal{B}$, the log-ratio normal distribution with parameters $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ is defined as
 
 \begin{equation}\label{eq:densSNormal}
-f(\mathbf{x}\;; \mu, \Sigma) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h_\mathcal{B}(\textbf{x})- \mbox{\boldmath \(\mu\)} \right)' \mathbf{\Sigma}^{-1} \left( h_\mathcal{B}(\textbf{x})- \mbox{\boldmath\(\mu\)} \right)\right).
+f_\mathcal{B}(\mathbf{x}\;; \mu, \Sigma) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h_\mathcal{B}(\textbf{x})- \mbox{\boldmath \(\mu\)} \right)' \mathbf{\Sigma}^{-1} \left( h_\mathcal{B}(\textbf{x})- \mbox{\boldmath\(\mu\)} \right)\right).
 \end{equation}
 
 % No sé si estaria bé fer notar que els paràmetres de la distribució estan definits en l'espai real
@@ -200,7 +204,7 @@ In the first approach,  distributions defined on real space are used to define t
 \subsection{Using distributions defined on the real space}
 \label{real_section}
 
-This approach consists in modeling CoDa using a mixture of distributions defined on the real space. Consequently the approach assumes that $\mathcal{S}^D$ is a subset of $\mathbb{R}^D$ and its particular Euclidean space structure described in Section 2 is not considered. Instead, the CoDa sample is assumed to be generated from a distribution with probability density given by Eq.~\ref{mixt} where $f$, $f: \mathbb{R}^D \rightarrow \mathbb{R}^+$, is a density function defined on the real space (a multivariate normal distributions, a  t-student distributions, etc).
+This approach consists in modeling CoDa using a mixture of distributions defined on the real space. Consequently the approach assumes that $\mathcal{S}^D$ is a subset of $\mathbb{R}^D$ and its particular Euclidean space structure described in Section 2 is not considered. Instead, the CoDa sample is assumed to be generated from a distribution with probability density given by Equation~\ref{mixt} where $f(\;\cdot\;;\theta_i): \mathbb{R}^D \rightarrow \mathbb{R}^+$ is a density function defined on the real space (a multivariate normal distributions, a  t-student distributions, etc).
 
 The main advantage of using this approach is the simplicity of working without considering the restriction that every component must be positive.
 Although this methodology has been applied in CoDa \citep[see][]{papageorgiou2001model}, it exhibits some limitations.
@@ -246,7 +250,7 @@ Note that although the researcher was interested in analising the relation betwe
 \subsection{Using standard distributions defined on the simplex space}
 \label{simplex_section}
 
-\noindent Among all the distributions defined on the simplex (distributions with density function $f: \mathcal{S}^D\rightarrow R^+$), the Dirichlet distribution is the most widely used and well known. 
+\noindent Among all the distributions defined on the simplex (distributions with density function $f(\;\cdot\;;\theta): \mathcal{S}^D\rightarrow \mathbb{R}^+$), the Dirichlet distribution is the most widely used and well known. 
 A Dirichlet distributed random vector is the projection into the simplex of a random vector formed by independent and equally scaled gamma distributed components. 
 Despite its simplicity and its good mathematical properties, by construction it has a very strong independence structure \citep{aitchison1986statistical}. 
 In practice, such independence structure heavily restricts Dirichlet potential modeling application. Most of real CoDa sets have
@@ -257,7 +261,7 @@ developments are required to discover its potential application. Finally \cite{m
 perturbation and powering (Eq. \ref{pert_pow}) to the standard Dirichlet distribution. Unfortunately all these attempts
 have limited success to fit the general dependence structure of compositional data \citep{mateu2013normal}.
 
-A finite mixture of distributions defined on the simplex space is a probability distribution with probability density function given by Eq.~\ref{mixt} where $f$, $f: \mathcal{S}^D \rightarrow \mathbb{R}^+$, is a density function defined on the simplex space (Dirichlet, Generalized Dirichlet, etc).
+A finite mixture of distributions defined on the simplex space is a probability distribution with probability density function given by Eq.~\ref{mixt} where $f(\;\cdot\;;\theta)$, $f(\;\cdot\;;\theta): \mathcal{S}^D \rightarrow \mathbb{R}^+$, is a density function defined on the simplex space (Dirichlet, Generalized Dirichlet, etc).
 
 
 In practice, there is no straightforward method to fit a Dirichlet mixture to a CoDa set (neither any of its generalizations). Indeed, contrary to the Gaussian case or mixtures defined on the real space, it is difficult to find in the literature routines or functions to fit a Dirichlet mixture. However, in the literature different methods are found to estimate the parameters of a Dirichlet. As the Dirichlet distribution is an exponential family, the log-likelihood function is globally concave and a global optimum can be obtained. According to \cite{ng2011dirichlet}, the MLE via Newton-Raphson algorithm converges to the global optimum. \cite{narayanan1991algorithm} provides a Fortran subroutine where three different possibilities are available to estimate the initial parameter required.
@@ -270,49 +274,57 @@ To obtain an approximation to the MLE estimator of a Dirichlet mixture, it is po
 \section{Modeling compositional data using a mixture of distributions defined on the log-ratio coordinates}
 \label{codamix_section}
 
+\noindent Our proposal consists in modeling CoDa using a finite mixtures of log-ratio distributions, i.e. to model CoDa with a probability density function given by 
+\begin{equation}
+\pi_1 f_\mathcal{B}(\;\cdot\; ; \theta_1) + \dots + \pi_k f_\mathcal{B}(\;\cdot\; ; \theta_k)
+\label{codamixt}
+\end{equation}
 
-\noindent Our proposal consists in modeling  CoDa using log-ratio finite mixtures, i.e. to model CoDa with a finite mixture with density function given by Eq.~\ref{mixt} where $f$ are log-ratio distributions as defined in Section~\ref{coda_section}.
-The main advantages of using this approach are: the sample space is taken into an account and fitting a mixture model to a CoDa sample  is as simple (or difficult) as in the real space. Because log-ratio finite mixtures are build considering the Simplex space structure, their density function is defined on the simplex, $f:\mathcal{S}^D\rightarrow \mathbb{R}^+$. 
+where $f_\mathcal{B}$ are probability density functions of log-ratio distributions as defined in Section~\ref{coda_section}. The main advantage of using this approach is that the nature of compositional data is taken into an account.
 
-Fitting a mixture model
-Let $h$ be the coordinate function given a certain orthonormal basis $\mathcal{B}$ of $\mathcal{S}^D$. Given a CoDa sample $X =  \{ \textbf{x}_1, \textbf{x}_2, \dots , \textbf{x}_n \}$, fitting a log-ratio finite mixture with components $f(\cdot; \theta_1), \dots, f(\cdot;\theta_k)$, it is equivalent to fit a finite mixture with components $f^*(\cdot; \theta_1), \dots, f^*(\cdot;\theta_k)$. Indeed, the likelihood expression for the mixture model on $\mathcal{S}^D$ with parameters $ \theta_i $, $1\leq i \leq k$  is
+As in Section~\ref{coda_section}, assume $f_\mathcal{B}(\textbf{x} ; \theta) = f^*(h_\mathcal{B}(\textbf{x}) ; \theta)$. Given a CoDa sample $X =  \{ \textbf{x}_1, \textbf{x}_2, \dots , \textbf{x}_n \}$, fitting to the sample $X$ by maximum likelihood the parameters $\pi_1, \dots, \pi_k$ and $\theta_1, \dots, \theta_k$ of a finite mixture distribution with pdf given by Equation~\ref{codamixt} is equivalent to fitting by maximum likelihood the same parameters to the mixture distribution with pdf given by
+\begin{equation}
+\pi_1 f^*(\;\cdot\; ; \theta_1) + \dots + \pi_k f^*(\;\cdot\; ; \theta_k)
+\label{coordmixt}
+\end{equation}
+using sample $X' = \{ h_\mathcal{B}(x_1), \dots, h_\mathcal{B}(x_n) \}$. Indeed, the likelihood function evaluated for sample $X$ in the probability density function given by Equation~\ref{codamixt} is
+
+\begin{equation}
+\prod_{i=1}^n \sum_{j=1}^k \pi_j f_\mathcal{B}(\textbf{x}_i; \theta_j),
+\end{equation}
+
+and by definition, $f_\mathcal{B}(\textbf{x} ; \theta) = f^*(h_\mathcal{B}(\textbf{x}) ; \theta)$, is equal to 
 
 \begin{equation}\label{likeli}
-\prod_{i=1}^n \sum_{j=1}^k \pi_j f(\textbf{x}_i; \theta_j).
+\prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(h_\mathcal{B}(\textbf{x}_i); \theta_j).
 \end{equation}
 
-Let $f$ be the real distribution that $f^* = f \circ h$. Then, Eq. \ref{likeli} can be rewritten as
+It turns out that Equation~\ref{likeli} is the likelihood function evaluated for sample $X'$ in the probability density function given by Equation~\ref{coordmixt}. Because the likelihood functions are the same, likelihood estimators $\hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\theta}_1, \dots, \hat{\theta}_k$ are also the sames
 
-\begin{equation}\label{likeliR}
-\prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(h(\textbf{x}_i); \theta_j),
-\end{equation}
-which is the likelihood estimator of a finite mixture model with components on family $f^*$.
-Following this approach, fitting a $f^*$ mixture to a CoDa set using the MLE, results on fitting a $f$ mixture to a real data set, the set of coordinates with respect to the basis $\mathcal{B}$. 
+\begin{eqnarray}
+\hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\theta}_1, \dots, \hat{\theta}_k = \argmax_{\pi_1, \dots, \pi_k, \theta_1, \dots, \theta_k} \prod_{i=1}^n \sum_{j=1}^k \pi_j f_\mathcal{B}(\textbf{x}_i; \theta_j) = \\ 
+= \argmax_{\pi_1, \dots, \pi_k, \theta_1, \dots, \theta_k} \prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(h_\mathcal{B}(\textbf{x}_i); \theta_j).
+\end{eqnarray}
+
+
+
 %According to \cite{mateu2013normal}, in Equation \ref{likeliR} we are not applying a transformation $h$ to a composition, we only change its representation. 
 %In consequence, the number of possible densities $f^*$ is  the same than in real space. 
 %Due to its theoretical and computational simplicity, our first proposal is to use the normal distribution, i.e. we fit a Gaussian mixture to a CoDa set using as $f^*$ the log-ratio normal densities on $\mathcal{S}^D$  (Eq. \ref{eq:densSNormal}). However, in cases where asymmetric distributions provides a better fit, it is possible to use log-ratio skew-normal or log-ratio skew-t on $\mathcal{S}^D$. 
 
-Figure \ref{fig03logratiodens} shows a typical scenario where the purpose is to find groups in a data set. In this case there are for groups .......DESCRIURE LA SIMULACIO....
+% Figure \ref{fig03logratiodens} shows a typical scenario where the purpose is to find groups in a data set. In this case there are for groups .......DESCRIURE LA SIMULACIO....
+% 
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[trim=0cm 6cm 0cm 6cm,width=0.7\textwidth]{fig03_logratiodens.pdf}
+% \caption{Typical model based clustering scenario using log-ratio normal distribution.}
+% \label{fig03logratiodens}
+% \end{figure}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[trim=0cm 6cm 0cm 6cm,width=0.7\textwidth]{fig03_logratiodens.pdf}
-\caption{Typical model based clustering scenario using log-ratio normal distribution.}
-\label{fig03logratiodens}
-\end{figure}
+It is important to remark that our method in most cases is basis invariant. That is, the fitted mixture are preserved when a change of basis and consequently a change of log-ratio coordinates is applied. For example, the log-ratio normal (Eq.~\ref{eq:densSNormal}) mixture model is formulated in terms of Mahalanobis distance and covariance matrix determinant which are basis invariant elements
+ \citep{barcelo1999comment}.
 
-\begin{prop}
-Let $\mathcal{B}$ be an orthonormal basis. Let  $\Theta$ be a parameters space. Let $f(\textbf{x} ; \theta_{\mathcal{B}})$ be a probability density function defined on the simplex space $\mathcal{S}^D$ with $\theta_{\mathcal{B}} \in \Theta$.
-
-If for any orthogonal matrix $Q$ there is a parameter $\theta' \in \Theta$ such that 
-\[
-\forall \textbf{x} \in \mathcal{S}^D, \;\; f^*(h_\mathcal{B}(\textbf{x}) \cdot Q ;\; \theta') = f(\textbf{x};\; \theta) 
-\]
-then family $f$ is basis invariant.
-\end{prop}
-
-It is important to remark that our method is basis invariant. That is, the fitted mixture are preserved when a change of basis and consequently a change of log-ratio coordinates is applied. For example, the log-ratio normal (Eq.~\ref{eq:densSNormal}) mixture model is formulated in terms of Mahalanobis distance and covariance matrix determinant which are basis invariant elements
- \citep{barcelo1999comment}. 
+ 
 
 \section{A real data set: Forensic Glass}
 \label{example_section}
@@ -377,7 +389,7 @@ Standard distributions in finite mixtures for compositional data sets show impor
 This research was supported by the Ministerio de Econom\'ia y Competividad under the project
 ``METRICS'' Ref. MTM2012-33236 and the Agència de Gestió d'Ajuts Universitaris i de Recerca (AGAUR), Generalitat de Catalunya (Ref: 2014SGR551).
 
-\section*{References}
+%\section*{References}
 
 \begin{thebibliography}{00}
 
@@ -647,7 +659,19 @@ Tian, G.-L., Ng, K.~W., and Geng, Z. (2003).
 
 \end{thebibliography}
 
+\newpage
+\appendix
+\section{Basis invariance}
 
+\begin{prop}
+Let $\mathcal{B}$ be an orthonormal basis. Let  $\Theta$ be a parameter space. Let $f(\textbf{x} ; \theta_{\mathcal{B}})$ be a probability density function defined on the simplex space $\mathcal{S}^D$ with $\theta_{\mathcal{B}} \in \Theta$.
+
+If for any orthogonal matrix $Q$ there is a parameter $\theta' \in \Theta$ such that 
+\[
+\forall \textbf{x} \in \mathcal{S}^D, \;\; f^*(h_\mathcal{B}(\textbf{x}) \cdot Q ;\; \theta') = f(\textbf{x};\; \theta) 
+\]
+then the probability function $f$ is basis invariant.
+\end{prop}
 
 \end{document}
 
