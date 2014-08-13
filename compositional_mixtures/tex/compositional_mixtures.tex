@@ -38,7 +38,7 @@
 
 \begin{abstract}
 %% Text of abstract
-Finite mixtures of multivariate distributions have showed increasing importance in recent years. New algortihms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
+Finite mixtures of multivariate distributions have shown increasing importance in recent years. New algortihms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
 However, misleading or incoherent results can be obtained when traditional statistical methods are applied to compositional data sets.
 Compositions are positive vectors whose components represent a relative contribution of different parts to a whole.  This type of data has a
 constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proven to be appropriate to analyse compositional data sets. In this paper, standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. Then, a new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new methodology.
@@ -242,7 +242,7 @@ Suppose a researcher is interested in fitting a mixture model to the composition
 \caption{}\label{example_elim_2_components}
 \end{figure}
 
-Note that although the researcher was interested in analising the relation between $a$ and $b$, eliminating component $c$ the effect of condition $C_1$ and $C_2$  is still present in the dataset. The methodology presented In section~\ref{codamix_section} is coherent with this decision taken during the analysis.
+Note that although the researcher was interested in analising the relation between $a$ and $b$, when component $c$ is eliminated the effect of condition $C_1$ and $C_2$  is still present in the dataset. In Section~\ref{codamix_section} we go back to the example presenting a methodology which is coherent with this type of decision taken during an analysis.
 
 \end{quote}
 %Above difficulties suggest using appropriate probability distributions in mixture models for CoDa, distributions that take into account the constrained sample space.
@@ -306,6 +306,46 @@ It turns out that Equation~\ref{likeli} is the likelihood function evaluated for
 = \argmax_{\pi_1, \dots, \pi_k, \theta_1, \dots, \theta_k} \prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(h_\mathcal{B}(\textbf{x}_i); \theta_j).
 \end{eqnarray}
 
+\begin{quote}
+
+Going back to the example from Section~\ref{real_section}, we were interested in fitting a mixture to sample $X$ formed by components $a$, $b$ and $c$ (see Table~\ref{example_elim_tab}). We saw that to fit a mixture of distributions defined on the real space we need to eliminate one component. Moreover, we saw that the reason that motivate us to eliminate component $c$ was not fullfilled after eliminating the component.
+
+Suppose a researcher is interested in fitting a mixture model  as explained in this section to the compositional sample $X$. Before starting his analysis, the researcher decides to work with the basis $\mathcal{B}$ of the simplex defined as in Section~\ref{coda_section},
+\begin{equation}
+\mathcal{B} = \left\{ \frac{1}{s_1}\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}}, 1 \Big), \; \frac{1}{s_2}\Big( e^{1/\sqrt{6}}, e^{1/\sqrt{6}}, 1/e^{\sqrt{2/3}} \Big) \right\},
+\end{equation}
+where $s_1 = e^{1/\sqrt{2}} + 1/e^{\sqrt{ 1/2}} + 1$ and $s_2= e^{1/\sqrt{6}} + e^{1/\sqrt{6}} + 1/e^{\sqrt{2/3}}$. 
+
+With respect basis $\mathcal{B}$, the researcher expressed sample $X$ in coordinates 
+\[X' = \{h_{\mathcal{B}}(\textbf{x}_1), \dots, h_{\mathcal{B}}(\textbf{x}_n)\}.\] In Table~\ref{example_ilr_tab}) columns $h_1$ and $h_2$ contains the first and second coordinate of sample $X$ with respect basis $\mathcal{B}$.
+
+\begin{table}
+\centering
+\scriptsize
+\input{tex/example-coda3-ilr3.tex}
+\label{example_ilr_tab}
+\caption{Dataset}
+\end{table}
+
+
+\begin{figure}[thbp]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm,width=0.7\textwidth]{figures/example_ilr3.pdf}
+\caption{}\label{example_ilr3}
+\end{figure}
+
+
+\begin{figure}[thbp]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm,width=0.7\textwidth]{figures/example_ilr2.pdf}
+\caption{}\label{example_ilr2}
+\end{figure}
+% 
+% %\textbf{v}_i = \frac{1}{s_i}\Big( \underbrace{e^{1/\sqrt{i(i+1)}}, \dots, e^{1/\sqrt{i(i+1)}}}_{i}, 1/e^{\sqrt{ i/(i+1)}}, \underbrace{1, \dots, 1}_{D-(i+1)} \Big) 
+% \end{equation}
+% %where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$
+
+\end{quote}
 
 
 %According to \cite{mateu2013normal}, in Equation \ref{likeliR} we are not applying a transformation $h$ to a composition, we only change its representation. 
