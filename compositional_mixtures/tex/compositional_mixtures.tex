@@ -306,33 +306,42 @@ It turns out that Equation~\ref{likeli} is the likelihood function evaluated for
 = \argmax_{\pi_1, \dots, \pi_k, \theta_1, \dots, \theta_k} \prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(h_\mathcal{B}(\textbf{x}_i); \theta_j).
 \end{eqnarray}
 
+% When compositional data is modeled with mixtures of distributions defined on the log-ratio coordinates all the variables present in the analysis are taken into an account, and their relative
+% 
+% of working with coordinates is coherent
+
 \begin{quote}
 
-Going back to the example from Section~\ref{real_section}, we were interested in fitting a mixture to sample $X$ formed by components $a$, $b$ and $c$ (see Table~\ref{example_elim_tab}). We saw that to fit a mixture of distributions defined on the real space we need to eliminate one component. Moreover, we saw that the reason that motivate us to eliminate component $c$ was not fullfilled after eliminating the component.
+Going back to the example from Section~\ref{real_section}, we were interested in fitting a mixture to sample $X$ formed by components $a$, $b$ and $c$ (see Table~\ref{example_elim_tab}). We saw that to fit a mixture of distributions defined on the real space we had to eliminate one component. Moreover, we saw that the reason that motivated us to eliminate component $c$ was not fullfilled after eliminating the component.
 
-Suppose a researcher is interested in fitting a mixture model  as explained in this section to the compositional sample $X$. Before starting his analysis, the researcher decides to work with the basis $\mathcal{B}$ of the simplex defined as in Section~\ref{coda_section},
+Suppose a researcher is interested in fitting a mixture model  as explained in this section to the compositional sample $X$. Before starting his analysis, the researcher decides to work with the basis $\mathcal{B}$ of the simplex $\mathcal{S}^3$ defined, as in Section~\ref{coda_section}, as follows
 \begin{equation}
 \mathcal{B} = \left\{ \frac{1}{s_1}\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}}, 1 \Big), \; \frac{1}{s_2}\Big( e^{1/\sqrt{6}}, e^{1/\sqrt{6}}, 1/e^{\sqrt{2/3}} \Big) \right\},
 \end{equation}
 where $s_1 = e^{1/\sqrt{2}} + 1/e^{\sqrt{ 1/2}} + 1$ and $s_2= e^{1/\sqrt{6}} + e^{1/\sqrt{6}} + 1/e^{\sqrt{2/3}}$. 
 
-With respect basis $\mathcal{B}$, the researcher expressed sample $X$ in coordinates 
-\[X' = \{h_{\mathcal{B}}(\textbf{x}_1), \dots, h_{\mathcal{B}}(\textbf{x}_n)\}.\] In Table~\ref{example_ilr_tab}) columns $h_1$ and $h_2$ contains the first and second coordinate of sample $X$ with respect basis $\mathcal{B}$.
+With respect basis $\mathcal{B}$, the researcher expresses sample $X$ in coordinates 
+\[X' = \{h_{\mathcal{B}}(\textbf{x}_1), \dots, h_{\mathcal{B}}(\textbf{x}_n)\}.\] In Table~\ref{example_ilr_tab} columns $h_1$ and $h_2$ contain the first and second coordinate of sample $X$ with respect basis $\mathcal{B}$, in Figure~\ref{example_ilr3} their representation. In the representation it is easy to identify the effect of each component.
 
 \begin{table}
 \centering
 \scriptsize
 \input{tex/example-coda3-ilr3.tex}
-\label{example_ilr_tab}
 \caption{Dataset}
+\label{example_ilr_tab}
 \end{table}
-
 
 \begin{figure}[thbp]
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.7\textwidth]{figures/example_ilr3.pdf}
 \caption{}\label{example_ilr3}
 \end{figure}
+
+Suppose no that the researcher decides to eliminate component $c$ because he is not interested in which condition the sample was collected. After eliminating component $c$, he set a basis $\mathcal{B}'$ of $\mathcal{S}^2$ defined as in before
+\begin{equation}
+\mathcal{B}' = \left\{ \frac{1}{s_1}\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}} \Big) \right\},
+\end{equation}
+where $s_1 = e^{1/\sqrt{2}} + 1/e^{\sqrt{ 1/2}}$ and expresses component $a$ and $b$ in coordinates with respect the new basis. Doing so the researcher ends up with coordinates $h_1$ from Table~\ref{example_elim_tab} (note that the coordinates are the same as before). In Figure~\ref{example_ilr2} coordinate $h_1$ is represented. In the Figure it is easy to identify that all the sample collected on Site 1 are more or less in the same rank (between -1 and 0), by contrast the samples collected in Site 2 are close to one.
 
 
 \begin{figure}[thbp]
@@ -391,7 +400,7 @@ Figure~\ref{fig05component_elimination} shows an example where a standard finite
 
 
 %\includegraphics[width=0.8\textwidth]{fig05_component_elim2.pdf}
-\caption{USA Forensic Science Service data set considering only the subcomposition given by the Calcium (Ca), Silica (Si) and Aluminium (Al). On the top-left, top-right and bottom-left classification given by a standard Gaussian mixture model in $R^{2}$; that is, respectively removing the first, the second and the third component. On the bottom-right the adjusted mixture represented in the ternary diagram and its zoom. Three different groups of glasses: containers (black), headlamps (red) and vehicle windows (green)} POSAR EL GR\`{A}FIC DEL TERNARI DE LES FIGURES 2 I 4 EN LA MATEIXA ESCALA ANIR\`{A} MILLOR PER COMPARAR
+\caption{USA Forensic Science Service data set considering only the subcomposition given by the Calcium (Ca), Silica (Si) and Aluminium (Al). On the top-left, top-right and bottom-left classification given by a standard Gaussian mixture model in $R^{2}$; that is, respectively removing the first, the second and the third component. On the bottom-right the adjusted mixture represented in the ternary diagram and its zoom. Three different groups of glasses: containers (black), headlamps (red) and vehicle windows (green)}
 \label{fig05component_elimination}
 \end{figure}
 

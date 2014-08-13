@@ -1,10 +1,10 @@
 library(plyr)
-require(abind)
-require(gtools)
-require(ggplot2)
-require(grid)
-require(gridExtra)
-require(ggtern)
+library(abind)
+library(gtools)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(ggtern)
 load('data/selected-glass-data.RData')
 
 lbs=c('Al', 'Ca', 'Si')
@@ -39,8 +39,8 @@ pb = p0 + geom_point(size=3) + coord_tern(Tlim=c(0,.2), Llim=c(0.0,0.2), Rlim=c(
         legend.position="bottom",
         legend.key = element_blank())
 
-pa = pa+theme_classic() + scale_color_grey()
-pb = pb+theme_classic() + scale_color_grey()
+pa = pa+theme_classic() + scale_color_hue()
+pb = pb+theme_classic() + scale_color_hue()
 
 pdf(file='figures//main_df.pdf', width=9.5, height=4.4, pointsize=10)
 grid.newpage()

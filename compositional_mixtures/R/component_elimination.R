@@ -1,10 +1,10 @@
 library(mvtnorm)
 library(plyr)
-require(abind)
+library(abind)
 library(mclust)
 library(Rmixmod)
-require(grid)
-require(ggplot2)
+library(grid)
+library(ggplot2)
 # library(xtable)
 # source('combiMod.R')
 #source('R/coda-functions/ggplot_ternary.R')
@@ -65,15 +65,15 @@ z.grid = function(x.points, y.points, func, ...){
 
 load('data/selected-glass-data.RData')
 
-set.seed(1); #m1 = Mclust(X[,-1], G=3, modelNames='VVV')
+#m1 = Mclust(X[,-1], G=3, modelNames='VVV')
 mm1 = mixmodCluster(X[,-1], nbCluster=3, models=mixmodGaussianModel(listModels="Gaussian_pk_Lk_Ck"),
-                    strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random'))
-set.seed(1); #m2 = Mclust(X[,-2], G=3, modelNames='VVV')
+                    strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random', seed=6))
+#m2 = Mclust(X[,-2], G=3, modelNames='VVV')
 mm2 = mixmodCluster(X[,-2], nbCluster=3, models=mixmodGaussianModel(listModels="Gaussian_pk_Lk_Ck"),
-                    strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random'))
-set.seed(1); #m3 = Mclust(X[,-3], G=3, modelNames='VVV')
+                    strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random', seed=2))
+#m3 = Mclust(X[,-3], G=3, modelNames='VVV')
 mm3 = mixmodCluster(X[,-3], nbCluster=3, models=mixmodGaussianModel(listModels="Gaussian_pk_Lk_Ck"),
-                    strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random'))
+                    strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random', seed=2))
 
 
 steps = 100
