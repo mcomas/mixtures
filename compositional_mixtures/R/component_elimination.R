@@ -65,6 +65,7 @@ z.grid = function(x.points, y.points, func, ...){
 
 load('data/selected-glass-data.RData')
 
+X = 100*X
 #m1 = Mclust(X[,-1], G=3, modelNames='VVV')
 mm1 = mixmodCluster(X[,-1], nbCluster=3, models=mixmodGaussianModel(listModels="Gaussian_pk_Lk_Ck"),
                     strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random', seed=6))
@@ -77,18 +78,18 @@ mm3 = mixmodCluster(X[,-3], nbCluster=3, models=mixmodGaussianModel(listModels="
 
 
 steps = 100
-x1.points = seq(0.80, 0.94, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
-y1.points = seq(-0.03, 0.07, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
+x1.points = seq(80, 94, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
+y1.points = seq(-3, 7, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
 #z1.points = z.grid(x1.points, y1.points, mclust_mixture(m1))
 z1.points_mm = z.grid(x1.points, y1.points, rmixmod_mixture(mm1))
 
-x2.points = seq(0.05, 0.17, length.out=steps) #range(X[,1]) # 0.0678326 0.1450958
-y2.points = seq(-0.03, 0.07, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
+x2.points = seq(5, 17, length.out=steps) #range(X[,1]) # 0.0678326 0.1450958
+y2.points = seq(-3, 7, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
 #z2.points = z.grid(x2.points, y2.points, mclust_mixture(m2))
 z2.points_mm = z.grid(x2.points, y2.points, rmixmod_mixture(mm2))
 
-x3.points = seq(0.05, 0.17, length.out=steps) #range(X[,1]) # 0.0678326 0.1450958
-y3.points = seq(0.80, 0.94, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
+x3.points = seq(5, 17, length.out=steps) #range(X[,1]) # 0.0678326 0.1450958
+y3.points = seq(80, 94, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
 #z3.points = z.grid(x3.points, y3.points, mclust_mixture(m3))
 z3.points_mm = z.grid(x3.points, y3.points, rmixmod_mixture(mm3))
 
@@ -96,9 +97,9 @@ z3.points_mm = z.grid(x3.points, y3.points, rmixmod_mixture(mm3))
 seq1 = pretty(range(z1.points_mm), n=50)
 seq2 = pretty(range(z2.points_mm), n=50)
 seq3 = pretty(range(z3.points_mm), n=50)
-seq1 = c(5, 10, 25, 50, 100, seq1[2:length(seq1)])
-seq2 = c(5, 10, 25, 50, 100, seq2[2:length(seq2)])
-seq3 = c(5, 10, 25, 50, 100, seq3[2:length(seq3)])
+seq1 = c(0.0005, 0.0010, 0.0025, 0.0050, 0.01, seq1[2:length(seq1)])
+seq2 = c(0.0005, 0.0010, 0.0025, 0.0050, 0.01, seq2[2:length(seq2)])
+seq3 = c(0.0005, 0.0010, 0.0025, 0.0050, 0.01, seq3[2:length(seq3)])
 #cl1 = contourLines(x1.points, y1.points, z1.points, levels = seq1)
 #cl2 = contourLines(x2.points, y2.points, z2.points, levels = seq2)
 #cl3 = contourLines(x3.points, y3.points, z3.points, levels = seq3)

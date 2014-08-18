@@ -12,13 +12,14 @@ FIGURES = figures/main_df.pdf figures/elim_component_real.pdf figures/elim_compo
           figures/example_ternary.pdf figures/example_2component.pdf \
           figures/example_ilr2.pdf figures/example_ilr3.pdf
 
-TEX = tex/example-coda3.tex
+TEX = tex/example-coda3.tex tex/example-glasses.tex
 
 pdf/compositional_mixtures.pdf : tex/compositional_mixtures.tex $(FIGURES) $(DATA) $(TEX)
 	pdflatex -output-directory pdf tex/compositional_mixtures.tex
 	pdflatex -output-directory pdf tex/compositional_mixtures.tex
 	rm -f pdf/compositional_mixtures.aux pdf/compositional_mixtures.log pdf/compositional_mixtures.spl
 
+tex/example-glasses.tex : data/selected-glass-data.RData
 data/selected-glass-data.RData : R/glass_example.R
 	Rscript R/glass_example.R
 

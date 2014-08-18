@@ -34,7 +34,7 @@ pa = p0 + geom_polygon(data=df.win, aes(x=Ca, y=Al, z=Si), color="red",alpha=0.2
   limit_tern( breaks=seq(0.2,0.8,0.2), minor_breaks=seq(0,1,0.05))
 
 l_ply(cl1_mm, function(v){
-  df.c = data.frame('Ca' = 1-v$x-v$y, 'Si' = v$x, 'Al' = v$y, 'glasses'=NA)
+  df.c = data.frame('Ca' = 1-v$x/100-v$y/100, 'Si' = v$x/100, 'Al' = v$y/100, 'glasses'=NA)
   pa <<- pa+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.4)})
 
 
@@ -48,7 +48,7 @@ pb = p0 + geom_point(size=3) +
         legend.key = element_blank())
 
 l_ply(cl1_mm, function(v){
-  df.c = data.frame('Ca' = 1-v$x-v$y, 'Si' = v$x, 'Al' = v$y, 'glasses'=NA)
+  df.c = data.frame('Ca' = 1-v$x/100-v$y/100, 'Si' = v$x/100, 'Al' = v$y/100, 'glasses'=NA)
   pb <<- pb+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.4)})
 
 pa = pa+theme_classic()

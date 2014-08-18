@@ -321,7 +321,7 @@ Suppose a researcher is interested in fitting a mixture model  as explained in t
 where $s_1 = e^{1/\sqrt{2}} + 1/e^{\sqrt{ 1/2}} + 1$ and $s_2= e^{1/\sqrt{6}} + e^{1/\sqrt{6}} + 1/e^{\sqrt{2/3}}$. 
 
 With respect basis $\mathcal{B}$, the researcher expresses sample $X$ in coordinates 
-\[X' = \{h_{\mathcal{B}}(\textbf{x}_1), \dots, h_{\mathcal{B}}(\textbf{x}_n)\}.\] In Table~\ref{example_ilr_tab} columns $h_1$ and $h_2$ contain the first and second coordinate of sample $X$ with respect basis $\mathcal{B}$, in Figure~\ref{example_ilr3} their representation. In the representation it is easy to identify the effect of each component.
+\[X' = \{h_{\mathcal{B}}(\textbf{x}_1), \dots, h_{\mathcal{B}}(\textbf{x}_n)\}.\] In Table~\ref{example_ilr_tab} columns $h_1$ and $h_2$ contain the first and second coordinate of sample $X$ with respect basis $\mathcal{B}$ (i.e. $h_1 = \sqrt{1/2} \log(a/b)$ and $h_2 = \sqrt{2/3} \log(\sqrt{ab} / c)$), in Figure~\ref{example_ilr3} their representation. In the representation it is easy to identify the effect of each component.
 
 \begin{table}
 \centering
@@ -342,7 +342,6 @@ Suppose no that the researcher decides to eliminate component $c$ because he is 
 \mathcal{B}' = \left\{ \frac{1}{s_1}\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}} \Big) \right\},
 \end{equation}
 where $s_1 = e^{1/\sqrt{2}} + 1/e^{\sqrt{ 1/2}}$ and expresses component $a$ and $b$ in coordinates with respect the new basis. Doing so the researcher ends up with coordinates $h_1$ from Table~\ref{example_elim_tab} (note that the coordinates are the same as before). In Figure~\ref{example_ilr2} coordinate $h_1$ is represented. In the Figure it is easy to identify that all the sample collected on Site 1 are more or less in the same rank (between -1 and 0), by contrast the samples collected in Site 2 are close to one.
-
 
 \begin{figure}[thbp]
 \centering
@@ -378,7 +377,18 @@ It is important to remark that our method in most cases is basis invariant. That
 \section{A real data set: Forensic Glass}
 \label{example_section}
 
-\noindent To illustrate and compare different approaches, we analyzed the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminum (Al); and three groups of glasses: containers, headlamps and vehicle windows. Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminum element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
+\noindent To illustrate and compare different approaches, we analyze the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminum (Al); and three groups of glasses: containers, headlamps and vehicle windows. Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminum element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
+
+
+\begin{table}
+\centering
+\scriptsize
+\input{tex/example-glasses-A.tex}
+\quad
+\input{tex/example-glasses-B.tex}
+\label{example_elim_tab}
+\caption{Dataset}
+\end{table}
 
 
 \begin{figure}[htbp]
@@ -388,7 +398,10 @@ It is important to remark that our method in most cases is basis invariant. That
 \label{fig04}
 \end{figure}
 
-For each different strategy, the fitted mixture models is applied to classify the data using the maximum a posteriori criterion.
+For each different strategy a mixture of distributions with three components is adjusted to the given dataset.
+
+\subsection*{Example: using distributions defined on the real space}
+
 
 Figure~\ref{fig05component_elimination} shows an example where a standard finite Gaussian mixture is estimated removing one part on the Forensic Glass data set. Despite the theoretical invariance of the maximum likelihood, we stated that in practice the numerical algorithm gets stuck in a local optimum. In such scenario, the invariance of the results is not guaranteed. Another problem appears when the sample space is not taken into an account: the fitted mixture could be defined outside the simplex. At Figure~\ref{fig05component_elimination} (bottom-right) we could appreciate some contour lines outside the ternary diagram.
 
@@ -398,13 +411,12 @@ Figure~\ref{fig05component_elimination} shows an example where a standard finite
 \includegraphics[width=\textwidth]{figures/elim_component_real.pdf}
 
 
-
 %\includegraphics[width=0.8\textwidth]{fig05_component_elim2.pdf}
 \caption{USA Forensic Science Service data set considering only the subcomposition given by the Calcium (Ca), Silica (Si) and Aluminium (Al). On the top-left, top-right and bottom-left classification given by a standard Gaussian mixture model in $R^{2}$; that is, respectively removing the first, the second and the third component. On the bottom-right the adjusted mixture represented in the ternary diagram and its zoom. Three different groups of glasses: containers (black), headlamps (red) and vehicle windows (green)}
 \label{fig05component_elimination}
 \end{figure}
 
-
+\subsection*{Example: using standard distributions defined on the simplex space}
 
 Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits
 the Forensic Glass data set. Note that Dirichlet mixture is not be able to capture the dependence structure between the three chemical elements. 
@@ -415,6 +427,8 @@ the Forensic Glass data set. Note that Dirichlet mixture is not be able to captu
 \caption{USA Forensic Science Service data set: classification given by a standard Dirichlet mixture model. Three different groups of glasses: containers (black), headlamps (red) and vehicle windows (green)}
 \label{fig06fittingdirichlet}
 \end{figure}
+
+\subsection*{Example: using distributions defined on the log-ratio coordinates}
 
 To compare results, we fit normal and skew-t mixtures to the Forensic Glass data set. Figure~\ref{fig07fittingcodaGaussian} (top and bottom left) shows the isodensity contour plot of the fitted mixture in the space of log-ratio coordinates. Figure~\ref{fig07fittingcodaGaussian} (top and bottom right) shows the same contour lines in the ternary diagram.  It is important to note that we use the basis $\mathcal{B} = \{ (e^{-\sqrt{2}/2}, e^{\sqrt{2}/2}, e^{0}), (e^{-\sqrt{6}/6}, e^{-\sqrt{6}/6}, e^{\sqrt{6}/3}) \}$ on the simplex $\mathcal{S}^3$ and consequently the log-ratio coordinates in Eq. (\ref{eilr}). CAL DONAR RESULTATS??? Contrary to the Dirichlet case, both log-ratio mixtures are capable to capture the dependence structure of the data set. PERQU\`{E}?? CAL CONV\`{E}NCER MILLOR.
 

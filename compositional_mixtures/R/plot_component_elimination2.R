@@ -12,7 +12,7 @@ require(gridExtra)
 load('data/selected-glass-data.RData')
 devtools::load_all('../../packages/mixpack')
 load(file='data/component_elimination.RData')
-
+X = 100 * X
 p1 = ggplot(data=X, aes(x=Si, y=Al))+geom_point()
 l_ply(cl1_mm, function(v){
   df.c = data.frame('Si' = v$x, 'Al' = v$y, 'glasses'=NA)
@@ -23,6 +23,11 @@ p2 = ggplot(data=X, aes(x=Ca, y=Si))+geom_point()
 l_ply(cl3_mm, function(v){
   df.c = data.frame('Ca' = v$x, 'Si' = v$y, 'glasses'=NA)
   p2 <<- p2+geom_path(data=df.c, aes(x=Ca, y=Si), alpha=0.4)})
+
+dl = data.frame('Ca' = seq(min(pmin(X$Ca, 100-X$Si)),max(pmax(X$Ca, 100- X$Si)), 0.5))
+dl$Si = 100 - dl$Ca
+p2 = p2+geom_line(data=dl, aes(x=Ca, y=Si), linetype=2)
+
 
 p3 = ggplot(data=X, aes(x=Al, y=Ca))+geom_point()
 l_ply(cl2_mm, function(v){
