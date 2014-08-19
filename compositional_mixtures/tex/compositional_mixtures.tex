@@ -38,7 +38,7 @@
 
 \begin{abstract}
 %% Text of abstract
-Finite mixtures of multivariate distributions have shown increasing importance in recent years. New algortihms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
+Finite mixtures of multivariate distributions have shown increasing importance in recent years. New algorithms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
 However, misleading or incoherent results can be obtained when traditional statistical methods are applied to compositional data sets.
 Compositions are positive vectors whose components represent a relative contribution of different parts to a whole.  This type of data has a
 constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proven to be appropriate to analyse compositional data sets. In this paper, standard strategies to fit a mixture model in compositional data sets are revisited and their features that may yield misleading results are pointed out. Then, a new proposal using mixture of distributions defined on log-ratio coordinates is introduced. In particular, the log-ratio normal distribution on the simplex is used to define compositional Gaussian mixtures.  An analysis of a real data set is conducted to illustrate the new methodology.
@@ -81,7 +81,7 @@ where $f$ is a probability density function, and $\theta_1, \dots, \theta_k \in 
 
 According to \cite{scott1971clustering} and \cite{mclachlan2004finite}, finite mixture models provide reasonable results in several multivariate techniques, e.g. model-based clustering  \citep{banfield1993model,  fraley2002model}. The Gaussian mixture is the most common model 
 due to its theoretical and computational simplicity \citep{mclachlan2004finite}. 
-However, because of its simplicity, Gaussian mixtures have some limitation when observations need to be modeled.
+However, because of its simplicity, Gaussian mixtures have some limitation when observations need to be modelled.
 %
 % No se si cal parlar sobre problemes de dimensionalitat. Ho treiem? 
 %
@@ -92,7 +92,7 @@ For example, \cite{bickel2004multi} use multinomial mixture distributions for di
  \cite[][]{bouguila2011count} proposes other extensions of multinomial mixture distributions for count data. 
 Another example is circular data, whose sample space is the sphere.  \cite{banerjee2005clustering} and \cite{mardia2007protein} propose mixtures of Von Mises probability distributions, defined for random vectors in the sphere.
 
-Finite mixture modeling for compositional data (CoDa) also needs its own mixture distributions because this type of data has a constrained sample space.
+Finite mixture modelling for compositional data (CoDa) also needs its own mixture distributions because this type of data has a constrained sample space.
 CoDa, also called $D$-part compositions, are vectors $\textbf{x} = (x_1, x_2, ..., x_D)$ with all its components strictly positive  and carrying only relative information. A $D$-part composition is usually restricted to sum a fixed constant $\kappa$, i.e.
 \begin{equation}
 \sum_{i=1 }^D x_i = \kappa.
@@ -110,7 +110,7 @@ When a problem is compositional, one is recognising that the absolute value of e
 the compositions are expressed in terms of log-ratio coordinates and the classical techniques are applied to the scores so obtained.
 
 In the past, not many works \citep[e.g.,][]{albert1982mixtures, bouguila2004unsupervised} introduce finite mixtures models using distributions restricted on the simplex, as the Dirichlet distribution. In consequence, there is a gap where last advances in 
-log-ratio modeling can contribute in the analysis of CoDa. Following \cite{mateu2013normal}, normal and non-normal mixtures of distributions on the simplex 
+log-ratio modelling can contribute in the analysis of CoDa. Following \cite{mateu2013normal}, normal and non-normal mixtures of distributions on the simplex 
 can be defined.
 
 This paper is organized as follows: in Section~\ref{coda_section} a brief introduction of compositional data analysis is provided. Section~\ref{standard_section} describes the pros and cons of each traditional mixture models when are applied to compositional data. Section~\ref{codamix_section} is devoted to introduce log-ratio mixture models. A real data set is analyzed in Section~\ref{example_section} to illustrate the new methods. Finally, Section~\ref{conclusion_section} contains conclusions and final remarks. The programming of the data analyses discussed in this work has been conducted using the open-source R statistical environment \citep{R2013soft}. Computer routines implementing the methods can be obtained from the R package \texttt{Mclust}, \texttt{Rmixmod}, \texttt{EMMIXuskew} and also from the website http://www.compositionaldata.com.
@@ -169,7 +169,7 @@ where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$ is a r
 % Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
 % preprocessed with specific techniques \citep[e.g.,][]{M+12}.
 
-According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of orthonormal log-ratio coordinates. Indeed, let $f^*(\cdot \;; \theta) : \mathbb{R}^{D-1} \rightarrow \mathbb{R}^+$ be a probability density function defined on real space with parameters $\theta$. Then, \[f_\mathcal{B}(\mathbf{x}\;; \theta) := f^*(h_\mathcal{B}(\textbf{x})\;; \theta)\] defines a probability density function on the Simplex, i.e. $f_\mathcal{B}(\;\cdot\;; \theta): \mathcal{S}^D \rightarrow \mathbb{R}^+$. Note that parameter $\theta$ is defined in the coordinate space. For example, fixed an orthnormal basis $\mathcal{B}$, the log-ratio normal distribution with parameters $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ is defined as
+According to \cite{mateu2013normal}, one can define probability distributions on the simplex through their density function over the vector of orthonormal log-ratio coordinates. Indeed, let $f^*(\cdot \;; \theta) : \mathbb{R}^{D-1} \rightarrow \mathbb{R}^+$ be a probability density function defined on real space with parameters $\theta$. Then, \[f_\mathcal{B}(\mathbf{x}\;; \theta) := f^*(h_\mathcal{B}(\textbf{x})\;; \theta)\] defines a probability density function on the Simplex, i.e. $f_\mathcal{B}(\;\cdot\;; \theta): \mathcal{S}^D \rightarrow \mathbb{R}^+$. Note that parameter $\theta$ is defined in the coordinate space. For example, fixed an orthonormal basis $\mathcal{B}$, the log-ratio normal distribution with parameters $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ is defined as
 
 \begin{equation}\label{eq:densSNormal}
 f_\mathcal{B}(\mathbf{x}\;; \mu, \Sigma) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h_\mathcal{B}(\textbf{x})- \mbox{\boldmath \(\mu\)} \right)' \mathbf{\Sigma}^{-1} \left( h_\mathcal{B}(\textbf{x})- \mbox{\boldmath\(\mu\)} \right)\right).
@@ -204,13 +204,13 @@ In the first approach,  distributions defined on real space are used to define t
 \subsection{Using distributions defined on the real space}
 \label{real_section}
 
-This approach consists in modeling CoDa using a mixture of distributions defined on the real space. Consequently the approach assumes that $\mathcal{S}^D$ is a subset of $\mathbb{R}^D$ and its particular Euclidean space structure described in Section 2 is not considered. Instead, the CoDa sample is assumed to be generated from a distribution with probability density given by Equation~\ref{mixt} where $f(\;\cdot\;;\theta_i): \mathbb{R}^D \rightarrow \mathbb{R}^+$ is a density function defined on the real space (a multivariate normal distributions, a  t-student distributions, etc).
+This approach consists in modelling CoDa using a mixture of distributions defined on the real space. Consequently the approach assumes that $\mathcal{S}^D$ is a subset of $\mathbb{R}^D$ and its particular Euclidean space structure described in Section 2 is not considered. Instead, the CoDa sample is assumed to be generated from a distribution with probability density given by Equation~\ref{mixt} where $f(\;\cdot\;;\theta_i): \mathbb{R}^D \rightarrow \mathbb{R}^+$ is a density function defined on the real space (a multivariate normal distributions, a  t-student distributions, etc).
 
 The main advantage of using this approach is the simplicity of working without considering the restriction that every component must be positive.
 Although this methodology has been applied in CoDa \citep[see][]{papageorgiou2001model}, it exhibits some limitations.
 
 
-When CoDa is modeled using a mixture of distributions defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, if we model a compositional sample using a mixture of densities defined on the real space, the mixture density is strictly positive in all the real space, and therefore, it is giving positive probability to impossible events. For example, it is straightforward to see that the \emph{impossible} event  of having the $i$-th component negative has positive probability, i.e $P(\{ \textbf{x} \in \mathcal{S}^d | x_i < 0 \}) > 0$. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. 
+When CoDa is modelled using a mixture of distributions defined on the real space, neither the constant sum constraint nor the strictly positive component restriction is taken into an account. In fact, if we model a compositional sample using a mixture of densities defined on the real space, the mixture density is strictly positive in all the real space, and therefore, it is giving positive probability to impossible events. For example, it is straightforward to see that the \emph{impossible} event  of having the $i$-th component negative has positive probability, i.e $P(\{ \textbf{x} \in \mathcal{S}^d | x_i < 0 \}) > 0$. This difficulty is similar to the traditional confidence intervals of very small or very large proportions, they may provide values beyond the restricted space. 
 
 
 Another limitation to deal with is the collinearity that appears between components  after restricting the components to sum a constant, see Eq. \ref{sum_to_constant}. The collinearity implies that the covariance matrix calculated from the sample is singular, and therefore, any method requiring that the covariance matrix is non singular can not be applied directly. Most mixture models are estimated using the EM-algorithm (citar McLachlan o Dempster). In the E-step, the algorithm needs to evaluate a density function computed from the sample. Because most densities depend on the inverse of the covariance matrix (multivariate normal, multivariate skew, etc), EM algorithm can not be applied directly. To solve this difficulty, a common approach consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. However, when one part is removed,  misleading result can be obtained. Suppose the following simple example: 
@@ -242,7 +242,7 @@ Suppose a researcher is interested in fitting a mixture model to the composition
 \caption{}\label{example_elim_2_components}
 \end{figure}
 
-Note that although the researcher was interested in analising the relation between $a$ and $b$, when component $c$ is eliminated the effect of condition $C_1$ and $C_2$  is still present in the dataset. In Section~\ref{codamix_section} we go back to the example presenting a methodology which is coherent with this type of decision taken during an analysis.
+Note that although the researcher was interested in analysing the relation between $a$ and $b$, when component $c$ is eliminated the effect of condition $C_1$ and $C_2$  is still present in the dataset. In Section~\ref{codamix_section} we go back to the example presenting a methodology which is coherent with this type of decision taken during an analysis.
 
 \end{quote}
 %Above difficulties suggest using appropriate probability distributions in mixture models for CoDa, distributions that take into account the constrained sample space.
@@ -253,7 +253,7 @@ Note that although the researcher was interested in analising the relation betwe
 \noindent Among all the distributions defined on the simplex (distributions with density function $f(\;\cdot\;;\theta): \mathcal{S}^D\rightarrow \mathbb{R}^+$), the Dirichlet distribution is the most widely used and well known. 
 A Dirichlet distributed random vector is the projection into the simplex of a random vector formed by independent and equally scaled gamma distributed components. 
 Despite its simplicity and its good mathematical properties, by construction it has a very strong independence structure \citep{aitchison1986statistical}. 
-In practice, such independence structure heavily restricts Dirichlet potential modeling application. Most of real CoDa sets have
+In practice, such independence structure heavily restricts Dirichlet potential modelling application. Most of real CoDa sets have
 not this structure \citep{aitchison1986statistical}. To solve this difficulty, many generalizations of the Dirichlet distribution with less
 independence structure have been proposed: the Connor and Mosimann's distribution
 \citep{Connor:1969}, the scaled Dirichlet distribution \citep{aitchison1986statistical},  and the Liouville distribution \citep{rayens1994dependence}.  More recently, \cite{ongaro2008new} present the Flexible Dirichlet distribution, but future
@@ -274,7 +274,7 @@ To obtain an approximation to the MLE estimator of a Dirichlet mixture, it is po
 \section{Modeling compositional data using a mixture of distributions defined on the log-ratio coordinates}
 \label{codamix_section}
 
-\noindent Our proposal consists in modeling CoDa using a finite mixtures of log-ratio distributions, i.e. to model CoDa with a probability density function given by 
+\noindent Our proposal consists in modelling CoDa using a finite mixtures of log-ratio distributions, i.e. to model CoDa with a probability density function given by 
 \begin{equation}
 \pi_1 f_\mathcal{B}(\;\cdot\; ; \theta_1) + \dots + \pi_k f_\mathcal{B}(\;\cdot\; ; \theta_k)
 \label{codamixt}
@@ -299,7 +299,7 @@ and by definition, $f_\mathcal{B}(\textbf{x} ; \theta) = f^*(h_\mathcal{B}(\text
 \prod_{i=1}^n \sum_{j=1}^k \pi_j f^*(h_\mathcal{B}(\textbf{x}_i); \theta_j).
 \end{equation}
 
-It turns out that Equation~\ref{likeli} is the likelihood function evaluated for sample $X'$ in the probability density function given by Equation~\ref{coordmixt}. Because the likelihood functions are the same, likelihood estimators $\hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\theta}_1, \dots, \hat{\theta}_k$ are also the sames
+It turns out that Equation~\ref{likeli} is the likelihood function evaluated for sample $X'$ in the probability density function given by Equation~\ref{coordmixt}. Because the likelihood functions are the same, likelihood estimators $\hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\theta}_1, \dots, \hat{\theta}_k$ are also the same
 
 \begin{eqnarray}
 \hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\theta}_1, \dots, \hat{\theta}_k = \argmax_{\pi_1, \dots, \pi_k, \theta_1, \dots, \theta_k} \prod_{i=1}^n \sum_{j=1}^k \pi_j f_\mathcal{B}(\textbf{x}_i; \theta_j) = \\ 
@@ -312,7 +312,7 @@ It turns out that Equation~\ref{likeli} is the likelihood function evaluated for
 
 \begin{quote}
 
-Going back to the example from Section~\ref{real_section}, we were interested in fitting a mixture to sample $X$ formed by components $a$, $b$ and $c$ (see Table~\ref{example_elim_tab}). We saw that to fit a mixture of distributions defined on the real space we had to eliminate one component. Moreover, we saw that the reason that motivated us to eliminate component $c$ was not fullfilled after eliminating the component.
+Going back to the example from Section~\ref{real_section}, we were interested in fitting a mixture to sample $X$ formed by components $a$, $b$ and $c$ (see Table~\ref{example_elim_tab}). We saw that to fit a mixture of distributions defined on the real space we had to eliminate one component. Moreover, we saw that the reason that motivated us to eliminate component $c$ was not fulfilled after eliminating the component.
 
 Suppose a researcher is interested in fitting a mixture model  as explained in this section to the compositional sample $X$. Before starting his analysis, the researcher decides to work with the basis $\mathcal{B}$ of the simplex $\mathcal{S}^3$ defined, as in Section~\ref{coda_section}, as follows
 \begin{equation}
@@ -377,7 +377,7 @@ It is important to remark that our method in most cases is basis invariant. That
 \section{A real data set: Forensic Glass}
 \label{example_section}
 
-\noindent To illustrate and compare different approaches, we analyze the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminum (Al); and three groups of glasses: containers, headlamps and vehicle windows. Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminum element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
+\noindent To illustrate and compare different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (rfg). Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminium element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
 
 
 \begin{table}
@@ -402,23 +402,25 @@ For each different strategy a mixture of distributions with three components is 
 
 \subsection*{Example: using distributions defined on the real space}
 
+When dealing with real data, the most common mixture of distributions is the one with gaussian components. As commented in Section~\ref{real_section}, because of the collinearity ($\text{Ca}+\text{Si}+\text{Al} = 100$), to fit a mixture of Gaussian distributions to rfg data set it is necessary to eliminate one component. Suppose we decide to eliminate Calcium (Ca) component. After eliminating one component we can fit a gaussian mixture using any standard package (we have used Rmixmod package), obtaining the model with density function
 
-Figure~\ref{fig05component_elimination} shows an example where a standard finite Gaussian mixture is estimated removing one part on the Forensic Glass data set. Despite the theoretical invariance of the maximum likelihood, we stated that in practice the numerical algorithm gets stuck in a local optimum. In such scenario, the invariance of the results is not guaranteed. Another problem appears when the sample space is not taken into an account: the fitted mixture could be defined outside the simplex. At Figure~\ref{fig05component_elimination} (bottom-right) we could appreciate some contour lines outside the ternary diagram.
+\[
+\pi_1 f(\;\cdot\; ; \mu_1, \Sigma_1) + \pi_2 f(\;\cdot\; ; \mu_2, \Sigma_2) + \pi_3 f(\;\cdot\; ; \mu_3, \Sigma_3)
+\]
 
-\input{tex/pars1_component_elimination.tex}
+where $f$ are gaussian distributions with parameters
 
-\input{tex/pars2_component_elimination.tex}
+{\small \input{tex/pars1_component_elimination.tex} }
 
-\input{tex/pars3_component_elimination.tex}
+
+Figure~\ref{fig05component_elimination} (top-left) shows the isodensity curves for the fitted mixture of gaussian distributions. The dashed line represents the limit of the simplex, i.e. the region were restrictions given by Equation~\ref{sum_to_constant} are fulfilled. Notice that the representation emphasizes that the distribution is giving positive probability to impossible events. In Figure~\ref{fig05component_elimination} (bottom-right) the isodensity curves have been completed to be represented in a ternary diagram.
+
+Note that a different component than Calcium (Ca) could be removed. Despite the theoretical invariance of the maximum likelihood wherever component we eliminate, we stated that in practice the numerical algorithm gets stuck in a local optimum. In such scenario, the invariance of the results is not guaranteed, and different mixture of Gaussian distributions can be obtained depending on the component we eliminate. In Figure~\ref{fig05component_elimination} (top-right and bottom-left) are represented the isodensity curves resulting after removing Aluminium (Al) and Silica (Si) components respectively.
+
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\textwidth]{figures/elim_component_ternary.pdf}
-\includegraphics[width=\textwidth]{figures/elim_component_real.pdf}
-
-
-%\includegraphics[width=0.8\textwidth]{fig05_component_elim2.pdf}
-\caption{USA Forensic Science Service data set considering only the subcomposition given by the Calcium (Ca), Silica (Si) and Aluminium (Al). On the top-left, top-right and bottom-left classification given by a standard Gaussian mixture model in $R^{2}$; that is, respectively removing the first, the second and the third component. On the bottom-right the adjusted mixture represented in the ternary diagram and its zoom. Three different groups of glasses: containers (black), headlamps (red) and vehicle windows (green)}
+\includegraphics[width=0.8\textwidth]{figures/elim_component_all.pdf}
+\caption{USA Forensic Science Service data set considering only the subcomposition given by the Calcium (Ca), Silica (Si) and Aluminium (Al). On the top-left, top-right and bottom-left isodensity curves for mixtures of gaussian distributions in $R^{2}$ after removing the first, the second and the third component respectively. On bottom-right the isodensity curves transformed into the simplex.}
 \label{fig05component_elimination}
 \end{figure}
 
