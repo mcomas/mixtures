@@ -23,11 +23,11 @@ df.win = data.frame(
   Ca=c(0.2, 0.0, 0.0),
   Si=c(0.8, 0.8, 1.0 ),
   Al=c(0.0, 0.2, 0.0))
-p0 = ggtern(data=df, aes(x=Ca, y=Al, z=Si), )+geom_point(size=1.1) + 
+p0 = ggtern(data=df, aes(x=Ca, y=Al, z=Si), )+geom_point(size=1.5) + 
   theme_rgbw()
 
 
-pb = p0 + geom_point(size=3) + 
+pb = p0 + 
   limit_tern(T=.2, L=.2, R=1, breaks=c(seq(.05,.15,.05), seq(.85,.95,.05))) +
   theme(plot.title = element_text(lineheight=.8, face="bold"),
         legend.title = element_blank(),

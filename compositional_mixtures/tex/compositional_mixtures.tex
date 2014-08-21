@@ -377,7 +377,7 @@ It is important to remark that our method in most cases is basis invariant. That
 \section{A real data set: Forensic Glass}
 \label{example_section}
 
-\noindent To illustrate and compare different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (rfg). Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminium element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
+\noindent To illustrate and compare different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (\texttt{rfg}). Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminium element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
 
 
 \begin{table}
@@ -402,21 +402,18 @@ For each different strategy a mixture of distributions with three components is 
 
 \subsection*{Example: using distributions defined on the real space}
 
-When dealing with real data, the most common mixture of distributions is the one with gaussian components. As commented in Section~\ref{real_section}, because of the collinearity ($\text{Ca}+\text{Si}+\text{Al} = 100$), to fit a mixture of Gaussian distributions to rfg data set it is necessary to eliminate one component. Suppose we decide to eliminate Calcium (Ca) component. After eliminating one component we can fit a gaussian mixture using any standard package (we have used Rmixmod package), obtaining the model with density function
+When dealing with real data, the most common mixture of distributions is the one with gaussian components. As commented in Section~\ref{real_section}, because of the collinearity inherent to CoDa ($\text{Ca}+\text{Si}+\text{Al} = 100$), to fit a gaussian mixture it is a common practice to eliminate one component. To fit a Gaussian mixture to \texttt{rfg} data set we eliminate the Calcium (Ca) component. After eliminating Ca component, we can fit a gaussian mixture using any standard package\footnote{for this example \texttt{Rmixmod} package has been used}, obtaining the gaussian mixture model with density function
 
 \[
 \pi_1 f(\;\cdot\; ; \mu_1, \Sigma_1) + \pi_2 f(\;\cdot\; ; \mu_2, \Sigma_2) + \pi_3 f(\;\cdot\; ; \mu_3, \Sigma_3)
 \]
 
-where $f$ are gaussian distributions with parameters
+with parameters
 
 {\small \input{tex/pars1_component_elimination.tex} }
 
 
-Figure~\ref{fig05component_elimination} (top-left) shows the isodensity curves for the fitted mixture of gaussian distributions. The dashed line represents the limit of the simplex, i.e. the region were restrictions given by Equation~\ref{sum_to_constant} are fulfilled. Notice that the representation emphasizes that the distribution is giving positive probability to impossible events. In Figure~\ref{fig05component_elimination} (bottom-right) the isodensity curves have been completed to be represented in a ternary diagram.
-
-Note that a different component than Calcium (Ca) could be removed. Despite the theoretical invariance of the maximum likelihood wherever component we eliminate, we stated that in practice the numerical algorithm gets stuck in a local optimum. In such scenario, the invariance of the results is not guaranteed, and different mixture of Gaussian distributions can be obtained depending on the component we eliminate. In Figure~\ref{fig05component_elimination} (top-right and bottom-left) are represented the isodensity curves resulting after removing Aluminium (Al) and Silica (Si) components respectively.
-
+Figure~\ref{fig05component_elimination} (top-left) shows the isodensity curves for the fitted mixture of gaussian distributions. The dashed line represents the limit of the simplex, i.e. the region were restrictions given by Equation~\ref{sum_to_constant} are held. In Figure~\ref{fig05component_elimination} (bottom-right) the isodensity curves have been completed to be represented in a ternary diagram. I the plot, it is clear that the distribution is giving positive probability to impossible regions. In Figure~\ref{fig05component_elimination} (top-right and bottom-left) are represented the isodensity curves resulting after removing Aluminium (Al) and Silica (Si) components respectively instead of Ca.
 
 \begin{figure}[htbp]
 \includegraphics[width=0.8\textwidth]{figures/elim_component_all.pdf}
@@ -424,10 +421,39 @@ Note that a different component than Calcium (Ca) could be removed. Despite the 
 \label{fig05component_elimination}
 \end{figure}
 
+Despite the theoretical invariance of the maximum of the likelihood function wherever component we eliminate, we stated that in practice the numerical algorithm gets stuck in a local optimum. In such scenario, the invariance of the results is not guaranteed, and different mixture of Gaussian distributions can be obtained depending on the component we eliminate. 
+
+
+
 \subsection*{Example: using standard distributions defined on the simplex space}
 
-Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits
-the Forensic Glass data set. Note that Dirichlet mixture is not be able to capture the dependence structure between the three chemical elements. 
+The Dirichlet distribution it is well kwown as a distribution defined on the simplex. To set a Dirichlet distribution in $\mathcal{S}^D$ it is necessary to specify its parameters $\left( \alpha^1 \dots \alpha^D \right)$. Therefore, to fit a mixture of $K$ Dirichlet distributions it is necessary to estimate the parameters $\pi_1$, \dots, $\pi_K$ and $\left( \alpha^1_1 \dots \alpha^D_1 \right), \dots, \left( \alpha^1_K \dots \alpha^D_K \right)$.
+
+Fitting the parameters of a Dirichlet mixture it is not as easy as for the gaussian case. To ilustrate how the mixture of Dirichlet distributions fits to \texttt{rfg} dataset, we have approximate the MLE estimator of a Dirichlet mixture using the classification EM-algorithm proposed by \cite{celeux1992classification}. The obtained mixture of dirichlet distributions is given by
+
+\[
+\pi_1 f(\;\cdot\; ; \alpha_1) + \pi_2 f(\;\cdot\; \alpha_2) + \pi_3 f(\;\cdot\; ; \alpha_3)
+\]
+
+with parameters
+
+{\small \input{tex/pars_dirichlet_mixture.tex} }
+
+
+% \begin{small}
+% \begin{tabbing}
+% 0\=0123\=456\=789\=123456789012345\=67890123\=\kill
+% \>\>\textbf{Classification EM algorithm to fit a Dirichlet mixture}\\
+% \>\>\textbf{function} ($X$, $K$):\\
+% \>\>\>Separate $X$ in $k$ disjoint sets $X_1, \dots, X_K$ at random\\
+% \>\>\>\textbf{For} $i \in \{1,\dots,K\}$ \textbf{do}\\
+% \>\>\>\>Fit parameters $\alpha^1_i, \dots, \alpha^K_i$ of a Dirichlet distribution to sample $X_i$\\
+% \>\>\>\>Calculate $p_i$
+% \end{tabbing}
+% \end{small}
+
+
+Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits the \texttt{rgf} dataset. Note that Dirichlet mixture is not be able to capture the dependence structure between the three chemical elements. 
 
 \begin{figure}[htbp]
 \centering

@@ -16,7 +16,7 @@ options("tern.discard.external" = FALSE)
 
 df = X
 
-p0 = ggtern(data=df, aes(x=Ca, y=Al, z=Si), )+geom_point(size=1.1) + 
+p0 = ggtern(data=df, aes(x=Ca, y=Al, z=Si), )+geom_point(size=1.5) + 
   theme_rgbw()
 
 df.win = data.frame(
@@ -30,7 +30,7 @@ l_ply(cl, function(v){
   df.c = data.frame('Ca' = v$x, 'Si' = v$y, 'Al' = 1-v$x-v$y, 'glasses'=NA)
   pa <<- pa+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.4)})
 
-pb = p0 + geom_point(size=3) + 
+pb = p0 + 
   limit_tern(T=.2, L=.2, R=1, breaks=c(seq(.05,.15,.05), seq(.85,.95,.05))) +
   ggtitle("Forensic Glass data set") + 
   theme(plot.title = element_text(lineheight=.8, face="bold"),
@@ -41,15 +41,16 @@ pb = p0 + geom_point(size=3) +
 
 l_ply(cl, function(v){
   df.c = data.frame('Ca' = v$x, 'Si' = v$y, 'Al' = 1-v$x-v$y, 'glasses'=NA)
-  pb <<- pb+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.4)})
+  pb <<- pb+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.6)})
 
 pa = pa+theme_classic()
 pb = pb+theme_classic()
 
-pdf(file='figures/dirichlet_mixture.pdf', width=9.5, height=4.4, pointsize=10)
-grid.newpage()
-vpa_ <- viewport(width = 0.46, height = 0.46, x = 0.15, y = 0.74)  # the larger map
-vpb_ <- viewport(width = 1, height = 1, x = 0.5, y = 0.49 )  # the inset in upper right
-print(pb, vp = vpb_)
-print(pa, vp = vpa_)
-dev.off()
+ggsave(pb, file='figures/dirichlet_mixture.pdf', width=9, height=5.5)
+# pdf(file='figures/dirichlet_mixture.pdf', width=6.5, height=4.4, pointsize=10)
+# grid.newpage()
+# vpa_ <- viewport(width = 0.46, height = 0.46, x = 0.15, y = 0.74)  # the larger map
+# vpb_ <- viewport(width = 1, height = 1, x = 0.5, y = 0.49 )  # the inset in upper right
+# print(pb, vp = vpb_)
+# print(pa, vp = vpa_)
+# dev.off()

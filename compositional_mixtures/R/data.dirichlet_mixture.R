@@ -46,20 +46,21 @@ z.grid = function(x.points, y.points, func, ...){
 }
 
 load('data/selected-glass-data.RData')
+load('data/dirichlet_mixture_parameters.RData')
 
-partition = c(3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 
-              2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 3, 3, 1, 1, 1, 1, 3, 2, 2, 2, 3, 3)
-pi = c(0.1827603, 0.4202961, 0.3969436)
-alpha = matrix(c(1879.5881, 15891.1905, 277.7232, 
-                 201.9020,  1653.0252 ,   48.3203,
-                 18.52423, 147.26741,   3.49948), ncol=3)
+# partition = c(3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 
+#               2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 3, 3, 1, 1, 1, 1, 3, 2, 2, 2, 3, 3)
+# pi = c(0.1827603, 0.4202961, 0.3969436)
+# alpha = matrix(c(1879.5881, 15891.1905, 277.7232, 
+#                  201.9020,  1653.0252 ,   48.3203,
+#                  18.52423, 147.26741,   3.49948), ncol=3)
 
 steps = 150
 x.points = seq(0.05, 0.17, length.out=steps) #range(X[,1]) # 0.0678326 0.1450958
 y.points = seq(0.80, 0.94, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
-z.points = z.grid(x.points, y.points, dirichlet_mixture, pi, alpha)
+z.points = z.grid(x.points, y.points, dirichlet_mixture, pi, t(ldply(alpha)[,-1]))
 
 cl = contourLines(x.points, y.points, z.points,
-                  levels = c(100, 200, 400, 800, 1600, 3200, 6400, 12000 ))
+                  levels = c(10, 100, 200, 400, 800, 1600, 3200, 6400, 12000 ))
 
 save(cl, file='data/dirichlet_mixture.RData')
