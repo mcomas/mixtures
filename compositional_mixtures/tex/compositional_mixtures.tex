@@ -464,18 +464,67 @@ Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits the \textt
 
 \subsection*{Example: using distributions defined on the log-ratio coordinates}
 
-To compare results, we fit normal and skew-t mixtures to the Forensic Glass data set. Figure~\ref{fig07fittingcodaGaussian} (top and bottom left) shows the isodensity contour plot of the fitted mixture in the space of log-ratio coordinates. Figure~\ref{fig07fittingcodaGaussian} (top and bottom right) shows the same contour lines in the ternary diagram.  It is important to note that we use the basis $\mathcal{B} = \{ (e^{-\sqrt{2}/2}, e^{\sqrt{2}/2}, e^{0}), (e^{-\sqrt{6}/6}, e^{-\sqrt{6}/6}, e^{\sqrt{6}/3}) \}$ on the simplex $\mathcal{S}^3$ and consequently the log-ratio coordinates in Eq. (\ref{eilr}). CAL DONAR RESULTATS??? Contrary to the Dirichlet case, both log-ratio mixtures are capable to capture the dependence structure of the data set. PERQU\`{E}?? CAL CONV\`{E}NCER MILLOR.
+Distributions defined on log-ratio coordinates allow to model data taking into account the nature of CoDa using standard distributions defined on real space.
 
+To fit a mixture of distributions to \texttt{rfg} dataset it is necessary to express each composition respect a basis of $\mathcal{S}^3$. Let's consider basis 
+\begin{equation}
+\mathcal{B} = \left\{ \frac{1}{s_1}\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}}, 1 \Big), \; \frac{1}{s_2}\Big( e^{1/\sqrt{6}}, e^{1/\sqrt{6}}, 1/e^{\sqrt{2/3}} \Big) \right\},
+\end{equation}
+where $s_1 = e^{1/\sqrt{2}} + 1/e^{\sqrt{ 1/2}} + 1$ and $s_2= e^{1/\sqrt{6}} + e^{1/\sqrt{6}} + 1/e^{\sqrt{2/3}}$ as presented in Section~\ref{coda_section}. In Table~\ref{rgf_ilr}, \texttt{rgf} sample is expressed in coordinates respect basis $\mathcal{B}$, resulting in coordinates $h_1 = \sqrt{1/2} \log(\text{Ca}/\text{Si})$ and $h_2 = \sqrt{2/3} \log(\sqrt{\text{Ca} \cdot \text{Si}} / \text{Al})$. Respect coordinates $h_1$ and $h_2$ standard mixtures can be estimated.
+
+\begin{table}
+\centering
+\scriptsize
+\input{tex/example-glasses-ilr-A.tex}
+\quad
+\input{tex/example-glasses-ilr-B.tex}
+\label{rgf_ilr}
+\caption{Dataset}
+\end{table}
+
+Fitting a Gaussian mixture to the coordinates results in mixture model
+
+\begin{equation}\label{coda_mixture}
+\pi_1 f_{\mathcal{B}}(\cdot\;; \mu_1, \Sigma_1) + \pi_2 f_{\mathcal{B}}(\cdot\;; \mu_2, \Sigma_2) + \pi_3 f_{\mathcal{B}}(\cdot\;; \mu_3, \Sigma_3)
+\end{equation}
+with parameters
+
+{\small \input{tex/pars_coda_gaussian_mixture.tex} }
+
+Note that, although mixture model~\ref{coda_mixture} is defined on the Simplex, its parameters are defined respect coordinates $h_1$ and $h_2$. In Figure~\ref{fig07fittingcodaGaussian} the isocurves of density~\ref{coda_mixture} are represented.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.6\textwidth]{figures/coda_gaussian_mixture.pdf}\\%{fig07_coda_gaussian_mixture2.pdf}\\
-%\caption{On the left Gaussian mixture fitted to the coordinates given the basis $\mathcal{B} = \{ (e^{-\sqrt{2}/2}, e^{\sqrt{2}/2}, e^{0}), (e^{-\sqrt{6}/6}, e^{-\sqrt{6}/6}, e^{\sqrt{6}/3}) \}$ of the simplex. On the right the same Gaussian mixture represented on the simplex.  }
-\includegraphics[width=0.6\textwidth]{figures/coda_skew_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
-\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture.pdf}%{fig07_coda_skew_mixture2.pdf}
+\includegraphics[width=\textwidth]{figures/coda_gaussian_mixture.pdf}\\
 \caption{Compositional mixtures for USA Forensic Science Service data set: (top-left) Gaussian; (top-right) the same Gaussian mixture represented in the ternary; (bottom-left) skew-$t$ mixture; (bottom-right) the same skew-$t$ mixture represented in the ternary. }
 \label{fig07fittingcodaGaussian}
 \end{figure}
+
+
+
+Following the same approach, it is not difficult to fit other models with different distributions than gaussian. In Figure~\ref{othercodadist} the mixture of other real defined distributions are represented with its representation in the Simplex.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/coda_skew_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
+\includegraphics[width=0.8\textwidth]{figures/coda_skew_t_mixture.pdf}%{fig07_coda_skew_mixture2.pdf}
+\caption{Compositional mixtures for USA Forensic Science Service data set: (top-left) Gaussian; (top-right) the same Gaussian mixture represented in the ternary; (bottom-left) skew-$t$ mixture; (bottom-right) the same skew-$t$ mixture represented in the ternary. }
+\label{othercodadist}
+\end{figure}
+
+
+% To compare results, we fit normal and skew-t mixtures to the Forensic Glass data set. Figure~\ref{fig07fittingcodaGaussian} (top and bottom left) shows the isodensity contour plot of the fitted mixture in the space of log-ratio coordinates. Figure~\ref{fig07fittingcodaGaussian} (top and bottom right) shows the same contour lines in the ternary diagram.  It is important to note that we use the basis $\mathcal{B} = \{ (e^{-\sqrt{2}/2}, e^{\sqrt{2}/2}, e^{0}), (e^{-\sqrt{6}/6}, e^{-\sqrt{6}/6}, e^{\sqrt{6}/3}) \}$ on the simplex $\mathcal{S}^3$ and consequently the log-ratio coordinates in Eq. (\ref{eilr}). CAL DONAR RESULTATS??? Contrary to the Dirichlet case, both log-ratio mixtures are capable to capture the dependence structure of the data set. PERQU\`{E}?? CAL CONV\`{E}NCER MILLOR.
+% 
+% 
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=0.6\textwidth]{figures/coda_gaussian_mixture.pdf}\\%{fig07_coda_gaussian_mixture2.pdf}\\
+% %\caption{On the left Gaussian mixture fitted to the coordinates given the basis $\mathcal{B} = \{ (e^{-\sqrt{2}/2}, e^{\sqrt{2}/2}, e^{0}), (e^{-\sqrt{6}/6}, e^{-\sqrt{6}/6}, e^{\sqrt{6}/3}) \}$ of the simplex. On the right the same Gaussian mixture represented on the simplex.  }
+% \includegraphics[width=0.6\textwidth]{figures/coda_skew_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
+% \includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture.pdf}%{fig07_coda_skew_mixture2.pdf}
+% \caption{Compositional mixtures for USA Forensic Science Service data set: (top-left) Gaussian; (top-right) the same Gaussian mixture represented in the ternary; (bottom-left) skew-$t$ mixture; (bottom-right) the same skew-$t$ mixture represented in the ternary. }
+% \label{fig07fittingcodaGaussian}
+% \end{figure}
 
 
 \section{Conclusions}

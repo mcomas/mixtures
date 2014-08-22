@@ -12,7 +12,7 @@ library(sn)
 # source('combiMod.R')
 #source('R/coda-functions/ggplot_ternary.R')
 
-
+devtools::load_all('../../packages/mixpack')
 mixsmsn_mixture = function(mm){
   function(x, y){
     sum(mm$pii * laply(1:3, 
@@ -45,15 +45,14 @@ z.grid = function(x.points, y.points, func, ...){
 
 load('data/selected-glass-data.RData')
 
-ilrX = data.frame(ilr(X))
-set.seed(1); 
-ilrX = rbind(ilrX, ilrX)
+ilrX = data.frame(ilr_coordinates(X))
+#ilrX = rbind(ilrX, ilrX)
 
-# mm_max = fmmst(g = 3, ilrX)
+#mm_max = fmmst(g = 3, ilrX)
 # for(i in 1:20){
 set.seed(1); 
-mm = smsn.mmix(ilrX, g=3, group = TRUE, iter.max=20000,
-               list(iter.max = 100, n.start = 10, algorithm = "Hartigan-Wong"))
+mm = smsn.mmix(ilrX, g=3, group = TRUE, iter.max=5000,
+               list(iter.max = 200, n.start = 20, algorithm = "Hartigan-Wong"))
 mix.contour(ilrX, mm)
 #  mm = fmmst(g = 3, ilrX, itmax=1000, nkmeans=50)
 #   if(mm_max$loglik < mm$loglik)
@@ -62,9 +61,9 @@ mix.contour(ilrX, mm)
 # mm = mm_max
 
 
-steps = 100
-x.points = seq(1, 2, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
-y.points = seq(-3.5, -1, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
+steps = 150
+x.points = seq(-2, -1, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
+y.points = seq(1, 3.5, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
 #z1.points = z.grid(x1.points, y1.points, mclust_mixture(m1))
 z.points_mm = z.grid(x.points, y.points, mixsmsn_mixture(mm))
 
@@ -73,4 +72,4 @@ seqq = pretty(range(z.points_mm), n=40)
 
 cl = contourLines(x.points, y.points, z.points_mm, levels = seqq)
 
-save(cl, file='data/coda_skew_mixture.RData')
+save(cl, mm, file='data/coda_skew_mixture.RData')

@@ -14,17 +14,18 @@ devtools::load_all('../../packages/mixpack')
 cl = cl[19:length(cl)]
 options("tern.discard.external" = FALSE)
 
-df.ilr = data.frame(ilr(X))
-p.ilr = ggplot(data=df.ilr, aes(x=V1, y=V2)) + geom_point() + theme_bw()
+df.ilr = data.frame(ilr_coordinates(X))
+p.ilr = ggplot(data=df.ilr, aes(x=coord.1, y=coord.2)) + geom_point() + theme_bw()
 l_ply(cl, function(v){
-  df.c = data.frame('V1' = v$x, 'V2' = v$y)
+  df.c = data.frame('coord.1' = v$x, 'coord.2' = v$y)
   p.ilr <<- p.ilr+geom_path(data=df.c, alpha=0.4)})
-p.ilr = p.ilr + xlab(expression(frac(1, sqrt(2)) ~ log(frac(Si,Ca)))) +
-  ylab(expression(frac(sqrt(2), sqrt(3)) ~ log(Al/sqrt(Ca ~ Si)  )))
+p.ilr = p.ilr + 
+  xlab( expression(paste( sqrt(1 / 2),'  ', log(paste(' ',  Ca / Si, ' ') )) )) +
+  ylab( expression(paste( sqrt(2 / 3),'  ', log(paste(' ',  sqrt(paste(Ca,'·',  Si)) / Al,' ') )) ))
 
 df = X
 
-p0 = ggtern(data=df, aes(x=Ca, y=Al, z=Si), )+geom_point(size=1.1) + 
+p0 = ggtern(data=df, aes(x=Ca, y=Al, z=Si), )+geom_point(size=1.5) + 
   theme_bw()
 
 df.win = data.frame(
@@ -35,14 +36,15 @@ pa = p0 + geom_polygon(data=df.win, aes(x=Ca, y=Al, z=Si), color="red",alpha=0.2
   limit_tern( breaks=seq(0.2,0.8,0.2), minor_breaks=seq(0,1,0.05))
 
 l_ply(cl, function(v){
-  df.c = data.frame(ilrInv(data.frame(v$x,v$y)))
+  df.c = data.frame(ilrInv(data.frame(v$x,v$y),
+                           V = do.call('cbind',llply(ilr_basis(3), function(x) log(x) - mean(log(x))))))
   names(df.c) = c('Ca', 'Si', 'Al')
   #df.c = data.frame('Ca' = v$x, 'Si' = v$y, 'Al' = 1-v$x-v$y, 'glasses'=NA)
   pa <<- pa+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.4)})
 
-pb = p0 + geom_point(size=3) + 
+pb = p0 + 
   limit_tern(T=.2, L=.2, R=1, breaks=c(seq(.05,.15,.05), seq(.85,.95,.05))) +
-  ggtitle("Forensic Glass data set") + 
+#  ggtitle("Forensic Glass data set") + 
   theme(plot.title = element_text(lineheight=.8, face="bold"),
         legend.title = element_blank(),
         legend.text = element_text(colour="black", size = 12),
@@ -50,7 +52,8 @@ pb = p0 + geom_point(size=3) +
         legend.key = element_blank())
 
 l_ply(cl, function(v){
-  df.c = data.frame(ilrInv(data.frame(v$x,v$y)))
+  df.c = data.frame(ilrInv(data.frame(v$x,v$y),
+                           V = do.call('cbind',llply(ilr_basis(3), function(x) log(x) - mean(log(x))))))
   names(df.c) = c('Ca', 'Si', 'Al')
   #df.c = data.frame('Ca' = v$x, 'Si' = v$y, 'Al' = 1-v$x-v$y, 'glasses'=NA)
   pb <<- pb+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.4)})
@@ -58,10 +61,15 @@ l_ply(cl, function(v){
 
 pdf(file='figures/coda_skew_mixture.pdf', width=17, height=10, pointsize=25)
 grid.newpage()
-vpa_ <- viewport(width = 0.46, height = 0.46, x = 0.15, y = 0.73)  
-vpc_ <- viewport(width = 0.35, height = 0.46, x = 0.84, y = 0.70)  
-vpb_ <- viewport(width = 1, height = 1, x = 0.5, y = 0.45 )  
+vpa_ <- viewport(width = 0.5, height = 0.8, x = 0.25, y = 0.5)
+vpb_ <- viewport(width = 0.5, height = 1, x = 0.75, y = 0.55)
 print(pb, vp = vpb_)
-print(pa, vp = vpa_)
-print(p.ilr, vp= vpc_)
+print(p.ilr, vp = vpa_)
+# grid.newpage()
+# vpa_ <- viewport(width = 0.46, height = 0.46, x = 0.15, y = 0.73)  
+# vpc_ <- viewport(width = 0.35, height = 0.46, x = 0.84, y = 0.70)  
+# vpb_ <- viewport(width = 1, height = 1, x = 0.5, y = 0.45 )  
+# print(pb, vp = vpb_)
+# print(pa, vp = vpa_)
+# print(p.ilr, vp= vpc_)
 dev.off()

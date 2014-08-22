@@ -64,3 +64,30 @@ cat(latexTabularMOD(df[31:59,],
                  helvetica = F,
                  translate = F))
 sink()
+
+library(devtools)
+load_all('~/research/packages/mixpack')
+df.ilr = ilr_coordinates(df[,c('Ca','Si','Al')])
+names(df.ilr) = c('h1', 'h2')
+df.ilr = round(df.ilr, 3)
+df.ilr$type = df$type
+headings = sprintf("\\textbf{%s}", names(df.ilr))
+headings[1] = "{\\boldmath$h_1$}"
+headings[2] = "{\\boldmath$h_2$}"
+
+sink(file='tex/example-glasses-ilr-A.tex')
+cat(latexTabularMOD(df.ilr[1:30,],
+                    headings = headings,
+                    hline = 1,
+                    align = 'r r | c',
+                    helvetica = F,
+                    translate = F))
+sink()
+sink(file='tex/example-glasses-ilr-B.tex')
+cat(latexTabularMOD(df.ilr[31:59,],
+                    headings = headings,
+                    hline = 1,
+                    align = 'r r | c',
+                    helvetica = F,
+                    translate = F))
+sink()

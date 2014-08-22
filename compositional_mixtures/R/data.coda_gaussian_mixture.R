@@ -31,14 +31,14 @@ z.grid = function(x.points, y.points, func, ...){
 
 load('data/selected-glass-data.RData')
 
-ilrX = data.frame(ilr(X))
+ilrX = data.frame(ilr_coordinates(X))
 set.seed(1); 
 mm = mixmodCluster(ilrX, nbCluster=3, models=mixmodGaussianModel(listModels="Gaussian_pk_Lk_Ck"),
                    strategy=mixmodStrategy(algo='EM', nbTry=100, initMethod='random'))
 
-steps = 50
-x.points = seq(1.20, 1.85, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
-y.points = seq(-3.15, -1.40, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
+steps = 150
+x.points = seq(-2, -1, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
+y.points = seq(1, 3.5, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
 
 f = dmixnorm_solution_func(mm) 
 z.points_mm <- z.grid(x.points, y.points, function(x,y) f(c(x,y)) )
@@ -46,4 +46,4 @@ z.points_mm <- z.grid(x.points, y.points, function(x,y) f(c(x,y)) )
 seqq = pretty(range(z.points_mm), n=50)
 
 cl = contourLines(x.points, y.points, z.points_mm, levels = seqq)
-save(cl, file='data/coda_gaussian_mixture.RData')
+save(cl, mm, file='data/coda_gaussian_mixture.RData')
