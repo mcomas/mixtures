@@ -26,7 +26,7 @@ S2$condition = rep(c('C1', 'C2'), each=N2/2)
 X = rbind(S1, S2)
 
 ## Es guarda el ternary
-p1<-ggtern(X, aes(x=a, y=b, z=c, col=site, shape=condition))+geom_point(size=3)+theme_classic() +
+p1<-ggtern(X, aes(x=a, y=c, z=b, col=site, shape=condition))+geom_point(size=3)+theme_classic() +
   scale_shape_discrete(name='Condition') + scale_color_hue(name="Site")
 ggsave(p1, file='figures/example_ternary.pdf', width = 5, height = 3.5)
 

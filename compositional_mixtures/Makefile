@@ -10,7 +10,7 @@ FIGURES = figures/main_df.pdf figures/elim_component_real.pdf figures/elim_compo
           figures/coda_skew_mixture.pdf figures/coda_skew_t_mixture.pdf \
           figures/subcomposition_coherenceA.pdf figures/subcomposition_coherenceB.pdf \
           figures/example_ternary.pdf figures/example_2component.pdf \
-          figures/example_ilr2.pdf figures/example_ilr3.pdf 
+          figures/example_ilr2.pdf figures/example_ilr3.pdf figures/ilr_coordinates.pdf
 
 TEX = tex/example-coda3.tex tex/example-glasses.tex tex/pars1_component_elimination.tex \
       tex/pars2_component_elimination.tex tex/pars3_component_elimination.tex tex/pars_dirichlet_mixture.tex \
@@ -39,6 +39,9 @@ tex/pars_dirichlet_mixture.tex : R/parameters_dirichlet_mixture.R data/dirichlet
 tex/example-glasses.tex : data/selected-glass-data.RData
 data/selected-glass-data.RData : R/glass_example.R
 	Rscript R/glass_example.R
+
+figures/ilr_coordinates.pdf : R/coda.gaussian.shapes.R
+	Rscript R/coda.gaussian.shapes.R
 
 figures/main_df.pdf : R/plot_glass_data.R data/selected-glass-data.RData
 	Rscript R/plot_glass_data.R
