@@ -25,8 +25,8 @@ M2  = round(mm2@bestResult@parameters@mean, 2)
 M3  = round(mm3@bestResult@parameters@mean, 2)
 
 
-R1 = llply(llply(mm@bestResult@parameters@variance, cov2cor), round, 2)
-V1 = llply(llply(mm@bestResult@parameters@variance, function(v) matrix(diag(v), ncol=1)), round, 3)
+R1 = llply(llply(mm1@bestResult@parameters@variance, cov2cor), round, 2)
+V1 = llply(llply(mm1@bestResult@parameters@variance, function(v) matrix(diag(v), ncol=1)), round, 3)
 
 #V1 = llply(mm1@bestResult@parameters@variance, round, 2)
 V2 = llply(mm2@bestResult@parameters@variance, round, 2)
@@ -36,7 +36,7 @@ library(stringr)
 
 sink('tex/pars1_component_elimination.tex')
 cat('\\[\n')
-cat('\\begin{array}{c@{\\hskip 0.1in}c@{\\hskip 0.1in}c }\n')
+cat('\\begin{array}{l@{\\hskip 0.1in}l@{\\hskip 0.1in}l }\n')
 #cat('\\hline ')
 
 cat(sprintf("\\pi_1 = %s, & \\mu_1 = \\left(%s\\right), & \\Sigma_1 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right), \\\\ & &\\\\ \n",
@@ -51,7 +51,7 @@ cat(sprintf("\\pi_2 = %s, & \\mu_2 = \\left(%s\\right), & \\Sigma_2 = \\left(\n%
             str_replace_all(latexTabular(R1[[2]], headings = NULL, helvetica = FALSE), 'tabular', 'array'),
             str_replace_all(latexTabular(V1[[2]], headings = NULL, helvetica = FALSE), 'tabular', 'array')))
 
-cat(sprintf("\\pi_3 = %s, & \\mu_3 = \\left(%s\\right) and & \\Sigma_3 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right). \\\\ & &\\\\ \n",
+cat(sprintf("\\pi_3 = %s, & \\mu_3 = \\left(%s\\right) \\text{ and }& \\Sigma_3 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right). \\\\ & &\\\\ \n",
             paste(P1[3], collapse = ','),
             paste(M1[3,], collapse = ','),
             str_replace_all(latexTabular(R1[[3]], headings = NULL, helvetica = FALSE), 'tabular', 'array'),

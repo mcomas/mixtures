@@ -28,7 +28,7 @@ library(stringr)
 
 sink('tex/pars_coda_gaussian_mixture.tex')
 cat('\\[\n')
-cat('\\begin{array}{c@{\\hskip 0.1in}c@{\\hskip 0.1in}c }\n')
+cat('\\begin{array}{l@{\\hskip 0.1in}l@{\\hskip 0.1in}c }\n')
 
 cat(sprintf("\\pi_1 = %s, & \\mu_1 = \\left(%s\\right), & \\Sigma_1 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right), \\\\ & &\\\\ \n",
             paste(P[1], collapse = ','),
@@ -42,7 +42,7 @@ cat(sprintf("\\pi_2 = %s, & \\mu_2 = \\left(%s\\right), & \\Sigma_2 = \\left(\n%
             str_replace_all(latexTabular(R[[2]], headings = NULL, helvetica = FALSE), 'tabular', 'array'),
             str_replace_all(latexTabular(V[[2]], headings = NULL, helvetica = FALSE), 'tabular', 'array')))
 
-cat(sprintf("\\pi_3 = %s, & \\mu_3 = \\left(%s\\right) and & \\Sigma_3 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right). \\\\ & &\\\\ \n",
+cat(sprintf("\\pi_3 = %s, & \\mu_3 = \\left(%s\\right) \\text{ and } & \\Sigma_3 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right). \\\\ & &\\\\ \n",
             paste(P[3], collapse = ','),
             paste(M[3,], collapse = ','),
             str_replace_all(latexTabular(R[[3]], headings = NULL, helvetica = FALSE), 'tabular', 'array'),
