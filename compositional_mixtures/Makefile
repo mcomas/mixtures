@@ -75,7 +75,7 @@ figures/example_ternary.pdf : R/example.elim_component.R
 
 
 ## Generació dels gràfics de les distribucions
-data/%.RData : R/data.%.R data/selected-glass-data.RData data/selected-glass-data.RData
+data/%.RData : R/data.%.R data/selected-glass-data.RData data/selected-glass-data.RData data/dirichlet_mixture_parameters.RData
 	Rscript R/data.$*.R
 figures/%.pdf : data/%.RData R/plot.%.R
 	Rscript R/plot.$*.R
