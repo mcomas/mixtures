@@ -19,7 +19,7 @@ TEX = tex/example-coda3.tex tex/example-glasses.tex tex/pars1_component_eliminat
 pdf/compositional_mixtures.pdf : tex/compositional_mixtures.tex $(FIGURES) $(DATA) $(TEX)
 	pdflatex -output-directory pdf tex/compositional_mixtures.tex
 	pdflatex -output-directory pdf tex/compositional_mixtures.tex
-	rm -f pdf/compositional_mixtures.aux pdf/compositional_mixtures.log pdf/compositional_mixtures.spl
+	rm -f pdf/compositional_mixtures.aux pdf/compositional_mixtures.log pdf/compositional_mixtures.spl pdf/compositional_mixtures.bbl
 
 tex/pars3_component_elimination.tex : tex/pars2_component_elimination.tex
 tex/pars2_component_elimination.tex : tex/pars1_component_elimination.tex
