@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
+\usepackage{apalike}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -76,8 +77,8 @@ where $f_1, \dots f_k$ are pdf's of distributions with parameters $\theta_1, \do
 
 where $f$ is a pdf, and $\theta_1, \dots, \theta_k \in \Theta$ are the parameters of each component.
 
-According to \cite{scott1971clustering} and \cite{mclachlan2004finite}, finite mixture models provide reasonable results in several multivariate techniques, e.g. model-based clustering \citep{banfield1993model,  fraley2002model}  \textsc{\color{red}A part de model-based clustering, algun altre exemple}.
-The Gaussian mixture is the most common model due to its theoretical and computational simplicity \citep{mclachlan2004finite}. 
+According to \cite{scott1971clustering} and \cite{mclachlan2000finite}, finite mixture models provide reasonable results in several multivariate techniques, e.g. model-based clustering \citep{banfield1993model,  fraley2002model}  \textsc{\color{red}A part de model-based clustering, algun altre exemple}.
+The Gaussian mixture is the most common model due to its theoretical and computational simplicity \citep{mclachlan2000finite}. 
 However, because of its simplicity, Gaussian mixtures have some limitation when observations need to be modelled.
 %
 % No se si cal parlar sobre problemes de dimensionalitat. Ho treiem? 
@@ -110,7 +111,7 @@ In the past, not many works \citep[e.g.,][]{albert1982mixtures, bouguila2004unsu
 log-ratio modelling can contribute in the analysis of CoDa. Following \cite{mateu2013normal}, normal and non-normal mixtures of distributions on the simplex 
 can be defined.
 
-This paper is organized as follows: in Section~\ref{coda_section} a brief introduction of compositional data analysis is provided. Section~\ref{standard_section} describes the pros and cons of each traditional mixture models when are applied to compositional data. Section~\ref{codamix_section} is devoted to introduce log-ratio mixture models. A real data set is analyzed in Section~\ref{example_section} to illustrate the new methods. Finally, Section~\ref{conclusion_section} contains conclusions and final remarks. The programming of the data analyses discussed in this work has been conducted using the open-source R statistical environment \citep{R2013soft}. Computer routines implementing the methods can be obtained from the R package \texttt{Mclust}, \texttt{Rmixmod}, \texttt{EMMIXuskew} and also from the website http://www.compositionaldata.com.
+This paper is organized as follows: in Section~\ref{coda_section} a brief introduction of compositional data analysis is provided. Section~\ref{standard_section} describes the pros and cons of each traditional mixture models when are applied to compositional data. Section~\ref{codamix_section} is devoted to introduce log-ratio mixture models. A real data set is analyzed in Section~\ref{example_section} to illustrate the new methods. Finally, Section~\ref{conclusion_section} contains conclusions and final remarks. The programming of the data analyses discussed in this work has been conducted using the open-source R statistical environment \citep{R2014soft}. Computer routines implementing the methods can be obtained from the R package \texttt{Mclust}, \texttt{Rmixmod}, \texttt{EMMIXuskew} and also from the website http://www.compositionaldata.com.
 
 
 %%%
@@ -134,13 +135,13 @@ and $\textbf{y}$,  and the \emph{powering} is defined between a composition $\te
 \end{equation}
 
 These operations respectively play analogous roles to translation and scalar multiplication in $\mathbb{R}^D$, and provide a vector space
-structure of dimension $D-1$ to the simplex. \cite{PE01} state that the inner product 
+structure of dimension $D-1$ to the simplex. \cite{pawlowsky2001geometric} state that the inner product 
 \begin{equation}
 <\textbf{x}, \textbf{y}>_a = \frac{1}{D} \sum_{i < j} \log \frac{x_i}{x_j} \log \frac{y_i}{y_j}
 \label{inner_prod}
 \end{equation}
  provides to $\mathcal{S}^D$ the structure of an Euclidean space of dimension $D-1$. Note that a norm and a distance can be derived from the inner product.
-This Euclidean space structure suggests to reformulate the log-ratio methodology as the principle of working on coordinates \citep{MPE2011}. The idea is to express compositions in terms of its coordinates with respect to an orthonormal basis on $\mathcal{S}^D$ and apply
+This Euclidean space structure suggests to reformulate the log-ratio methodology as the principle of working on coordinates \citep{mateu2011principle}. The idea is to express compositions in terms of its coordinates with respect to an orthonormal basis on $\mathcal{S}^D$ and apply
 traditional statistical methods to these coordinates. Once an orthonormal basis $\mathcal{B} = \{\textbf{v}_1, \dots, \textbf{v}_{D-1}\}$ is fixed, any $D$-part composition $\textbf{x}$ can be expressed as the linear combination
 \[
 \textbf{x} = (h_1 \odot \textbf{v}_1),\; \oplus \dots  \oplus (h_{D-1} \odot \textbf{v}_{D-1}).
@@ -164,7 +165,7 @@ which are the orthonormal log-ratio coordinates of $\textbf{x}$ respect to the b
 where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$ is a rescaling value to make components sum up to one.
 
 % Note that log-ratio methodology requires positive entries in data matrix. Zeros values present in the data should be
-% preprocessed with specific techniques \citep[e.g.,][]{M+12}.
+% preprocessed with specific techniques \citep[e.g.,][]{martin2012model}.
 
 According to \cite{mateu2013normal}, one can define a pdf on the simplex by defining a pdf over the vector of orthonormal log-ratio coordinates. Indeed, let $f^*(\cdot \;; \theta) : \mathbb{R}^{D-1} \rightarrow \mathbb{R}^+$ be a pdf defined on real space with parameters $\theta$. Then, \[f_\mathcal{B}(\mathbf{x}\;; \theta) := f^*(h_\mathcal{B}(\textbf{x})\;; \theta)\] defines a pdf on the Simplex space, i.e. $f_\mathcal{B}(\;\cdot\;; \theta): \mathcal{S}^D \rightarrow \mathbb{R}^+$. Note that, although $f_\mathcal{B}$ is defined in $\mathcal{S}^D$, parameter $\theta$ is defined in the coordinate space. For example, fixed an orthonormal basis $\mathcal{B}$, the log-ratio normal distribution with parameters $\mbox{\boldmath \(\mu\)}$ and $\mathbf{\Sigma}$ is defined as
 
@@ -174,7 +175,7 @@ f_\mathcal{B}(\mathbf{x}\;; \mu, \Sigma) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-
 
 % No sé si estaria bé fer notar que els paràmetres de la distribució estan definits en l'espai real
 
-Figure \ref{fig01}(left) shows  contour lines of three typical normal distribution on the simplex. Note that distribution in the centre of the ternary diagram is the more similar to elliptical contour lines in real space. However, the arch shape and corner shape are very different from the traditional Gaussian shape. These particular shapes are frequent in real data sets from industrial and scientific applications \citep{aitchison1986statistical, Buccianti11} \textsc{\color{red}La cita Buccianti la veig bé, però la de l'Aitchison?}.
+Figure \ref{fig01}(left) shows  contour lines of three typical normal distribution on the simplex. Note that distribution in the centre of the ternary diagram is the more similar to elliptical contour lines in real space. However, the arch shape and corner shape are very different from the traditional Gaussian shape. These particular shapes are frequent in real data sets from industrial and scientific applications \citep{aitchison1986statistical, buccianti2011natural} \textsc{\color{red}La cita Buccianti la veig bé, però la de l'Aitchison?}.
 When these distributions are plotted using orthonormal coordinates (Fig. \ref{fig01}(right)) the traditional elliptic contour of
 Gaussian distributions in real space are obtained.
 
@@ -380,7 +381,7 @@ It is important to remark that our method in most cases is basis invariant. That
 \section{A real data set: Forensic Glass}
 \label{example_section}
 
-\noindent To illustrate and compare different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{Bache+Lichman:2013}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (\texttt{rfg}). Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminium element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
+\noindent To illustrate and compare different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \cite{uci2007repository}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements are provided. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (\texttt{rfg}). Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminium element takes small values the data set is close to the edge, inside the rectangle. For better illustration, Figure \ref{fig04} includes a zoom of the data set.
 
 
 \begin{table}
@@ -540,271 +541,275 @@ This research was supported by the Ministerio de Econom\'ia y Competividad under
 
 %\section*{References}
 
-\begin{thebibliography}{00}
+\bibliographystyle{apalike}
+\bibliography{tex/compositional_mixtures}{}
 
-\bibitem[Aitchison, 1986]{aitchison1986statistical}
-Aitchison, J., 1986. The Statistical Analysis of Compositional Data. Monographs on Statistics and
-Applied Probability. Chapman and Hall Ltd. (Reprinted 2003 with additional material by The
-Blackburn Press), London (UK). 416 p.
 
-\bibitem[Albert and Gupta, 1982]{albert1982mixtures}
-Albert, J.~H. and Gupta, A.~K. (1982).
-\newblock Mixtures of dirichlet distributions and estimation in contingency
-  tables.
-\newblock {\em The Annals of Statistics}, 1261--1268.
-
-\bibitem[Andrews and McNicholas, 2012]{andrews2012model}
-Andrews, J.~L. and McNicholas, P.~D. (2012).
-\newblock Model-based clustering, classification, and discriminant analysis via
-  mixtures of multivariate t-distributions.
-\newblock {\em Statistics and Computing}, 22(5):1021--1029.
-
-\bibitem[Bache and Lichman, 2013]{Bache+Lichman:2013}
-Bache, K. and Lichman, M. (2013).
-\newblock {UCI} machine learning repository.
-
-\bibitem[Banerjee et~al., 2005]{banerjee2005clustering}
-Banerjee, A., Dhillon, I.~S., Ghosh, J., and Sra, S. (2005).
-\newblock Clustering on the unit hypersphere using von mises-fisher
-  distributions.
-\newblock In {\em Journal of Machine Learning Research}, 1345--1382.
-
-\bibitem[Banfield and Raftery, 1993]{banfield1993model}
-Banfield, J.~D. and Raftery, A.~E. (1993).
-\newblock Model-based Gaussian and non-Gaussian clustering.
-\newblock {\em Biometrics}, 803--821.
-
-\bibitem[Barcel{\'o}-Vidal et~al., 1999]{barcelo1999comment}
-Barcel{\'o}-Vidal, C., Mart{\'\i}n-Fern{\'a}ndez, J., and Pawlowsky-Glahn, V.
-  (1999).
-\newblock Comment on ``singularity and nonnormality in the classification of
-  compositional data'' by G.C. Bohling, J.C Davis, R.A. Olea, and J. Harff.
-\newblock {\em Mathematical geology}, 31(5):581--585.
-
-%\bibitem[Barcel{\'o}-Vidal et~al., 2011]{barcelo2011compositional}
-%Barcelo-Vidal, C., Mart{\'\i}n-Fern{\'a}ndez, J.~A., and Mateu-Figueras, G.
-%  (2011).
-%\newblock Compositional differential calculus on the simplex.
-%\newblock {\em Compositional Data Analysis: Theory and Applications, eds. V.
-%  Pawlowsky-Glahn and A. Buccianti, John Wiley \& Sons, Ltd, Chichester, UK}.
-
-\bibitem[Baudry et~al., 2010]{baudry2010combining}
-Baudry, J.-P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
-\newblock Combining mixture components for clustering.
-\newblock {\em Journal of Computational and Graphical Statistics}, 19(2).
-
-\bibitem[Bickel and Scheffer, 2004]{bickel2004multi}
-Bickel, S. and Scheffer, T. (2004).
-\newblock Multi-view clustering.
-\newblock In {\em ICDM}, (4):19--26.
-
-%\bibitem[Bouguila, 2008]{bouguila2008clustering}
-%Bouguila, N. (2008).
-%\newblock Clustering of count data using generalized dirichlet multinomial
-%  distributions.
-%\newblock {\em Knowledge and Data Engineering, IEEE Transactions on},
-%  20(4):462--474.
-
-\bibitem[Bouguila, 2011]{bouguila2011count}
-Bouguila, N. (2011).
-\newblock Count data modeling and classification using finite mixtures of
-  distributions.
-\newblock {\em Neural Networks, IEEE Transactions on}, 22(2):186--198.
-
-\bibitem[Bouguila et~al., 2004]{bouguila2004unsupervised}
-Bouguila, N., Ziou, D., and Vaillancourt, J. (2004).
-\newblock Unsupervised learning of a finite mixture model based on the
-  dirichlet distribution and its application.
-\newblock {\em Image Processing, IEEE Transactions on}, 13(11):1533--1543.
-
-\bibitem[Bouveyron and Brunet-Saumard, 2014]{bouveyron2014model}
-Bouveyron, C. and Brunet-Saumard, C. (2014).
-\newblock Model-based clustering of high-dimensional data: a review.
-\newblock {\em Computational Statistics and Data Analysis}, 71:52--78.
-
-\bibitem[Browne and McNicholas, 2014]{browne2013mixture}
-Browne, R. and McNicholas, P. (submitted).
-\newblock A mixture of generalized hyperbolic distributions. arxiv: 13051036.
-
-\bibitem[Buccianti, 2011]{Buccianti11}
-Buccianti, A. (2011). 
-\newblock Natural Laws Governing the Distribution of the Elements in Geochemistry: the Role of the Log-ratio Approach.
-\newblock In {\em Compositional Data Analysis: Theory
-and Applications}, eds. V. Pawlowsky-Glahn and A. Buccianti; Chichester, UK: John Wiley and Sons, 255--266.
-
-\bibitem[Celeux and Govaert, 1992]{celeux1992classification}
-Celeux, G. and Govaert, G. (1992).
-\newblock A classification em algorithm for clustering and two stochastic
-  versions.
-\newblock {\em Computational statistics and Data analysis}, 14(3):315--332.
-
-\bibitem[Comas-Cuf\'i et~al., 2013]{CMM13}
-Comas-Cuf\'i, C., Mateu-Figueras, G., and Mart\'in-Fern\'andez, J. (2013).
-\newblock Compositional entropies in model based clustering.
-\newblock In {\em Abstracts of the 6th International Conference of the ERCIM WG
-  on COMPUTING \& STATISTICS (ERCIM 2013)}. 14-16 December 2013, University of
-  London, UK.
-
-\bibitem[Connor and Mosimann, 1969]{Connor:1969}
-Connor, R. and Mosimann, J. (1969).
-\newblock Concepts of independence for proportions with a generalization of the
-  {D}irichlet distribution.
-\newblock {\em Journal of the American Statistical Association},
-  64(325):194--206.
-
-\bibitem[Egozcue et~al., 2003]{egozcue2003isometric}
-Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcel{\'o}-Vidal,
-  C. (2003).
-\newblock Isometric logratio transformations for compositional data analysis.
-\newblock {\em Mathematical Geology}, 35(3):279--300.
-
-\bibitem[Egozcue and Pawlowsky, 2005]{egozcue2005balances}
-Egozcue, J.~J., and Pawlowsky-Glahn, V. (2005).
-\newblock Groups of parts and their balances in compositional data analysis.
-\newblock {\em Mathematical Geology}, 37(7):795--828.
-
-\bibitem[Fraley and Raftery, 2002]{fraley2002model}
-Fraley, C. and Raftery, A.~E. (2002).
-\newblock Model-based clustering, discriminant analysis, and density
-  estimation.
-\newblock {\em Journal of the American Statistical Association},
-  97(458):611--631.
-
-\bibitem[Hansen, 1982]{hansen1982large}
-Hansen, L.~P. (1982).
-\newblock Large sample properties of generalized method of moments estimators.
-\newblock {\em Econometrica: Journal of the Econometric Society}, 1029--1054.
-
-\bibitem[Lee and McLachlan, 2011]{lee2011fitting}
-Lee, S. and McLachlan, G.~J. (2011).
-\newblock On the fitting of mixtures of multivariate skew t-distributions via
-  the em algorithm.
-\newblock {\em arXiv preprint arXiv:1109.4706}.
-
-\bibitem[Lee and McLachlan, 2013]{lee2013finite}
-Lee, S. and McLachlan, G.~J. (2013).
-\newblock Finite mixtures of multivariate skew t-distributions: some recent and
-  new results.
-\newblock {\em Statistics and Computing}, 1--22.
-
-\bibitem[Lin, 2010]{lin2010robust}
-Lin, T.-I. (2010).
-\newblock Robust mixture modeling using multivariate skew t distributions.
-\newblock {\em Statistics and Computing}, 20(3):343--356.
-
-%\bibitem[Lin et~al., 2007]{lin2007robust}
-%Lin, T.~I., Lee, J.~C., and Hsieh, W.~J. (2007).
-%\newblock Robust mixture modeling using the skew t distribution.
-%\newblock {\em Statistics and Computing}, 17(2):81--92.
-
-\bibitem[Mardia et~al., 2007]{mardia2007protein}
-Mardia, K.~V., Taylor, C.~C., and Subramaniam, G.~K. (2007).
-\newblock Protein bioinformatics and mixtures of bivariate von mises
-  distributions for angular data.
-\newblock {\em Biometrics}, 63(2):505--512.
-
-\bibitem[Mart\'in-Fern\'andez et~al., 2012]{M+12}
-Mart\'in-Fern\'andez, J., Hron, K., Templ, M., Filzmoser, P., and
-  Palarea-Albaladejo (2012).
-\newblock Model-based replacement of rounded zeros in compositional data:
-  Classical and robust approach.
-\newblock {\em Computational Statistics \& Data Analysis}, 56(3):2688--2704.
-
-\bibitem[Mateu-Figueras and Pawlowsky-Glahn, 2007]{mateu2007skew}
-Mateu-Figueras, G. and Pawlowsky-Glahn, V. (2007).
-\newblock The skew-normal distribution on the simplex.
-\newblock {\em Communications in Statistics, Theory and Methods, Special Issue
-  Skew-elliptical Distributions and Their Application}, 36(9):1787--1802.
-
-\bibitem[Mateu-Figueras et~al., 2011]{MPE2011}
-Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J. (2011).
-\newblock The principle of working on coordinates.
-\newblock In {\em Compositional Data Analysis: Theory and Applications}, pages
-  31--42. John Wiley \& Sons.
-
-\bibitem[Mateu-Figueras et~al., 2013]{mateu2013normal}
-Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.-J. (2013).
-\newblock The normal distribution in some constrained sample spaces.
-\newblock {\em SORT-Statistics and Operations Research Transactions},
-  1(1):29--56.
-
-\bibitem[McLachlan and Peel, 2004]{mclachlan2004finite}
-McLachlan, G. and Peel, D. (2004).
-\newblock {\em Finite mixture models}.
-\newblock Wile.
-
-%\bibitem[McLachlan and Basford, 1988]{mclachlan1988mixture}
-%McLachlan, G.~J. and Basford, K.~E. (1988).
-%\newblock Mixture models. inference and applications to clustering.
-%\newblock {\em Statistics: Textbooks and Monographs, New York: Dekker, 1988},
-%  1.
-
-\bibitem[Monti et~al., 2011]{monti2011shifted}
-Monti, G., Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J. (2011).
-\newblock The shifted-scaled dirichlet distribution in the simplex.
-\newblock In {\em Proceedings of the 4th International Workshop on
-  Compositional Data Analysis (2011)}.
-
-\bibitem[Narayanan, 1991]{narayanan1991algorithm}
-Narayanan, A. (1991).
-\newblock Algorithm as 266: maximum likelihood estimation of the parameters of
-  the dirichlet distribution.
-\newblock {\em Journal of the Royal Statistical Society. Series C (Applied
-  Statistics)}, 40(2):365--374.
-
-\bibitem[Ng et~al., 2011]{ng2011dirichlet}
-Ng, K.~W., Tian, G.-L., and Tang, M.-L. (2011).
-\newblock {\em Dirichlet and Related Distributions: Theory, Methods and Applications}, volume 888.
-\newblock John Wiley \& Sons.
-
-\bibitem[Ongaro et~al., 2008]{ongaro2008new}
-Ongaro, A., Migliorati, S., Monti, G.~S., et~al. (2008).
-\newblock A new distribution on the simplex containing the dirichlet family.
-\newblock Technical report, Universitat de Girona. Departament
-  d'Inform{\`a}tica i Matem{\`a}tica Aplicada.
-
-\bibitem[Papageorgiou et~al., 2001]{papageorgiou2001model}
-Papageorgiou, I., Baxter, M., and Cau, M. (2001).
-\newblock Model-based cluster analysis of artefact compositional data.
-\newblock {\em Archaeometry}, 43(4):571--588.
-
-%\bibitem[Pavlov et~al., 2004]{pavlov2004document}
-%Pavlov, D., Balasubramanyan, R., Dom, B., Kapur, S., and Parikh, J. (2004).
-%\newblock Document preprocessing for naive bayes classification and clustering
-%  with mixture of multinomials.
-%\newblock In {\em Proceedings of the tenth ACM SIGKDD international conference
-%  on Knowledge discovery and data mining}, pages 829--834. ACM.
-
-\bibitem[Pawlowsky-Glahn and Egozcue, 2001]{PE01}
-Pawlowsky-Glahn, V. and Egozcue, J. (2001).
-\newblock Geometric approach to statistical analysis on the simplex.
-\newblock {\em Stochastic Environmental Research and Risk Assessment (SERRA)},
-  15(5):384--398.
-
-\bibitem[R~Core~Team, 2013]{R2013soft}
-R Core Team (2013).
-\newblock R: A language and environment for statistical computing. R Foundation for Statistical Computing.
-\newblock {\em Vienna, Austria. \texttt{http://www.R-project.org/}}.
-
-\bibitem[Rayens and Srinivasan, 1994]{rayens1994dependence}
-Rayens, W.~S. and Srinivasan, C. (1994).
-\newblock Dependence properties of generalized liouville distributions on the
-  simplex.
-\newblock {\em Journal of the American Statistical Association},
-  89(428):1465--1470.
-
-\bibitem[Scott and Symons, 1971]{scott1971clustering}
-Scott, A. and Symons, M.~J. (1971).
-\newblock Clustering methods based on likelihood ratio criteria.
-\newblock {\em Biometrics}, 387--397.
-
-\bibitem[Tian et~al., 2003]{tian2003bayesian}
-Tian, G.-L., Ng, K.~W., and Geng, Z. (2003).
-\newblock Bayesian computation for contingency tables with incomplete
-  cell-counts.
-\newblock {\em Statistica Sinica}, 13(1):189--206.
-
-\end{thebibliography}
+% \begin{thebibliography}{00}
+% 
+% \bibitem[Aitchison, 1986]{aitchison1986statistical}
+% Aitchison, J., 1986. The Statistical Analysis of Compositional Data. Monographs on Statistics and
+% Applied Probability. Chapman and Hall Ltd. (Reprinted 2003 with additional material by The
+% Blackburn Press), London (UK). 416 p.
+% 
+% \bibitem[Albert and Gupta, 1982]{albert1982mixtures}
+% Albert, J.~H. and Gupta, A.~K. (1982).
+% \newblock Mixtures of dirichlet distributions and estimation in contingency
+%   tables.
+% \newblock {\em The Annals of Statistics}, 1261--1268.
+% 
+% \bibitem[Andrews and McNicholas, 2012]{andrews2012model}
+% Andrews, J.~L. and McNicholas, P.~D. (2012).
+% \newblock Model-based clustering, classification, and discriminant analysis via
+%   mixtures of multivariate t-distributions.
+% \newblock {\em Statistics and Computing}, 22(5):1021--1029.
+% 
+% \bibitem[Asuncion and Newman, 2007]{uci2007repository}
+% Asuncion, A., & Newman, D. J. (2007). 
+% \newblock {UCI} Machine Learning Repository. University of California Irvine School of Information. Retrieved from http://www.ics.uci.edu/~mlearn/MLRepository.html
+% 
+% \bibitem[Banerjee et~al., 2005]{banerjee2005clustering}
+% Banerjee, A., Dhillon, I.~S., Ghosh, J., and Sra, S. (2005).
+% \newblock Clustering on the unit hypersphere using von mises-fisher
+%   distributions.
+% \newblock In {\em Journal of Machine Learning Research}, 1345--1382.
+% 
+% \bibitem[Banfield and Raftery, 1993]{banfield1993model}
+% Banfield, J.~D. and Raftery, A.~E. (1993).
+% \newblock Model-based Gaussian and non-Gaussian clustering.
+% \newblock {\em Biometrics}, 803--821.
+% 
+% \bibitem[Barcel{\'o}-Vidal et~al., 1999]{barcelo1999comment}
+% Barcel{\'o}-Vidal, C., Mart{\'\i}n-Fern{\'a}ndez, J., and Pawlowsky-Glahn, V.
+%   (1999).
+% \newblock Comment on ``singularity and nonnormality in the classification of
+%   compositional data'' by G.C. Bohling, J.C Davis, R.A. Olea, and J. Harff.
+% \newblock {\em Mathematical geology}, 31(5):581--585.
+% 
+% %\bibitem[Barcel{\'o}-Vidal et~al., 2011]{barcelo2011compositional}
+% %Barcelo-Vidal, C., Mart{\'\i}n-Fern{\'a}ndez, J.~A., and Mateu-Figueras, G.
+% %  (2011).
+% %\newblock Compositional differential calculus on the simplex.
+% %\newblock {\em Compositional Data Analysis: Theory and Applications, eds. V.
+% %  Pawlowsky-Glahn and A. Buccianti, John Wiley \& Sons, Ltd, Chichester, UK}.
+% 
+% \bibitem[Baudry et~al., 2010]{baudry2010combining}
+% Baudry, J.-P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
+% \newblock Combining mixture components for clustering.
+% \newblock {\em Journal of Computational and Graphical Statistics}, 19(2).
+% 
+% \bibitem[Bickel and Scheffer, 2004]{bickel2004multi}
+% Bickel, S. and Scheffer, T. (2004).
+% \newblock Multi-view clustering.
+% \newblock In {\em ICDM}, (4):19--26.
+% 
+% %\bibitem[Bouguila, 2008]{bouguila2008clustering}
+% %Bouguila, N. (2008).
+% %\newblock Clustering of count data using generalized dirichlet multinomial
+% %  distributions.
+% %\newblock {\em Knowledge and Data Engineering, IEEE Transactions on},
+% %  20(4):462--474.
+% 
+% \bibitem[Bouguila, 2011]{bouguila2011count}
+% Bouguila, N. (2011).
+% \newblock Count data modeling and classification using finite mixtures of
+%   distributions.
+% \newblock {\em Neural Networks, IEEE Transactions on}, 22(2):186--198.
+% 
+% \bibitem[Bouguila et~al., 2004]{bouguila2004unsupervised}
+% Bouguila, N., Ziou, D., and Vaillancourt, J. (2004).
+% \newblock Unsupervised learning of a finite mixture model based on the
+%   dirichlet distribution and its application.
+% \newblock {\em Image Processing, IEEE Transactions on}, 13(11):1533--1543.
+% 
+% \bibitem[Bouveyron and Brunet-Saumard, 2014]{bouveyron2014model}
+% Bouveyron, C. and Brunet-Saumard, C. (2014).
+% \newblock Model-based clustering of high-dimensional data: a review.
+% \newblock {\em Computational Statistics and Data Analysis}, 71:52--78.
+% 
+% \bibitem[Browne and McNicholas, 2014]{browne2013mixture}
+% Browne, R. and McNicholas, P. (submitted).
+% \newblock A mixture of generalized hyperbolic distributions. arxiv: 13051036.
+% 
+% \bibitem[Buccianti, 2011]{buccianti2011natural}
+% Buccianti, A. (2011). 
+% \newblock Natural Laws Governing the Distribution of the Elements in Geochemistry: the Role of the Log-ratio Approach.
+% \newblock In {\em Compositional Data Analysis: Theory
+% and Applications}, eds. V. Pawlowsky-Glahn and A. Buccianti; Chichester, UK: John Wiley and Sons, 255--266.
+% 
+% \bibitem[Celeux and Govaert, 1992]{celeux1992classification}
+% Celeux, G. and Govaert, G. (1992).
+% \newblock A classification em algorithm for clustering and two stochastic
+%   versions.
+% \newblock {\em Computational statistics and Data analysis}, 14(3):315--332.
+% 
+% \bibitem[Comas-Cuf\'i et~al., 2013]{comas2013compositional}
+% Comas-Cuf\'i, C., Mateu-Figueras, G., and Mart\'in-Fern\'andez, J. (2013).
+% \newblock Compositional entropies in model based clustering.
+% \newblock In {\em Abstracts of the 6th International Conference of the ERCIM WG
+%   on COMPUTING \& STATISTICS (ERCIM 2013)}. 14-16 December 2013, University of
+%   London, UK.
+% 
+% \bibitem[Connor and Mosimann, 1969]{connor1969concepts}
+% Connor, R. and Mosimann, J. (1969).
+% \newblock Concepts of independence for proportions with a generalization of the
+%   {D}irichlet distribution.
+% \newblock {\em Journal of the American Statistical Association},
+%   64(325):194--206.
+% 
+% \bibitem[Egozcue et~al., 2003]{egozcue2003isometric}
+% Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcel{\'o}-Vidal,
+%   C. (2003).
+% \newblock Isometric logratio transformations for compositional data analysis.
+% \newblock {\em Mathematical Geology}, 35(3):279--300.
+% 
+% \bibitem[Egozcue and Pawlowsky, 2005]{egozcue2005balances}
+% Egozcue, J.~J., and Pawlowsky-Glahn, V. (2005).
+% \newblock Groups of parts and their balances in compositional data analysis.
+% \newblock {\em Mathematical Geology}, 37(7):795--828.
+% 
+% \bibitem[Fraley and Raftery, 2002]{fraley2002model}
+% Fraley, C. and Raftery, A.~E. (2002).
+% \newblock Model-based clustering, discriminant analysis, and density
+%   estimation.
+% \newblock {\em Journal of the American Statistical Association},
+%   97(458):611--631.
+% 
+% \bibitem[Hansen, 1982]{hansen1982large}
+% Hansen, L.~P. (1982).
+% \newblock Large sample properties of generalized method of moments estimators.
+% \newblock {\em Econometrica: Journal of the Econometric Society}, 1029--1054.
+% 
+% \bibitem[Lee and McLachlan, 2011]{lee2011fitting}
+% Lee, S. and McLachlan, G.~J. (2011).
+% \newblock On the fitting of mixtures of multivariate skew t-distributions via
+%   the em algorithm.
+% \newblock {\em arXiv preprint arXiv:1109.4706}.
+% 
+% \bibitem[Lee and McLachlan, 2013]{lee2013finite}
+% Lee, S. and McLachlan, G.~J. (2013).
+% \newblock Finite mixtures of multivariate skew t-distributions: some recent and
+%   new results.
+% \newblock {\em Statistics and Computing}, 1--22.
+% 
+% \bibitem[Lin, 2010]{lin2010robust}
+% Lin, T.-I. (2010).
+% \newblock Robust mixture modeling using multivariate skew t distributions.
+% \newblock {\em Statistics and Computing}, 20(3):343--356.
+% 
+% %\bibitem[Lin et~al., 2007]{lin2007robust}
+% %Lin, T.~I., Lee, J.~C., and Hsieh, W.~J. (2007).
+% %\newblock Robust mixture modeling using the skew t distribution.
+% %\newblock {\em Statistics and Computing}, 17(2):81--92.
+% 
+% \bibitem[Mardia et~al., 2007]{mardia2007protein}
+% Mardia, K.~V., Taylor, C.~C., and Subramaniam, G.~K. (2007).
+% \newblock Protein bioinformatics and mixtures of bivariate von mises
+%   distributions for angular data.
+% \newblock {\em Biometrics}, 63(2):505--512.
+% 
+% \bibitem[Mart\'in-Fern\'andez et~al., 2012]{martin2012model}
+% Mart\'in-Fern\'andez, J., Hron, K., Templ, M., Filzmoser, P., and
+%   Palarea-Albaladejo (2012).
+% \newblock Model-based replacement of rounded zeros in compositional data:
+%   Classical and robust approach.
+% \newblock {\em Computational Statistics \& Data Analysis}, 56(3):2688--2704.
+% 
+% \bibitem[Mateu-Figueras and Pawlowsky-Glahn, 2007]{mateu2007skew}
+% Mateu-Figueras, G. and Pawlowsky-Glahn, V. (2007).
+% \newblock The skew-normal distribution on the simplex.
+% \newblock {\em Communications in Statistics, Theory and Methods, Special Issue
+%   Skew-elliptical Distributions and Their Application}, 36(9):1787--1802.
+% 
+% \bibitem[Mateu-Figueras et~al., 2011]{mateu2011principle}
+% Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J. (2011).
+% \newblock The principle of working on coordinates.
+% \newblock In {\em Compositional Data Analysis: Theory and Applications}, pages
+%   31--42. John Wiley \& Sons.
+% 
+% \bibitem[Mateu-Figueras et~al., 2013]{mateu2013normal}
+% Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.-J. (2013).
+% \newblock The normal distribution in some constrained sample spaces.
+% \newblock {\em SORT-Statistics and Operations Research Transactions},
+%   1(1):29--56.
+% 
+% \bibitem[McLachlan and Peel, 2004]{mclachlan2000finite}
+% McLachlan, G. and Peel, D. (2004).
+% \newblock {\em Finite mixture models}.
+% \newblock Wile.
+% 
+% %\bibitem[McLachlan and Basford, 1988]{mclachlan1988mixture}
+% %McLachlan, G.~J. and Basford, K.~E. (1988).
+% %\newblock Mixture models. inference and applications to clustering.
+% %\newblock {\em Statistics: Textbooks and Monographs, New York: Dekker, 1988},
+% %  1.
+% 
+% \bibitem[Monti et~al., 2011]{monti2011shifted}
+% Monti, G., Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J. (2011).
+% \newblock The shifted-scaled dirichlet distribution in the simplex.
+% \newblock In {\em Proceedings of the 4th International Workshop on
+%   Compositional Data Analysis (2011)}.
+% 
+% \bibitem[Narayanan, 1991]{narayanan1991algorithm}
+% Narayanan, A. (1991).
+% \newblock Algorithm as 266: maximum likelihood estimation of the parameters of
+%   the dirichlet distribution.
+% \newblock {\em Journal of the Royal Statistical Society. Series C (Applied
+%   Statistics)}, 40(2):365--374.
+% 
+% \bibitem[Ng et~al., 2011]{ng2011dirichlet}
+% Ng, K.~W., Tian, G.-L., and Tang, M.-L. (2011).
+% \newblock {\em Dirichlet and Related Distributions: Theory, Methods and Applications}, volume 888.
+% \newblock John Wiley \& Sons.
+% 
+% \bibitem[Ongaro et~al., 2008]{ongaro2008new}
+% Ongaro, A., Migliorati, S., Monti, G.~S., et~al. (2008).
+% \newblock A new distribution on the simplex containing the dirichlet family.
+% \newblock Technical report, Universitat de Girona. Departament
+%   d'Inform{\`a}tica i Matem{\`a}tica Aplicada.
+% 
+% \bibitem[Papageorgiou et~al., 2001]{papageorgiou2001model}
+% Papageorgiou, I., Baxter, M., and Cau, M. (2001).
+% \newblock Model-based cluster analysis of artefact compositional data.
+% \newblock {\em Archaeometry}, 43(4):571--588.
+% 
+% %\bibitem[Pavlov et~al., 2004]{pavlov2004document}
+% %Pavlov, D., Balasubramanyan, R., Dom, B., Kapur, S., and Parikh, J. (2004).
+% %\newblock Document preprocessing for naive bayes classification and clustering
+% %  with mixture of multinomials.
+% %\newblock In {\em Proceedings of the tenth ACM SIGKDD international conference
+% %  on Knowledge discovery and data mining}, pages 829--834. ACM.
+% 
+% \bibitem[Pawlowsky-Glahn and Egozcue, 2001]{pawlowsky2001geometric}
+% Pawlowsky-Glahn, V. and Egozcue, J. (2001).
+% \newblock Geometric approach to statistical analysis on the simplex.
+% \newblock {\em Stochastic Environmental Research and Risk Assessment (SERRA)},
+%   15(5):384--398.
+% 
+% \bibitem[R~Core~Team, 2013]{R2014soft}
+% R Core Team (2013).
+% \newblock R: A language and environment for statistical computing. R Foundation for Statistical Computing.
+% \newblock {\em Vienna, Austria. \texttt{http://www.R-project.org/}}.
+% 
+% \bibitem[Rayens and Srinivasan, 1994]{rayens1994dependence}
+% Rayens, W.~S. and Srinivasan, C. (1994).
+% \newblock Dependence properties of generalized liouville distributions on the
+%   simplex.
+% \newblock {\em Journal of the American Statistical Association},
+%   89(428):1465--1470.
+% 
+% \bibitem[Scott and Symons, 1971]{scott1971clustering}
+% Scott, A. and Symons, M.~J. (1971).
+% \newblock Clustering methods based on likelihood ratio criteria.
+% \newblock {\em Biometrics}, 387--397.
+% 
+% \bibitem[Tian et~al., 2003]{tian2003bayesian}
+% Tian, G.-L., Ng, K.~W., and Geng, Z. (2003).
+% \newblock Bayesian computation for contingency tables with incomplete
+%   cell-counts.
+% \newblock {\em Statistica Sinica}, 13(1):189--206.
+% 
+% \end{thebibliography}
 
 \newpage
 \appendix

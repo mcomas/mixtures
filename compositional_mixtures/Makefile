@@ -1,7 +1,3 @@
-.PHONY : article
-
-article : pdf/compositional_mixtures.pdf 
-
 DATA = data/selected-glass-data.RData data/dirichlet_mixture.RData data/coda_gaussian_mixture.RData \
        data/coda_skew_mixture.RData data/coda_skew_t_mixture.RData data/dirichlet_mixture_parameters.RData
 
@@ -12,14 +8,22 @@ FIGURES = figures/main_df.pdf figures/elim_component_real.pdf figures/elim_compo
           figures/example_ternary.pdf figures/example_2component.pdf \
           figures/example_ilr2.pdf figures/example_ilr3.pdf figures/ilr_coordinates.pdf
 
-TEX = tex/example-coda3.tex tex/example-glasses.tex tex/pars1_component_elimination.tex \
+TEX = tex/example-coda3.tex tex/example-glasses-A.tex tex/example-glasses-B.tex tex/pars1_component_elimination.tex \
       tex/pars2_component_elimination.tex tex/pars3_component_elimination.tex tex/pars_dirichlet_mixture.tex \
       tex/pars_coda_gaussian_mixture.tex
 
-pdf/compositional_mixtures.pdf : tex/compositional_mixtures.tex $(FIGURES) $(DATA) $(TEX)
-	pdflatex -output-directory pdf tex/compositional_mixtures.tex
-	pdflatex -output-directory pdf tex/compositional_mixtures.tex
-	rm -f pdf/compositional_mixtures.aux pdf/compositional_mixtures.log pdf/compositional_mixtures.spl pdf/compositional_mixtures.bbl
+.PHONY: article
+
+article: pdf/compositional_mixtures.pdf
+
+pdf/compositional_mixtures.pdf : tex/compositional_mixtures.tex tex/compositional_mixtures.bbl $(FIGURES) $(DATA) $(TEX)
+	pdflatex -output-directory tex tex/compositional_mixtures.tex
+	pdflatex -output-directory tex tex/compositional_mixtures.tex
+	mv tex/compositional_mixtures.pdf pdf/compositional_mixtures.pdf
+
+tex/compositional_mixtures.bbl : tex/compositional_mixtures.bib
+	pdflatex -output-directory tex -jobname compositional_mixtures tex/compositional_mixtures.tex
+	bibtex tex/compositional_mixtures
 
 tex/pars3_component_elimination.tex : tex/pars2_component_elimination.tex
 tex/pars2_component_elimination.tex : tex/pars1_component_elimination.tex
