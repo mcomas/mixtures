@@ -7,21 +7,34 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
+\usepackage{apalike}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 
+\newtheorem{prob}{Problem}
 \newtheorem{prop}{Proposition}
 \newtheorem{definition}{Definition}
 
-\title{Building a hierarchy over uncertantly}
+\title{From merging Gaussian mixtures to merging generic classes}
 \author{M. Comas-Cufí \and J.A. Martín-Fernández \and G. Mateu-Figueras}
 
 \doublespacing
 \begin{document}
 
 \maketitle
-\cite{hennig2010}
 
+Recently, the problem of merging the components of a Gaussian mixtures has received special atention \cite{melnykov2013distribution,lee2004combining,hennig2010methods,baudry2010combining,pastore2013merging}. 
+
+\section{The subjectiveness of clustering decisions}
+
+It is well known that there is a strong subjective component in the decision of what a ``true cluster'' is \citep{hennig2010methods}.
+
+\begin{prob}
+Given a compositional sample $T = \{ \boldsymbol{\tau_1}, \dots, \boldsymbol{\tau_n} \}$, with $\boldsymbol{\tau_i} = (\tau_{i1}, \dots, \tau_{iK})$ denoting the pertinence to classes $C_1, \dots, C_K$, build a hierarchy over the set of classes.
+\end{prob}
+
+
+\bibliographystyle{apalike}
 \bibliography{tex/combining_mixtures}{}
-\bibliographystyle{plain}
+
 \end{document}

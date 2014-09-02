@@ -1,8 +1,31 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{}
 
-\bibitem{hennig2010}
-Christian Hennig.
-\newblock Methods for merging gaussian mixture components.
-\newblock {\em Advances in Data Analysis and Classification}, 4(1):3--34, 2010.
+\bibitem[Baudry et~al., 2010]{baudry2010combining}
+Baudry, J.-P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
+\newblock {Combining Mixture Components for Clustering}.
+
+\bibitem[Hennig, 2010]{hennig2010methods}
+Hennig, C. (2010).
+\newblock {Methods for merging Gaussian mixture components}.
+\newblock {\em Advances in Data Analysis and Classification}, 4(1):3--34.
+
+\bibitem[Lee and Cho, 2004]{lee2004combining}
+Lee, H.-j. and Cho, S. (2004).
+\newblock {Combining Gaussian Mixture Models}.
+\newblock In Yang, Z., Yin, H., and Everson, R., editors, {\em Intelligent Data
+  Engineering and Automated Learning – IDEAL 2004 SE - 98}, volume 3177 of
+  {\em Lecture Notes in Computer Science}, pages 666--671. Springer Berlin
+  Heidelberg.
+
+\bibitem[Melnykov, 2013]{melnykov2013distribution}
+Melnykov, V. (2013).
+\newblock {On the Distribution of Posterior Probabilities in Finite Mixture
+  Models with Application in Clustering}.
+\newblock {\em Journal of Multivariate Analysis}, 122:175--189.
+
+\bibitem[Pastore and Tonellato, 2013]{pastore2013merging}
+Pastore, A. and Tonellato, S.~F. (2013).
+\newblock {A Merging Algorithm for Gaussian Mixture Components}.
+\newblock {\em SSRN Electronic Journal}, (04).
 
 \end{thebibliography}

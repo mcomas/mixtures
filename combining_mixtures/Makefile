@@ -2,16 +2,14 @@
 
 article : pdf/combining_mixtures.pdf
 
+pdf/combining_mixtures.pdf : tex/combining_mixtures.tex tex/combining_mixtures.bbl $(FIGURES) $(DATA) $(TEX)
+	pdflatex -output-directory tex tex/combining_mixtures.tex
+	pdflatex -output-directory tex tex/combining_mixtures.tex
+	mv tex/combining_mixtures.pdf pdf/combining_mixtures.pdf
+
 tex/combining_mixtures.bbl : tex/combining_mixtures.bib
 	pdflatex -output-directory tex -jobname combining_mixtures tex/combining_mixtures.tex
 	bibtex tex/combining_mixtures
-	rm -f tex/combining_mixtures.blg tex/combining_mixtures.aux tex/combining_mixtures.nav tex/combining_mixtures.out tex/combining_mixtures.snm tex/combining_mixtures.toc tex/*.log
-
-pdf/combining_mixtures.pdf : tex/combining_mixtures.tex tex/combining_mixtures.bbl tex/combining_mixtures.bbl
-	pdflatex -output-directory tex -jobname combining_mixtures tex/combining_mixtures.tex
-	mv tex/combining_mixtures.pdf pdf/combining_mixtures.pdf
-	rm -f tex/combining_mixtures.log tex/combining_mixtures.aux tex/combining_mixtures.nav tex/combining_mixtures.out tex/combining_mixtures.snm tex/combining_mixtures.toc tex/*.log
-
 
 
 ###################################################################################
