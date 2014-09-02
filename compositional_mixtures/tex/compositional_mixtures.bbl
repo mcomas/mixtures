@@ -1,10 +1,5 @@
 \begin{thebibliography}{}
 
-\bibitem[mon, 2011]{monti2011shifted}
- (2011).
-\newblock {\em {The shifted-scaled Dirichlet distribution in the simplex}},
-  Sant Feliu de Gu\'{\i}xols. Eds.
-
 \bibitem[Aitchison, 1982]{aitchison1986statistical}
 Aitchison, J. (1982).
 \newblock {The Statistical Analysis of Compositional Data}.
@@ -15,6 +10,7 @@ Aitchison, J. (1982).
 Albert, J.~H. and Gupta, A.~K. (1982).
 \newblock {Mixtures of Dirichlet Distributions and Estimation in Contingency
   Tables}.
+\newblock {\em The Annals of Statistics}, 10(4):1261--1268.
 
 \bibitem[Andrews and McNicholas, 2012]{andrews2012model}
 Andrews, J.~L. and McNicholas, P.~D. (2012).
@@ -41,15 +37,16 @@ Banfield, J. and Raftery, A.~E. (1993).
 Barcel\'{o}-Vidal, C., Mart\'{\i}n-Fern\'{a}ndez, J.~A., and Pawlowsky-Glahn,
   V. (1999).
 \newblock {Comment on ``Singularity and Nonnormality in the Classification of
-  Compositional Data'' by G. C. Bohling, J. C. Davis, R. A. Olea, and J.
-  Harff}.
+  Compositional Data'' by Bohling, G. C., Davis, J. C. , Olea, R. A. and Harff,
+  J.}
 \newblock {\em Mathematical Geology}, 31(5):581--585.
 
 \bibitem[Bickel and Scheffer, 2004]{bickel2004multi}
 Bickel, S. and Scheffer, T. (2004).
 \newblock {Multi-view clustering}.
-\newblock In {\em Proceedings - Fourth IEEE International Conference on Data
-  Mining, ICDM 2004}, pages 19--26.
+\newblock In Rastogi, R., Morik, K., Bramer, M., and Wu, X., editors, {\em ICDM
+  2004, fourth IEEE International Conference on Data Mining}, pages 19--26,
+  Brighton. IEEE Computer Society.
 
 \bibitem[Bouguila, 2011]{bouguila2011count}
 Bouguila, N. (2011).
@@ -77,6 +74,7 @@ Buccianti, A. (2011).
 Celeux, G. and Govaert, G. (1992).
 \newblock {A classification EM algorithm for clustering and two stochastic
   versions}.
+\newblock {\em Computational Statistics \& Data Analysis}, 14(3):315--332.
 
 \bibitem[Egozcue et~al., 2003]{egozcue2003isometric}
 Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcel\'{o}-Vidal,
@@ -88,6 +86,7 @@ Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcel\'{o}-Vidal,
 Fraley, C. and Raftery, A.~E. (2002).
 \newblock {Model-Based Clustering, Discriminant Analysis, and Density
   Estimation}.
+\newblock {\em Journal of the American Statistical Association}, 97:611--631.
 
 \bibitem[Hansen, 1982]{hansen1982large}
 Hansen, L.~P. (1982).
@@ -128,6 +127,14 @@ McLachlan, G.~J. and Peel, D. (2000).
   Statistics}}.
 \newblock John Wiley \& Sons, New York.
 
+\bibitem[Monti et~al., 2011]{monti2011shifted}
+Monti, G.~S., Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.~J.
+  (2011).
+\newblock {The shifted-scaled Dirichlet distribution in the simplex}.
+\newblock In Egozcue, J.~J., Tolosana-Delgado, R., and Ortego, M.~I., editors,
+  {\em CoDaWork 2011, the 4th international Workshop on Compositional Data
+  analysis}, Sant Feliu de Gu\'{\i}xols. CIMNE.
+
 \bibitem[Narayanan, 1991]{narayanan1991algorithm}
 Narayanan, A. (1991).
 \newblock {Algorithm AS 266: maximum likelihood estimation of the parameters of
@@ -143,6 +150,8 @@ Ng, K.~W., Tian, G.-L., and Tang, M.-L. (2011).
 \bibitem[Ongaro et~al., 2008]{ongaro2008new}
 Ongaro, A., Migliorati, S., and Monti, G.~S. (2008).
 \newblock {A new distribution on the simplex containing the Dirichlet family}.
+\newblock Technical report, Universitat de Girona. Departament
+  d’Inform\`{a}tica i Matem\`{a}tica Aplicada.
 
 \bibitem[Papageorgiou et~al., 2001]{papageorgiou2001model}
 Papageorgiou, I., Baxter, M.~J., and Cau, M.~A. (2001).
