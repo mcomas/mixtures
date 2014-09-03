@@ -23,7 +23,23 @@
 
 \maketitle
 
-Recently, the problem of merging the components of a Gaussian mixtures has received special atention \cite{melnykov2013distribution,lee2004combining,hennig2010methods,baudry2010combining,pastore2013merging}. 
+\section{Introduction}
+
+Different he problem of merging the components of a Gaussian mixtures has received special atention \cite{melnykov2013distribution,lee2004combining,hennig2010methods,baudry2010combining,pastore2013merging}. 
+
+Hennig summarizes the hierarchical principle for merging Gaussian components as follows:
+\begin{enumerate}
+\item Start with all components of the initially estimated Gaussian mixture as current clusters
+\item Find the pair of current clusters most promising to merge
+\item Apply a stopping criterion to decide wheter to merge them to form a new current cluster, or to use the current clustering as the final one.
+\item If merged, go to 2.
+\end{enumerate}
+
+
+In this paper we focus on methods based on misclassification probabilities. Concretely, on those depending on the posterior probabilities \citep{melnykov2013distribution}, \citep{baudry2010combining} and \citep[in \textsc{demp} approach]{hennig2010methods}.
+
+
+We exposes the problem in a general setting which contains the approaches proposed by Baudry and Hennig.
 
 \section{The subjectiveness of clustering decisions}
 
