@@ -20,8 +20,8 @@ l_ply(cl, function(v){
   df.c = data.frame('coord.1' = v$x, 'coord.2' = v$y)
   p.ilr <<- p.ilr+geom_path(data=df.c, alpha=0.4)})
 p.ilr = p.ilr + 
-  xlab( expression(paste( sqrt(1 / 2),'  ', log(paste(' ',  Ca / Si, ' ') )) )) +
-  ylab( expression(paste( sqrt(2 / 3),'  ', log(paste(' ',  sqrt(paste(Ca,'·',  Si)) / Al,' ') )) ))
+  xlab( expression(paste( sqrt(1 / 2),'  ', ln(paste(' ',  Ca / Si, ' ') )) )) +
+  ylab( expression(paste( sqrt(2 / 3),'  ', ln(paste(' ',  sqrt(paste(Ca,'·',  Si)) / Al,' ') )) ))
 
 #  xlab(expression(frac(1, sqrt(2)) ~ log(frac(Si,Ca)))) +
 #  ylab(expression(frac(sqrt(2), sqrt(3)) ~ log(Al/sqrt(Ca ~ Si)  )))
