@@ -438,23 +438,23 @@ This research was supported by the Ministerio de Econom\'ia y Competividad under
 \section{Basis invariance}
 
 \begin{definition}
-A probability density function is \emph{basis invariant} if for any two different othonormal basis $\mathcal{B}_1$, $\mathcal{B}_2$, for any parameter $\theta_1 \in \Theta$, there is a parameter $\theta_2 \in \Theta$ such that
+Let $\mathcal{B}_1$ and $\mathcal{B}_2$ be orthonormal basis. Let $\Theta$ be a parameter space for a probability density function $f^*: \mathbb{R}^d \rightarrow \mathbb{R}^+$. 
+A probability density function $f^*$ is \emph{basis invariant} if for any two different othonormal basis $\mathcal{B}_1$, $\mathcal{B}_2$, for any parameter $\theta_1 \in \Theta$, there is a parameter $\theta_2 \in \Theta$ such that
 \[
 f^*(h_{\mathcal{B}_1}(\textbf{x}); \theta_1) = f^*(h_{\mathcal{B}_2}(\textbf{x}); \theta_2).
 \]
 
 \end{definition}
 
-The following proposition states that if $\forall \theta, \theta' \in \Theta$ there is a rotation matrix (orthogonal matrix) $Q$ that transforms the pdf $f$ with parameters $\theta$ to the pdf $f$ with parameters $\theta'$, then $f$ is basis invariant.
 
 \begin{prop}
-Let $\mathcal{B}$ be an orthonormal basis.Let  $\Theta$ be a parameter space. Let $f(\textbf{x} ; \theta_{\mathcal{B}})$ be a probability density function defined on the simplex space $\mathcal{S}^D$ with $\theta_{\mathcal{B}} \in \Theta$.
+Let $\mathcal{B}$ be an orthonormal basis. Let $\Theta$ be a parameter space for a probability density function $f^*: \mathbb{R}^d \rightarrow \mathbb{R}^+$.
 
-If for any orthogonal matrix $Q$ there is a parameter $\theta' \in \Theta$ such that 
+If for any orthogonal matrix $Q$ and $\theta_\mathcal{B} \in \Theta$ there is a parameter $\theta \in \Theta$ such that 
 \[
-\forall \textbf{x} \in \mathcal{S}^D, \;\; f^*(h_\mathcal{B}(\textbf{x}) \cdot Q ;\; \theta') = f(\textbf{x};\; \theta) 
+\forall \textbf{x} \in \mathcal{S}^D, \;\; f^*(h_\mathcal{B}(\textbf{x}) \cdot Q ;\; \theta) = f^*(h_\mathcal{B}(\textbf{x});\; \theta_\mathcal{B}),
 \]
-then the probability function $f$ is basis invariant.
+the the probability function $f^*$ is basis invariant.
 \end{prop}
 
 \end{document}
