@@ -36,11 +36,21 @@ cat(sprintf("\\pi_1 = %s, & \\mu_1 = \\left(%s\\right), & \\Sigma_1 = \\left(\n%
             str_replace_all(latexTabular(R[[1]], headings = NULL, helvetica = FALSE), 'tabular', 'array'),
             str_replace_all(latexTabular(V[[1]], headings = NULL, helvetica = FALSE), 'tabular', 'array')))
 
+cat('\\end{array}\n')
+cat('\\]\n')
+cat('\\[\n')
+cat('\\begin{array}{l@{\\hskip 0.1in}l@{\\hskip 0.1in}l }\n')
+
 cat(sprintf("\\pi_2 = %s, & \\mu_2 = \\left(%s\\right), & \\Sigma_2 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right), \\\\ & &\\\\ \n",
             paste(P[2], collapse = ','),
             paste(M[2,], collapse = ','),
             str_replace_all(latexTabular(R[[2]], headings = NULL, helvetica = FALSE), 'tabular', 'array'),
             str_replace_all(latexTabular(V[[2]], headings = NULL, helvetica = FALSE), 'tabular', 'array')))
+
+cat('\\end{array}\n')
+cat('\\]\n')
+cat('\\[\n')
+cat('\\begin{array}{l@{\\hskip 0.1in}l@{\\hskip 0.1in}l }\n')
 
 cat(sprintf("\\pi_3 = %s, & \\mu_3 = \\left(%s\\right) \\text{ and } & \\Sigma_3 = \\left(\n%s\\right) \\cdot \\left(\n%s\\right). \\\\ & &\\\\ \n",
             paste(P[3], collapse = ','),

@@ -29,6 +29,7 @@ p0 = ggtern(data=df, aes(x=Ca, y=Al, z=Si), )+geom_point(size=1.5) +
 
 pb = p0 + 
   limit_tern(T=.2, L=.2, R=1, breaks=c(seq(.05,.15,.05), seq(.85,.95,.05))) +
+  theme_bw() + 
   theme(plot.title = element_text(lineheight=.8, face="bold"),
         legend.title = element_blank(),
         legend.text = element_text(colour="black", size = 12),
@@ -62,10 +63,10 @@ l_ply(cl2_mm, function(v){
   p3 <<- p3+geom_path(data=df.c, aes(x=Al, y=Ca), alpha=0.4)})
 p3 = p3+geom_vline(aes(xintercept=0), linetype=2)
 
-pb = pb + theme_classic()
-p1 = p1 + theme_classic()
-p2 = p2 + theme_classic()
-p3 = p3 + theme_classic()
+pb = pb 
+p1 = p1 + theme_bw()
+p2 = p2 + theme_bw()
+p3 = p3 + theme_bw()
 
 
 pdf(file='figures/elim_component_all.pdf', width=8.5, height=8.5, pointsize=10)

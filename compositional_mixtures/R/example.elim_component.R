@@ -12,9 +12,14 @@ SD = 0.25
 S1.comp = data.frame('a' = exp(rnorm(N1, mean = 0, sd=SD)), 
                      'b' = exp(rnorm(N1, mean =-1, sd=SD)),
                      'c' = exp(rnorm(N1, mean =-2, sd=SD)))
-S2.comp = data.frame('a' = rep(exp(rnorm(N2/2, mean =-1, sd=SD)), 2), 
-                     'b' = rep(exp(rnorm(N2/2, mean = 0, sd=SD)), 2),
-                     'c' = exp(c(rnorm(N2/2, mean = -1.5, sd=SD), rnorm(N2/2, mean = 1, sd=SD))))
+S2.compA = data.frame('a' = exp(rnorm(N2/2, mean =-1, sd=SD)), 
+                     'b' = exp(rnorm(N2/2, mean = 0, sd=SD)),
+                     'c' = exp(rnorm(N2/2, mean = -1.5, sd=SD)))
+
+r = data.frame(1,1, exp(rnorm(nrow(S2.compA), mean = 2, sd = SD)))
+S2.compB = S2.compA * r
+S2.comp = rbind(S2.compA, S2.compB)
+  
 ## Clousuring
 S1 = round(S1.comp[,c('a','b','c')] / apply(S1.comp[,c('a','b','c')], 1, sum) *100, 2)
 S2 = round(S2.comp[,c('a','b','c')] / apply(S2.comp[,c('a','b','c')], 1, sum) *100, 2)

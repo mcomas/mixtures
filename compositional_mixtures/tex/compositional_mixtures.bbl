@@ -28,16 +28,11 @@ Banerjee, A., Dhillon, I.~S., Ghosh, J., and Sra, S. (2005).
   Distributions}.
 \newblock {\em The Journal of Machine Learning Research}, 6:1345--1382.
 
-\bibitem[Banfield and Raftery, 1993]{banfield1993model}
-Banfield, J. and Raftery, A.~E. (1993).
-\newblock {Model-based Gaussian and Non-Gaussian Clustering}.
-\newblock {\em Biometrics}, 49:803--821.
-
 \bibitem[Barcel\'{o}-Vidal et~al., 1999]{barcelo1999comment}
 Barcel\'{o}-Vidal, C., Mart\'{\i}n-Fern\'{a}ndez, J.~A., and Pawlowsky-Glahn,
   V. (1999).
 \newblock {Comment on ``Singularity and Nonnormality in the Classification of
-  Compositional Data'' by Bohling, G. C., Davis, J. C. , Olea, R. A. and Harff,
+  Compositional Data'' by Bohling, G. C., Davis, J. C., Olea, R. A. and Harff,
   J.}
 \newblock {\em Mathematical Geology}, 31(5):581--585.
 
@@ -76,17 +71,23 @@ Celeux, G. and Govaert, G. (1992).
   versions}.
 \newblock {\em Computational Statistics \& Data Analysis}, 14(3):315--332.
 
+\bibitem[Connor and Mosimann, 1969]{connor1969concepts}
+Connor, R.~J. and Mosimann, J.~E. (1969).
+\newblock {Concepts of Independence for Proportions with a Generalization of
+  the Dirichlet Distribution}.
+\newblock {\em Journal of the American Statistical Association}, 64:194--206.
+
+\bibitem[Dempster et~al., 1977]{dempster1977maximum}
+Dempster, A.~P., Laird, N.~M., and Rubin, D.~B. (1977).
+\newblock {Maximum likelihood from incomplete data via the EM algorithm}.
+\newblock {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)}, 39:1--38.
+
 \bibitem[Egozcue et~al., 2003]{egozcue2003isometric}
 Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcel\'{o}-Vidal,
   C. (2003).
 \newblock {Isometric Logratio Transformations for Compositional Data Analysis}.
 \newblock {\em Mathematical Geology}, 35:279--300.
-
-\bibitem[Fraley and Raftery, 2002]{fraley2002model}
-Fraley, C. and Raftery, A.~E. (2002).
-\newblock {Model-Based Clustering, Discriminant Analysis, and Density
-  Estimation}.
-\newblock {\em Journal of the American Statistical Association}, 97:611--631.
 
 \bibitem[Hansen, 1982]{hansen1982large}
 Hansen, L.~P. (1982).
@@ -106,7 +107,7 @@ Lee, S.~X. and McLachlan, G.~J. (2014).
 \newblock {\em Statistics and Computing}, 24(2):181--202.
 
 \bibitem[Lin, 2010]{lin2010robust}
-Lin, T.-I. (2010).
+Lin, T.~I. (2010).
 \newblock {Robust mixture modeling using multivariate skew t distributions}.
 \newblock {\em Statistics and Computing}, 20(3):343--356.
 
@@ -116,10 +117,22 @@ Mardia, K.~V., Taylor, C.~C., and Subramaniam, G.~K. (2007).
   distributions for angular data}.
 \newblock {\em Biometrics}, 63.
 
+\bibitem[Mateu-Figueras et~al., 2011]{figueras2011principle}
+Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.~J. (2011).
+\newblock {The Principle of Working on Coordinates}.
+\newblock In {\em Compositional Data Analysis}, pages 29--42. John Wiley \&
+  Sons, Ltd.
+
 \bibitem[Mateu-Figueras et~al., 2013]{mateu2013normal}
 Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.~J. (2013).
 \newblock {The normal distribution in some constrained sample spaces}.
 \newblock {\em SORT}, 37(1):29--56.
+
+\bibitem[McLachlan and Lee, 2013]{mclachlan2013emmixuskew}
+McLachlan, G. and Lee, S.~X. (2013).
+\newblock {EMMIXuskew: An R Package for Fitting Mixtures of Multivariate Skew t
+  Distributions via the EM Algorithm}.
+\newblock {\em Journal of Statistical Software}, 55(12):??----??
 
 \bibitem[McLachlan and Peel, 2000]{mclachlan2000finite}
 McLachlan, G.~J. and Peel, D. (2000).
@@ -153,6 +166,13 @@ Ongaro, A., Migliorati, S., and Monti, G.~S. (2008).
 \newblock Technical report, Universitat de Girona. Departament
   d’Inform\`{a}tica i Matem\`{a}tica Aplicada.
 
+\bibitem[Palarea-Albaladejo et~al., 2014]{palarea2014compositional}
+Palarea-Albaladejo, J., Mart\'{\i}n-Fern\'{a}ndez, J., and Buccianti, A.
+  (2014).
+\newblock {Compositional methods for estimating elemental concentrations below
+  the limit of detection in practice using R}.
+\newblock {\em Journal of Geochemical Exploration}, 141:71--77.
+
 \bibitem[Papageorgiou et~al., 2001]{papageorgiou2001model}
 Papageorgiou, I., Baxter, M.~J., and Cau, M.~A. (2001).
 \newblock {Model-based Cluster Analysis of Artefact Compositional Data}.
@@ -163,6 +183,12 @@ Pawlowsky-Glahn, V. and Egozcue, J.~J. (2001).
 \newblock {Geometric approach to statistical analysis on the simplex}.
 \newblock {\em Stochastic Environmental Research and Risk Assessment},
   15(5):384--398.
+
+\bibitem[Prates et~al., 2013]{prates2013mixsmsn}
+Prates, M.~O., Lachos, V.~H., and Cabral, C. R.~B. (2013).
+\newblock {mixsmsn: Fitting Finite Mixture of Scale Mixture of Skew-Normal
+  Distributions}.
+\newblock {\em Journal of Statistical Software}, 54(12):??----??
 
 \bibitem[{R Core Team}, 2014]{R2014soft}
 {R Core Team} (2014).
@@ -179,5 +205,11 @@ Rayens, W.~S. and Srinivasan, C. (1994).
 Scott, A. and Symons, M. (1971).
 \newblock {Clustering methods based on likelihood ratio criteria}.
 \newblock {\em Biometrics}, 27:387--397.
+
+\bibitem[Vives-Mestres et~al., 2014]{vives2014individual}
+Vives-Mestres, M., Daunis-i Estadella, J., and M\'{a}rtin-Fern\'{a}ndez, J.~A.
+  (2014).
+\newblock {Individual T-2 Control Chart for Compositional Data}.
+\newblock {\em Journal of Quality Technology}, 46(2):127--139.
 
 \end{thebibliography}

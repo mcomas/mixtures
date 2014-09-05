@@ -32,7 +32,8 @@ l_ply(cl, function(v){
 
 pb = p0 + 
   limit_tern(T=.2, L=.2, R=1, breaks=c(seq(.05,.15,.05), seq(.85,.95,.05))) +
-  ggtitle("Forensic Glass data set") + 
+#  ggtitle("Forensic Glass data set") + 
+  theme_bw() + 
   theme(plot.title = element_text(lineheight=.8, face="bold"),
         legend.title = element_blank(),
         legend.text = element_text(colour="black", size = 12),
@@ -43,8 +44,8 @@ l_ply(cl, function(v){
   df.c = data.frame('Ca' = v$x, 'Si' = v$y, 'Al' = 1-v$x-v$y, 'glasses'=NA)
   pb <<- pb+geom_path(data=df.c, aes(x=Ca, y=Al, z=Si), alpha=0.6)})
 
-pa = pa+theme_classic()
-pb = pb+theme_classic()
+pa = pa
+pb = pb
 
 ggsave(pb, file='figures/dirichlet_mixture.pdf', width=9, height=5.5)
 # pdf(file='figures/dirichlet_mixture.pdf', width=6.5, height=4.4, pointsize=10)
