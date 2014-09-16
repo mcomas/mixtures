@@ -1,0 +1,106 @@
+---
+title: "Guió presentació Granada"
+author: "M. Comas-Cufí"
+date: "16/09/2014"
+output: word_document
+---
+
+### Mixture models
+
+#### Mixture models
+
+* Recordatori de què és una mixtura.
+* Paràmetres que intervenen.
+* Metodologia clàssica d'estimació dels seus paràmetres.
+
+#### Mixture models: Gaussian example
+
+* Es mostra un exemple on s'ajusta una mixtura a una mostra (és decideixen les components segons criteri BIC). La mixtura ajustada té 6 components.
+
+#### Mixture models: classifying observation
+
+* Es fa referència a que un cop calculada un mixtura, qualsevol punt de l'espai mostral té una probabilitat a posteriori de provenir d'una de les components de la mixtura.
+* Aquestes probabilitats s'utilitzen per assignar les observacions d'una mostra a una classe associada a la component.
+
+#### Mixture models: merging components
+
+* Normalment s'associa un clúster a una component. En alguns casos potser té més sentit associar un clúster a mes d'una component (a la component formada per una suma de components).
+* Des d'un punt de vista de versemblança, no es pot decidir quines components d'una mixtura passen a formar una sola component. Això és degut a que la funció de versemblança pren el mateix valor indiferentment de com es reuneixin les components. Per tant, lo "bona" que és una reunió sempre serà subjectiu.
+* Tot i això, a la literatura hi ha diferents enfocs per reunir components en una sola component.
+* En aquest presentació es revisen i s'unifiquen.
+
+#### Mixture models: hierarchical component merging
+
+* S'explica com es procedirà a unir components per conformar una sola component.
+
+#### Our input, our goal: What do wen want to do?
+
+* A la literatura hi ha mètodes que unifiquen components seguin diversos criteris (semblança en els paràmetres de les components, nombre de modes que formen formada per les components a reunir, etc).
+* En aquesta presentació ens centrem en els mètodes que es basen en les probabilitats a posteriori de provenir de la component.
+
+### Combining components
+
+#### Whats does ”merge” usually mean in mixture modeling?
+
+* Generalment, es considera que una observació prové d'una de les components. Això fa que la operació suma sigui la més natural al reunir dues components en una sola component. (La probabilitat de provenir de A o B és igual a la suma de provenir de A i la de provenir de B).
+
+#### Entropy approach
+
+* Es maximitza la diferencia d'entropies entre l'entropia abans i després d'ajuntar components
+* Dit d'una altre manera, es busca aquelles dues components que al unir-les minimitzen l'entropia.
+
+#### DEMP approach
+
+* Es maximitza la probabilitat de misclassificació.
+* Dues components s'ajunten quan mes gran sigui la probabilitat de confondre una amb l'altre
+* A diferència del mètode d'entropies, el criteri no és simètric. Una component A es pot confondre amb una component B però no del revés.
+
+#### Log-ratio approach
+
+* Entre els individus amb major probabilitat de pertànyer a A es mira quant semblant és aquesta probabilitat a la probabilitat de pertànyer a B. Aquesta semblança es mira comparant la ratio entre ells. (En CoDa termes, es mira la distància a l'origen).
+
+#### Methods summary
+
+* Es mostren els tres mètodes actuals
+
+#### Comparing methods using Rand Index
+
+* Es comparen els resultat en un exercici de simulació. (La simulació està explicada a la transparència)
+* Entropy és el mes dolent.
+
+#### Main ideas behind log-ratio approach
+
+* Quan es va crear el Log-ratio approach es tenia en ment dos aspectes: dissimilitud entre components i rellevància de la observació a la component.
+
+#### General approach
+
+* Es proposa separar el problema en dues parts. Una part que tingui en compte la dissimilitud entre components i una part que tingui en compte la rellevància de la observació a la component.
+* A continuació es veurà que tots el mètodes presentats poden expressar-se en aquest termes.
+
+#### General approach: Entropy
+
+* Tots els individus son igual de rellevants
+
+#### General approach: DEMP
+
+* La rellevància de la observació a la components A bé donat per la probabilitat de provenir de A
+
+#### Summarizing
+
+* A la taula es veu com es poden crear noves aproximacions.
+
+#### Results
+
+* Comparació dels mètodes. 
+* Sembla que la rellevància de la observació a la component és clau per obtenir bons resultats.
+
+### Further work
+
+#### Where do $\tau_i$’s come from?
+
+* L'enfoc que hem seguit és equivalent per si les $\tau$'s provenen d'altres fonts.
+* Fuzzy clustering és molt semblant a mixtures, l'únic que amb funcions de densitat d'àrea no acotada.
+
+#### Whats does "merge"" usually mean in general?
+
+* Hem considerat la suma com la operació per combinar les probabilitats. Què passa si en considerem d'altres?

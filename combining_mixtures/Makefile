@@ -1,4 +1,4 @@
-.IPHONY: seminari-girona article
+.IPHONY: seminari-girona granada article
 
 article : pdf/combining_mixtures.pdf
 
@@ -44,4 +44,16 @@ pdf/seminari-girona.pdf : tex/seminari-girona.main.tex \
 	pdflatex -output-directory pdf -jobname seminari-girona tex/seminari-girona.main.tex
 	rm -f pdf/seminari-girona.aux pdf/seminari-girona.log pdf/seminari-girona.nav pdf/seminari-girona.out pdf/seminari-girona.snm pdf/seminari-girona.toc tex/*.log
 
+granada : pdf/granada.pdf
+
+pdf/granada.pdf : tex/granada.main.tex \
+                          tex/seminari-girona.intro-combining-mixtures.tex \
+                          tex/seminari-girona.combining-components.tex \
+                          tex/seminari-girona.combining-general-approach.tex \
+                          tex/seminari-girona.further-work.tex \
+                          tex/seminari-girona.aliments-example.tex \
+                          $(seminari-static-figures)
+	pdflatex -output-directory pdf -jobname granada tex/granada.main.tex
+	pdflatex -output-directory pdf -jobname granada tex/granada.main.tex
+	rm -f pdf/granada.aux pdf/granada.log pdf/sgranada.nav pdf/granada.out pdf/granada.snm pdf/granada.toc tex/*.log
 
