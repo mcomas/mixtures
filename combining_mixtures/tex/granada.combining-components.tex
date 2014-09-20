@@ -1,0 +1,66 @@
+\begin{frame}
+\frametitle{Whats does "merge" usually mean  in mixture modeling?}
+\begin{itemize}
+\item Merging component $C_a$ with component $C_b$ to a new component $C_c$ means that observation related to component $C_{ab}$ either is related to component $C_a$ or to component $C_b$.
+\item Mixture models assume that an observation comes from a unique component (belongs to a unique component).
+\item For an observation $\textbf{x}_i$ 
+\begin{eqnarray*} 
+\uncover<2>{ \tau_{i c}  \;=\;} P( \{ \textbf{x}_i \in C_{c} \})  &=& P( \{ \textbf{x}_i \in C_{a} \} \cup \{ \textbf{x}_i \in C_{b} \} ) \\
+&=& P( \{ \textbf{x}_i \in C_{a} \}) + P( \{ \textbf{x}_i \in C_{b} \} )  \uncover<2>{ \;=\; \tau_{i a} + \tau_{i b} }
+\end{eqnarray*} 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Methods summary}
+\small
+\begin{tabular}{ >{\centering}m{1.7in} | >{\centering}m{0.8in} | >{\centering}m{1.3in} m{0in}}
+\textbf{Method} & \textbf{optimization} & \textbf{criteria} & \\\hline\hline
+Entropy (Baudry et~al., 2010)     & max  & 
+$\substack{- \sum_{i=1}^n \left\{ \tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b})\right\} + \\
+\sum_{i=1}^n  (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b})}$  & \\ [2em]
+\hline
+DEMP    (Hennig, 2010)    & max & $\frac{ \frac{1}{n} \sum_{h=1}^n \tau_{hb} \; \mathlarger{\mathbbm{1}}\left\{ \forall \ell \; \tau_{ha} \geq \tau_{h\ell}  \right\}  }{ \pi_b }$ &\\ [2em]
+\hline
+Log-ratio (ERCIM'13)  & min & $\frac{1}{n_a} \sum_{x_i \in G_a} \left\| (\tau_{ia}, \tau_{ib}) \right\|_{\mathcal{A}}$ & \\ [2em]
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Comparing methods using Rand Index}
+\centering
+\begin{columns}[T]
+\column{0.45\textwidth}
+\uncover<2>{\includegraphics[width=\textwidth]{pdf/comparing-three-methods.pdf}}
+
+\column{0.6\textwidth}
+\scriptsize
+
+\textbf{Simulation:}
+
+\begin{itemize}
+\item For $6$ different levels of overlapping, $\omega$, 100~gaussian mixture, $f_i$,  with $3$ components have been generated ($6 \times 100$ different mixtures)
+\item Two gaussian mixture with 9 components are fitted to a sample coming from $f_i$ (spherical \& unrestricted) ($6 \times 100 \times 2$ different adjustments)
+\item Using each method a component hierarchy is calculated ($100 \times 6 \times 2 \times 3$  hierarchies)
+\item Level $3$ of each hierarchy is compared to the initial cluster using standard methodologies (Rand Index).
+% ( $100 \times 6 \times 2$ simulations for each method )
+\end{itemize}
+\begin{center}
+\pause
+
+\begin{verbatim}
+  MEAN COMPARISON  | ENTROPY     DEMP AITCHISON
+  -----------------+---------------------------
+       w=0.01      |    0.81     0.92      0.98
+       w=0.02      |    0.72     0.89      0.97
+       w=0.04      |    0.61     0.86      0.94
+       w=0.08      |    0.48     0.79      0.88
+       w=0.16      |    0.33     0.64      0.73
+       w=0.32      |    0.21     0.43      0.50
+\end{verbatim}
+\end{center}
+\end{columns}
+
+\end{frame}

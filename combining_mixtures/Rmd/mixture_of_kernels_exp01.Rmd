@@ -1,0 +1,66 @@
+```{r, include=FALSE}
+
+library(MASS)
+library(devtools)
+library(plyr)
+library(ggplot2)
+
+set.seed(1)
+
+load_all('/home/marc/research/packages/mixpack/')
+
+N = 100
+D = 2
+K  = 3
+
+
+Mu = array(0, dim = c(D, K))
+S  = array(0, dim = c(D, D, K))
+
+Mu[,1] = c(1, 1)
+Mu[,2] = c(1.25, 1)
+Mu[,3] = c(1, 1.5)
+
+S[,,1] = diag(0.01, 2)
+S[,,2] = diag(0.01, 2)
+S[,,3] = diag(0.01, 2)
+
+data.lab = rmixnorm(n = N, Pi = c(0.2, 0.3, 0.5), Mu = Mu, S = S, labels = TRUE)
+
+data = data.lab[,1:2]
+
+tau = apply(data, 1, function(v) apply(data, 1, function(w) exp( -sum( (v-w)^2 )/ 0.02 ) ) )
+
+hp = get_hierarchical_partition_mult_1(tau = tau, 
+                                       varphi = function(v_tau, a) v_tau[a],
+                                       theta = function(v_tau, a, b) log(v_tau[a] / v_tau[b])^2)
+
+# hp = get_hierarchical_partition(tau = tau, 
+#                                 varphi = function(v_tau, a) v_tau[a],
+#                                 theta = function(v_tau, a, b) log(v_tau[a] / v_tau[b])^2)
+cluster_partition = function(tau, partition){
+  cl = rep(0, nrow(tau))
+  for(i in 1:length(partition)){
+    cl[partition[[i]]] = i
+  }
+  cl
+}
+
+df = ldply(hp, function(partition){
+  df = data.frame(data)
+  df$cluster = cluster_partition(tau, partition)
+  df$step = factor(length(partition), levels =  length(hp):1)
+  df$orig = data.lab[,3]
+  df
+})
+
+df$shape = as.factor( (df$cluster %% 6) + 1 )
+```
+
+```{r, echo=FALSE, fig.width=8, fig.height=5}
+ggplot(df[df$step %in% c(20, 15, 10, 5, 4, 3),]) + 
+  geom_point( aes(x=V1, y=V2, shape=as.factor(orig)), size= 8, col='grey', alpha=0.8) + 
+  geom_point( aes(x=V1, y=V2, col=as.factor(cluster), shape=shape), size= 4) +
+  scale_color_discrete(guide=FALSE) + scale_shape_discrete(guide=FALSE) +
+  facet_wrap(~step) + theme_bw()
+```

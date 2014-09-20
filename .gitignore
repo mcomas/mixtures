@@ -6,3 +6,8 @@ pdf
 *.pdf
 *.Rproj
 figures
+*.html
+*.aux
+*.blg
+*.docx
+*.md

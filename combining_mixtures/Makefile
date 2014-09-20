@@ -47,12 +47,10 @@ pdf/seminari-girona.pdf : tex/seminari-girona.main.tex \
 granada : pdf/granada.pdf
 
 pdf/granada.pdf : tex/granada.main.tex \
-                          tex/seminari-girona.intro-combining-mixtures.tex \
-                          tex/seminari-girona.combining-components.tex \
-                          tex/seminari-girona.combining-general-approach.tex \
-                          tex/seminari-girona.further-work.tex \
-                          tex/seminari-girona.aliments-example.tex \
-                          $(seminari-static-figures)
+                  tex/granada.intro-combining-mixtures.tex \
+                  tex/granada.combining-components.tex \
+                  tex/granada.combining-general-approach.tex \
+                  $(seminari-static-figures)
 	pdflatex -output-directory pdf -jobname granada tex/granada.main.tex
 	pdflatex -output-directory pdf -jobname granada tex/granada.main.tex
 	rm -f pdf/granada.aux pdf/granada.log pdf/sgranada.nav pdf/granada.out pdf/granada.snm pdf/granada.toc tex/*.log

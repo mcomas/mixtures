@@ -1,0 +1,51 @@
+```{r, include=FALSE}
+library(ggplot2)
+
+ss = seq(0, 2*pi, length.out = 10000)
+a = sample(ss, 50, replace =TRUE)
+b = sample(ss, 50, replace =TRUE)
+df1 = data.frame('x' = sin(a),
+                 'y' = cos(a))
+df2 = data.frame('x' = 0.2 * sin(b),
+                 'y' = 0.2 * cos(b))
+df1$orig = '1'
+df2$orig = '2'
+data.lab = rbind(df1, df2)
+
+data = data.lab[,1:2]
+
+tau = apply(data, 1, function(v) apply(data, 1, function(w) exp( -sum( (v-w)^2 )/ 0.02 ) ) )
+
+hp = get_hierarchical_partition_mult_1(tau = tau, 
+                                       varphi = function(v_tau, a) v_tau[a],
+                                       theta = function(v_tau, a, b) log(v_tau[a] / v_tau[b])^2)
+
+# hp = get_hierarchical_partition(tau = tau, 
+#                                 varphi = function(v_tau, a) v_tau[a],
+#                                 theta = function(v_tau, a, b) log(v_tau[a] / v_tau[b])^2)
+cluster_partition = function(tau, partition){
+  cl = rep(0, nrow(tau))
+  for(i in 1:length(partition)){
+    cl[partition[[i]]] = i
+  }
+  cl
+}
+
+df = ldply(hp, function(partition){
+  df = data.frame(data)
+  df$cluster = cluster_partition(tau, partition)
+  df$step = factor(length(partition), levels =  length(hp):1)
+  df$orig = data.lab[,3]
+  df
+})
+
+df$shape = as.factor( (df$cluster %% 6) + 1 )
+```
+
+```{r, echo=FALSE, fig.width=8, fig.height=5}
+ggplot(df[df$step %in% c(20, 15, 10, 5, 4, 3),]) + 
+#  geom_point( aes(x=V1, y=V2, shape=as.factor(orig)), size= 8, col='grey', alpha=0.8) + 
+  geom_point( aes(x=x, y=y, col=as.factor(cluster), shape=shape), size= 4) +
+  scale_color_discrete(guide=FALSE) + scale_shape_discrete(guide=FALSE) +
+  facet_wrap(~step) + theme_bw()
+```
