@@ -3,6 +3,7 @@
 .RData
 data
 pdf
+*.log
 *.pdf
 *.Rproj
 figures

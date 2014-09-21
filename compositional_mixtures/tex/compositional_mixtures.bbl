@@ -102,8 +102,8 @@ Lee, S.~X. and McLachlan, G.~J. (2011).
 
 \bibitem[Lee and McLachlan, 2014]{lee2013finite}
 Lee, S.~X. and McLachlan, G.~J. (2014).
-\newblock {Finite Mixtures of Multivariate Skew T-distributions: Some Recent
-  and New Results}.
+\newblock {Finite mixtures of multivariate skew t-distributions: some recent
+  and new results}.
 \newblock {\em Statistics and Computing}, 24(2):181--202.
 
 \bibitem[Lin, 2010]{lin2010robust}
@@ -117,6 +117,12 @@ Mardia, K.~V., Taylor, C.~C., and Subramaniam, G.~K. (2007).
   distributions for angular data}.
 \newblock {\em Biometrics}, 63.
 
+\bibitem[Mateu-Figueras and Pawlowsky-Glahn, 2007]{mateu2007skew}
+Mateu-Figueras, G. and Pawlowsky-Glahn, V. (2007).
+\newblock {The Skew-Normal Distribution on the Simplex}.
+\newblock {\em Communications in Statistics - Theory and Methods},
+  36(9):1787--1802.
+
 \bibitem[Mateu-Figueras et~al., 2011]{figueras2011principle}
 Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.~J. (2011).
 \newblock {The Principle of Working on Coordinates}.
@@ -129,10 +135,10 @@ Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.~J. (2013).
 \newblock {\em SORT}, 37(1):29--56.
 
 \bibitem[McLachlan and Lee, 2013]{mclachlan2013emmixuskew}
-McLachlan, G. and Lee, S.~X. (2013).
+McLachlan, G.~J. and Lee, S.~X. (2013).
 \newblock {EMMIXuskew: An R Package for Fitting Mixtures of Multivariate Skew t
   Distributions via the EM Algorithm}.
-\newblock {\em Journal of Statistical Software}, 55(12):??----??
+\newblock {\em Journal of Statistical Software}, 55(12).
 
 \bibitem[McLachlan and Peel, 2000]{mclachlan2000finite}
 McLachlan, G.~J. and Peel, D. (2000).
@@ -163,11 +169,12 @@ Ng, K.~W., Tian, G.-L., and Tang, M.-L. (2011).
 \bibitem[Ongaro et~al., 2008]{ongaro2008new}
 Ongaro, A., Migliorati, S., and Monti, G.~S. (2008).
 \newblock {A new distribution on the simplex containing the Dirichlet family}.
-\newblock Technical report, Universitat de Girona. Departament
-  d’Inform\`{a}tica i Matem\`{a}tica Aplicada.
+\newblock In Daunis-i Estadella, J. and Mart\'{\i}n-Fern\'{a}ndez, J.~A.,
+  editors, {\em CoDaWork 2008, the 3th international Workshop on Compositional
+  Data analysis}, Girona. Universitat de Girona.
 
 \bibitem[Palarea-Albaladejo et~al., 2014]{palarea2014compositional}
-Palarea-Albaladejo, J., Mart\'{\i}n-Fern\'{a}ndez, J., and Buccianti, A.
+Palarea-Albaladejo, J., Mart\'{\i}n-Fern\'{a}ndez, J.~A., and Buccianti, A.
   (2014).
 \newblock {Compositional methods for estimating elemental concentrations below
   the limit of detection in practice using R}.
@@ -188,7 +195,7 @@ Pawlowsky-Glahn, V. and Egozcue, J.~J. (2001).
 Prates, M.~O., Lachos, V.~H., and Cabral, C. R.~B. (2013).
 \newblock {mixsmsn: Fitting Finite Mixture of Scale Mixture of Skew-Normal
   Distributions}.
-\newblock {\em Journal of Statistical Software}, 54(12):??----??
+\newblock {\em Journal of Statistical Software}, 54(12).
 
 \bibitem[{R Core Team}, 2014]{R2014soft}
 {R Core Team} (2014).
