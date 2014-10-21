@@ -153,9 +153,9 @@ One can define a pdf on the simplex by a pdf over the vector of orthonormal log-
 f_\mathcal{B}(\mathbf{x}\;; \m\mu, \m\Sigma) =(2\pi)^{-(D-1)/2} |\mathbf{\Sigma}|^{-1/2} \exp \left( -{\frac{1}{2}} \left(h_\mathcal{B}(\textbf{x})- \m\mu \right)' \mathbf{\Sigma}^{-1} \left( h_\mathcal{B}(\textbf{x})- \m\mu \right)\right).
 \end{equation}
 
-Figure \ref{fig01}(left) shows  contour lines of three normal distributions on the simplex. Note that distribution in the centre of the ternary diagram is the more similar to elliptical contour lines in real space. However, note that as far is
+Figure~\ref{fig01}(left) shows  contour lines of three normal distributions on the simplex. Note that distribution in the centre of the ternary diagram is the more similar to elliptical contour lines in real space. However, note that as far is
 the distribution form the center of the space as more different from the traditional Gaussian shape are the contours. These shapes are frequent in real data sets from industrial and scientific applications \citep{buccianti2011natural,vives2014individual}.
-When these distributions are plotted using its coordinates (Fig.\ref{fig01}(right)) the traditional Gaussian contour lines are obtained. This idea can be applied using other distributions on real space as for example the skew-normal (see \cite{mateu2007skew}).
+When these distributions are plotted using its coordinates (Figure~\ref{fig01}(right)) the traditional Gaussian contour lines are obtained. This idea can be applied using other distributions on real space as for example the skew-normal (see \cite{mateu2007skew}).
 
 
 \begin{figure}[thbp]
@@ -185,7 +185,7 @@ This approach assumes that $\mathcal{S}^D$ is a subset of $\mathbb{R}^D$ and its
 
 When one uses traditional distributions defined on the real space, the mixture pdf is strictly positive in all the space, giving positive probability to impossible events. For example, the \emph{impossible} event  of having the $i$-th component negative has positive probability, i.e $P(\{ \textbf{x} \in \mathcal{S}^D | x_i < 0 \}) > 0$. This difficulty is similar to the traditional confidence interval of a very small or very large proportion, it may respectively provide lower or upper limit beyond the restricted space. 
 
-In addition, this approach defined on the real space also ignores the constant sum constraint. Therefore, another limitation is the collinearity that appears between components  after restricting the components to sum a constant (Eq. (\ref{sum_to_constant})). This collinearity implies that the covariance matrix is singular, and therefore, some methods can not be applied directly. Frequently, mixture models are estimated using the Expectation Maximization (EM) algorithm \citep{dempster1977maximum}. In the E-step of the EM-algorithm a pdf computed from the sample is evaluated. Because most pdf depend on the inverse of the covariance matrix (e.g., multivariate normal and multivariate skew), the common solution consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. However, this strategy may  produce misleading results.   
+In addition, this approach defined on the real space also ignores the constant sum constraint. Therefore, another limitation is the collinearity that appears between components  after restricting the components to sum a constant (Equation~\ref{sum_to_constant}). This collinearity implies that the covariance matrix is singular, and therefore, some methods can not be applied directly. Frequently, mixture models are estimated using the Expectation Maximization (EM) algorithm \citep{dempster1977maximum}. In the E-step of the EM-algorithm a pdf computed from the sample is evaluated. Because most pdf depend on the inverse of the covariance matrix (e.g., multivariate normal and multivariate skew), the common solution consists on removing one part from the composition for the rest of the analysis \citep{papageorgiou2001model}. However, this strategy may  produce misleading results.   
 
 
 \begin{table}
@@ -197,11 +197,10 @@ Two categorical covariates were considered: site and condition. }
 \label{example_elim_tab}
 \end{table}
 
-For example, let $\mathbf{X}$ be the CoDa data set recorded in Table \ref{example_elim_tab}. Suppose that compositions come from two different locations, $S_1$ and $S_2$. Moreover, suppose that compositions were collected under two possible weather conditions, $C_1$ and $C_2$. Suppose that it is well known
-that these conditions only affects part $c$: in condition $C_1$ the level of element $c$ is lower than in condition $C_2$ (for example, suppose that element $c$ is water and condition $C_1$ is a sunny day while condition $C_2$ is a rainy day). In this way, the compositions from rows number 16 to 20 (Table  
-\ref{example_elim_tab}) are the perturbed corresponding counterparts of compositions from the
+For example, let $\mathbf{X}$ be the CoDa data set recorded in Table~\ref{example_elim_tab}. Suppose that compositions come from two different locations, $S_1$ and $S_2$. Moreover, suppose that compositions were collected under two possible weather conditions, $C_1$ and $C_2$. Suppose that it is well known
+that these conditions only affects part $c$: in condition $C_1$ the level of element $c$ is lower than in condition $C_2$ (for example, suppose that element $c$ is water and condition $C_1$ is a sunny day while condition $C_2$ is a rainy day). In this way, the compositions from rows number 16 to 20 (Table~\ref{example_elim_tab}) are the perturbed corresponding counterparts of compositions from the
 rows number 11 to 15 after the perturbation $(1,1,r)$, where $r$ is a random number depending on condition $C_2$. In this example we have modelated $r$ as a lognormal random variable with parameters $\mu=2$ and $\sigma=0.25$. 
-The ternary diagram in Figure \ref{example_elim_component} shows that $\mathbf{X}$ is formed by three groups: one group formed with the observations collected in site $S_1$ (filled circles), all of them collected under condition $C_1$; one group with observations collected in site $S_2$ under condition $C_1$ (empty circles) and another group with observations collected in site $S_2$ under condition $C_2$ (empty triangles).
+The ternary diagram in Figure~\ref{example_elim_component} shows that $\mathbf{X}$ is formed by three groups: one group formed with the observations collected in site $S_1$ (filled circles), all of them collected under condition $C_1$; one group with observations collected in site $S_2$ under condition $C_1$ (empty circles) and another group with observations collected in site $S_2$ under condition $C_2$ (empty triangles).
 
 \begin{figure}[thbp]
 \centering
@@ -225,12 +224,12 @@ $C_1$ and $C_2$.}\label{example_elim_2_components}
 \subsection{Models with traditional distributions defined on the simplex}
 \label{simplex_section}
 
-\noindent A finite mixture of distributions defined on the simplex is a probability distribution with pdf given by Eq.~\ref{mixt} where $f(\;\cdot\;;\m\theta): \mathcal{S}^D \rightarrow \mathbb{R}^+$, is a pdf defined on the simplex. The Dirichlet distribution is the traditional distributions on the Simplex. It can be obtained by the projection into the simplex of a random vector formed by independent and equally scaled gamma distributed components. 
+\noindent A finite mixture of distributions defined on the simplex is a probability distribution with pdf given by Equation~\ref{mixt} where $f(\;\cdot\;;\m\theta): \mathcal{S}^D \rightarrow \mathbb{R}^+$, is a pdf defined on the simplex. The Dirichlet distribution is the traditional distributions on the Simplex. It can be obtained by the projection into the simplex of a random vector formed by independent and equally scaled gamma distributed components. 
 Despite its simplicity and its good mathematical properties, it has a very strong independence structure \citep{aitchison1986statistical}. In particular, any ratio $x_i/x_j$ of two components have to be independent from another
 ratio $x_k/x_m$ formed from other two components. In practice, such independence structure heavily restricts Dirichlet potential modelling application. Most of real CoDa sets have not this structure \citep{aitchison1986statistical}. To solve this difficulty, many generalizations of the Dirichlet distribution with less independence structure have been proposed: the Connor and Mosimann's distribution
 \citep{connor1969concepts}, the scaled Dirichlet distribution \citep{aitchison1986statistical},  and the Liouville distribution \citep{rayens1994dependence}.  More recently, \cite{ongaro2008new} presented the Flexible Dirichlet distribution, but future
 developments are required to discover its true potential application. Finally, \cite{monti2011shifted} introduced the Shifted-scaled Dirichlet distribution. This generalized distribution is defined adding the operations
-perturbation and powering (Eq. \ref{pert_pow}) to the standard Dirichlet distribution. Unfortunately all these attempts
+perturbation and powering (Equation~\ref{pert_pow}) to the standard Dirichlet distribution. Unfortunately all these attempts
 have limited success to fit the general dependence structure of CoDa.
 
 
@@ -271,10 +270,10 @@ Because the likelihood functions are the same,  the maximum likelihood estimator
 \end{eqnarray}
 
 
-Following this approach, we cannot obtain the misleading results shown in section~\ref{real_section}. Taking the example from Section~\ref{real_section}, we were interested in fitting a mixture to a sample $\mathbf{X}$ formed by parts $a$, $b$ and $c$ (Table~\ref{example_elim_tab}). Instead of eliminating one component, now the analyst decides to express components $a$, $b$ and $c$ in log-ratio coordinates. Before starting the analysis, a basis $\mathcal{B}$ of $\mathcal{S}^3$ is selected, for example
-\begin{equation}
+Following this approach, we cannot obtain the misleading results shown in Section~\ref{real_section}. Taking the example from Section~\ref{real_section}, we were interested in fitting a mixture to a sample $\mathbf{X}$ formed by parts $a$, $b$ and $c$ (Table~\ref{example_elim_tab}). Instead of eliminating one component, now the analyst decides to express components $a$, $b$ and $c$ in log-ratio coordinates. Before starting the analysis, a basis $\mathcal{B}$ of $\mathcal{S}^3$ is selected, for example
+\[
 \mathcal{B} = \left\{ C\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}}, 1 \Big), \; C\Big( e^{1/\sqrt{6}}, e^{1/\sqrt{6}}, 1/e^{\sqrt{2/3}} \Big) \right\},
-\end{equation}
+\]
 and the compositions of $\mathbf{X}$ are expressed in terms of its coordinates 
 $\mathbf{X}'$ ($h_1 = \sqrt{1/2} \ln(a/b)$ and $h_2 = \sqrt{2/3} \ln(\sqrt{ab} / c)$) see Table~\ref{example_elim_tab}. Figure~\ref{example_ilr3} shows the plot of these coordinates where the different effect of the location (parts $a$ and $b$) and the weather conditions (part $c$) are highlighted. Note that the compositions from $S_2$ under condition $C_1$ take the same value that its counterparts from $C_2$ in the first coordinate. 
 
@@ -287,9 +286,9 @@ $\mathbf{X}'$ ($h_1 = \sqrt{1/2} \ln(a/b)$ and $h_2 = \sqrt{2/3} \ln(\sqrt{ab} /
 \end{figure}
 
 Note that in this case the interpretations based only in terms of parts $a$ and $b$ will not be misleading. In fact, if the analyst also decides to remove the part $c$ a basis $\mathcal{B}'$ of $\mathcal{S}^2$ is selected as
-\begin{equation}
+\[
 \mathcal{B}' = \left\{ C\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}} \Big) \right\}.
-\end{equation}
+\]
 In this way, the corresponding coordinate $h_1$ is the same as before. Figure~\ref{example_ilr2} 
 shows the histograms of coordinate $h_1$ separated by weather conditions in two stratas. Note that, regardless the condition, all the data collected in $S_1$ take the same value forming one cluster (between -1 and 0). On the other hand, the compositions collected in $S_2$ are close to one.
 
@@ -304,14 +303,14 @@ shows the histograms of coordinate $h_1$ separated by weather conditions in two 
 % %where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$
 
 
-It is important to mention the invariance under chages of orthonormal basis for the fitted mixture. Note that in (\ref{likeli1}) (\ref{likeli2}) we fit our mixture using the coordinates $h_\mathcal{B}(\textbf{x})$ with respect to a specific basis $\mathcal{B}$ but any other orthnormal basis could have been chosen as well. Thus, in any compositional analysis involving coordinates, it is important to check the invariance of the results under changes of basis.
+It is important to mention the invariance under chages of orthonormal basis for the fitted mixture. Note that in (Equation~\ref{likeli1},~\ref{likeli2}) we fit our mixture using the coordinates $h_\mathcal{B}(\textbf{x})$ with respect to a specific basis $\mathcal{B}$ but any other orthnormal basis could have been chosen as well. Thus, in any compositional analysis involving coordinates, it is important to check the invariance of the results under changes of basis.
 
-In our case, the fitted mixture are the same when a change of basis is applied. In particular, note that the log-ratio normal mixture model  (Eq.~\ref{eq:densSNormal}) is formulated in terms of Mahalanobis distance and of covariance matrix determinant, that are invariant under change of basis  \citep{barcelo1999comment}.
+In our case, the fitted mixture are the same when a change of basis is applied. In particular, note that the log-ratio normal mixture model  (Equation~\ref{eq:densSNormal}) is formulated in terms of Mahalanobis distance and of covariance matrix determinant, that are invariant under change of basis  \citep{barcelo1999comment}.
 
 \section{A real data set: Forensic Glass}
 \label{example_section}
 
-\noindent To illustrate and compare the different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \citep{uci2007repository}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements were measured. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (Table \ref{example_glasses}). Figure \ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminum element takes small values the data set is close to the vertex of part Silica (Si), inside the shadow area. For better illustration, Figure \ref{fig04} includes a zoom of the shadow area.
+\noindent To illustrate and compare the different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \citep{uci2007repository}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements were measured. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (Table~\ref{example_glasses}). Figure~\ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminum element takes small values the data set is close to the vertex of part Silica (Si), inside the shadow area. For better illustration, Figure~\ref{fig04} includes a zoom of the shadow area.
 
 
 \begin{table}
@@ -356,7 +355,7 @@ Figure~\ref{fig05component_elimination} (top-left) shows the isodensity curves f
 
 \begin{figure}[htbp]
 \includegraphics[width=0.8\textwidth]{figures/elim_component_all.pdf}
-\caption{Reduced Forensic Glass data set. On the top-left, top-right and bottom-left isodensity curves for mixtures of Gaussian distributions in $R^{2}$ after removing the first, the second and the third component respectively. On bottom-right the isodensity curves transformed into the simplex.}
+\caption{Reduced Forensic Glass data set. On the top-left, top-right and bottom-left isodensity curves for mixtures of Gaussian distributions in $R^{2}$ after removing the first, the second and the third component respectively. On bottom-right the isodensity curves transformed into the simplex (simplex representation has been generated using Aluminium and Silica components).}
 \label{fig05component_elimination}
 \end{figure}
 
@@ -401,7 +400,7 @@ of coordinates (left) and in the ternary diagram (right).
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/coda_gaussian_mixture.pdf}\\
-\caption{Log-ratio Gaussian mixtures for Forensic Glass data set: (left) in coordinates; (right) in the ternary diagram.}
+\caption{Log-ratio Gaussian mixtures for Forensic Glass data set: (left) in coordinates; (right) in the ternary diagram. Using this approach, probabilities are only defined inside the simplex.}
 \label{fig07fittingcodaGaussian}
 \end{figure}
 
@@ -414,7 +413,7 @@ Following an analogous approach, it is possible to fit other non-gaussian models
 \centering
 \includegraphics[width=0.8\textwidth]{figures/coda_skew_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
 \includegraphics[width=0.8\textwidth]{figures/coda_skew_t_mixture.pdf}%{fig07_coda_skew_mixture2.pdf}
-\caption{Compositional mixtures for Forensic Glass data set: (top-left) log-ratio coordinates of the mixture of multivariate skew normal distributions; (top-right) the same mixture represented in a ternary diagram; (bottom-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions; (bottom-right) the same mixture represented in a ternary diagram.}
+\caption{In this Figure more complicated models are adjusted for Forensic Glass data set: (top-left) log-ratio coordinates of the mixture of multivariate skew normal distributions; (top-right) the same mixture represented in a ternary diagram; (bottom-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions; (bottom-right) the same mixture represented in a ternary diagram.}
 \label{othercodadist}
 \end{figure}
 
