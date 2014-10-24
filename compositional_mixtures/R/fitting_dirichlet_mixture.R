@@ -62,4 +62,5 @@ repeat{
   }
 }
 
-save(pi, alpha, file='data/dirichlet_mixture_parameters.RData')
+partition = as.numeric(c.final)
+save(pi, alpha, partition, file='data/dirichlet_mixture_parameters.RData')
