@@ -302,10 +302,17 @@ shows the histograms of coordinate $h_1$ separated by weather conditions in two 
 % \end{equation}
 % %where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$
 
+\begin{definition}
+Let $\mathcal{B}_1$ and $\mathcal{B}_2$ be orthonormal basis. Let $\Theta$ be a parameter space for a probability density function $f^*: \mathbb{R}^d \rightarrow \mathbb{R}^+$. 
+A probability density function $f^*$ is \emph{basis invariant} if for any two different othonormal basis $\mathcal{B}_1$, $\mathcal{B}_2$, for any parameter $\theta_1 \in \Theta$, there is a parameter $\theta_2 \in \Theta$ such that
+\[
+f^*(h_{\mathcal{B}_1}(\textbf{x}); \theta_1) = f^*(h_{\mathcal{B}_2}(\textbf{x}); \theta_2).
+\]
+\end{definition}
 
-It is important to mention the invariance under chages of orthonormal basis for the fitted mixture. Note that in (Equation~\ref{likeli1},~\ref{likeli2}) we fit our mixture using the coordinates $h_\mathcal{B}(\textbf{x})$ with respect to a specific basis $\mathcal{B}$ but any other orthnormal basis could have been chosen as well. Thus, in any compositional analysis involving coordinates, it is important to check the invariance of the results under changes of basis.
+In (Equation~\ref{likeli1},~\ref{likeli2}) we fit our mixture using the coordinates $h_\mathcal{B}(\textbf{x})$ with respect to a specific basis $\mathcal{B}$ but any other orthnormal basis could have been chosen as well. Thus, in any compositional analysis involving coordinates, it is important to check the invariance of the results under changes of basis. When fitting a mixture of logratio distributions, it is enough to check that the family distribution used to fit the mixture is basis invariant. 
 
-In our case, the fitted mixture are the same when a change of basis is applied. In particular, note that the log-ratio normal mixture model  (Equation~\ref{eq:densSNormal}) is formulated in terms of Mahalanobis distance and of covariance matrix determinant, that are invariant under change of basis  \citep{barcelo1999comment}.
+For most common distributions, basis invariant holds when we do not restrict the parameters. For example, the logratio normal distribution (Equation~\ref{eq:densSNormal}) is formulated in terms of Mahalanobis distance and of covariance matrix determinant, that are invariant under change of basis  \citep{barcelo1999comment}. Also the multivariate skew normal distribution is invariant under change of basis as proven in \cite{azzalini1999statistical}.
 
 \section{A real data set: Forensic Glass}
 \label{example_section}
@@ -405,15 +412,21 @@ of coordinates (left) and in the ternary diagram (right).
 \end{figure}
 
 
-
-Following an analogous approach, it is possible to fit other non-gaussian models. For example in Figure~\ref{othercodadist} the dataset is modelled with a mixture of multivariate skew-normal distributions as defined in \citep{prates2013mixsmsn}, an with a mixture of multivariate skew-$t$ normal distributions as defined in \citep{mclachlan2013emmixuskew}.
-
+Following an analogous approach, it is possible to fit other non-gaussian models. For example in Figure~\ref{skewcodadist} the dataset is modelled with a mixture of multivariate skew-normal distributions as defined in \citep{prates2013mixsmsn}. As commented in section \ref{codamix_section} multivariate skew-normal is basis invariant and therefore, working with another orthnormal logaratio basis results  the same mixture as the one represented in ternary diagram of Figure~\ref{skewcodadist}. In contrast, the multivariate skew-$t$ normal distributions as defined in \citep{mclachlan2013emmixuskew} is not basis invariant. As a consequence, the result using another log-ratio basis may differ.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{figures/coda_skew_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
-\includegraphics[width=0.8\textwidth]{figures/coda_skew_t_mixture.pdf}%{fig07_coda_skew_mixture2.pdf}
-\caption{In this Figure more complicated models are adjusted for Forensic Glass data set: (top-left) log-ratio coordinates of the mixture of multivariate skew normal distributions; (top-right) the same mixture represented in a ternary diagram; (bottom-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions; (bottom-right) the same mixture represented in a ternary diagram.}
+\caption{In this Figure a logratio skew normal mixture is adjusted for Forensic Glass data set: (left) log-ratio coordinates of the mixture of logratio skew normal distributions; (right) the same mixture represented in a ternary diagram.}
+\label{skewcodadist}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
+\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture_b.pdf}\\%{fig07_coda_skew_mixture2.pdf}
+\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture_c.pdf}
+\caption{In this Figure a $t$-skew normal mixtures is adjusted for Forensic Glass data set: (top-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions; (top-right) the same mixture represented in a ternary diagram; (middle-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions after rotating the basis $\mathcal{B}$ 45 degrees anticlockwise; (middle-right) the same mixture represented in a ternary diagram; (bottom-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions after rotating basis $\mathcal{B}$ 90 degrees anticlockwise; (bottom-right) the same mixture represented in a ternary diagram.}
 \label{othercodadist}
 \end{figure}
 
@@ -430,19 +443,6 @@ This research was supported by the Ministerio de Econom\'ia y Competividad under
 
 \bibliographystyle{apalike}
 \bibliography{tex/compositional_mixtures}{}
-
-\newpage
-\appendix
-\section{Basis invariance}
-
-\begin{definition}
-Let $\mathcal{B}_1$ and $\mathcal{B}_2$ be orthonormal basis. Let $\Theta$ be a parameter space for a probability density function $f^*: \mathbb{R}^d \rightarrow \mathbb{R}^+$. 
-A probability density function $f^*$ is \emph{basis invariant} if for any two different othonormal basis $\mathcal{B}_1$, $\mathcal{B}_2$, for any parameter $\theta_1 \in \Theta$, there is a parameter $\theta_2 \in \Theta$ such that
-\[
-f^*(h_{\mathcal{B}_1}(\textbf{x}); \theta_1) = f^*(h_{\mathcal{B}_2}(\textbf{x}); \theta_2).
-\]
-
-\end{definition}
 
 
 % \begin{prop}
