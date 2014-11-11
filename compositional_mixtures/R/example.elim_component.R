@@ -75,6 +75,7 @@ cat(latexTabular(X.tab,
                  translate = F))
 sink()
 
+
 vX = data.frame('v' = X1$coord.1[X1$site == 'S2' & X1$condition == 'C1'])
 
 p3<-ggplot(X1, aes(x=coord.1, y=coord.2, shape=interaction))+geom_point(color='#444444', size=4)+

@@ -271,9 +271,9 @@ Because the likelihood functions are the same,  the maximum likelihood estimator
 
 
 Following this approach, we cannot obtain the misleading results shown in Section~\ref{real_section}. Taking the example from Section~\ref{real_section}, we were interested in fitting a mixture to a sample $\mathbf{X}$ formed by parts $a$, $b$ and $c$ (Table~\ref{example_elim_tab}). Instead of eliminating one component, now the analyst decides to express components $a$, $b$ and $c$ in log-ratio coordinates. Before starting the analysis, a basis $\mathcal{B}$ of $\mathcal{S}^3$ is selected, for example
-\[
+\begin{equation}\label{basis3}
 \mathcal{B} = \left\{ C\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}}, 1 \Big), \; C\Big( e^{1/\sqrt{6}}, e^{1/\sqrt{6}}, 1/e^{\sqrt{2/3}} \Big) \right\},
-\]
+\end{equation}
 and the compositions of $\mathbf{X}$ are expressed in terms of its coordinates 
 $\mathbf{X}'$ ($h_1 = \sqrt{1/2} \ln(a/b)$ and $h_2 = \sqrt{2/3} \ln(\sqrt{ab} / c)$) see Table~\ref{example_elim_tab}. Figure~\ref{example_ilr3} shows the plot of these coordinates where the different effect of the location (parts $a$ and $b$) and the weather conditions (part $c$) are highlighted. Note that the compositions from $S_2$ under condition $C_1$ take the same value that its counterparts from $C_2$ in the first coordinate. 
 
@@ -302,22 +302,22 @@ shows the histograms of coordinate $h_1$ separated by weather conditions in two 
 % \end{equation}
 % %where $s_i =  i\,e^{1/\sqrt{i(i+1)}} + 1/e^{\sqrt{ i/(i+1)}} + D - (i+1)$
 
+In (Equation~\ref{likeli1},~\ref{likeli2}) we fit our mixture using the coordinates $h_\mathcal{B}(\textbf{x})$ with respect to a specific basis $\mathcal{B}$ but any other orthnormal basis could have been chosen as well. Thus, in any compositional analysis involving coordinates, it is important to check the invariance of the results under changes of basis. When fitting a mixture of logratio distributions, it is enough to check that the family of distributions used to fit the mixture is basis invariant, that is, it satisfies the following definition. 
+
 \begin{definition}
-Let $\mathcal{B}_1$ and $\mathcal{B}_2$ be orthonormal basis. Let $\Theta$ be a parameter space for a probability density function $f^*: \mathbb{R}^d \rightarrow \mathbb{R}^+$. 
+Let $\mathcal{B}_1$ and $\mathcal{B}_2$ be two orthonormal basis on $\mathcal{S}^D$. Let $\Theta$ be a parameter space for a probability density function $f^*: \mathbb{R}^{D-1} \rightarrow \mathbb{R}^+$. 
 A probability density function $f^*$ is \emph{basis invariant} if for any two different othonormal basis $\mathcal{B}_1$, $\mathcal{B}_2$, for any parameter $\theta_1 \in \Theta$, there is a parameter $\theta_2 \in \Theta$ such that
 \[
 f^*(h_{\mathcal{B}_1}(\textbf{x}); \theta_1) = f^*(h_{\mathcal{B}_2}(\textbf{x}); \theta_2).
 \]
 \end{definition}
 
-In (Equation~\ref{likeli1},~\ref{likeli2}) we fit our mixture using the coordinates $h_\mathcal{B}(\textbf{x})$ with respect to a specific basis $\mathcal{B}$ but any other orthnormal basis could have been chosen as well. Thus, in any compositional analysis involving coordinates, it is important to check the invariance of the results under changes of basis. When fitting a mixture of logratio distributions, it is enough to check that the family distribution used to fit the mixture is basis invariant. 
-
-For most common distributions, basis invariant holds when we do not restrict the parameters. For example, the logratio normal distribution (Equation~\ref{eq:densSNormal}) is formulated in terms of Mahalanobis distance and of covariance matrix determinant, that are invariant under change of basis  \citep{barcelo1999comment}. Also the multivariate skew normal distribution is invariant under change of basis as proven in \cite{azzalini1999statistical}.
+For most common distributions, basis invariant holds when we do not restrict the parameters. For example, the logratio normal distribution (Equation~\ref{eq:densSNormal}) is formulated in terms of Mahalanobis distance and of covariance matrix determinant, that are invariant under change of basis  \citep{barcelo1999comment}. Also the multivariate logratio skew-normal distribution is invariant under change of basis. This is easily proved using the lineal transformation property of the multivariate skew-normal distribution \citep{azzalini1999statistical}.
 
 \section{A real data set: Forensic Glass}
 \label{example_section}
 
-\noindent To illustrate and compare the different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \citep{uci2007repository}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements were measured. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (Table~\ref{example_glasses}). Figure~\ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the aluminum element takes small values the data set is close to the vertex of part Silica (Si), inside the shadow area. For better illustration, Figure~\ref{fig04} includes a zoom of the shadow area.
+\noindent To illustrate and compare the different approaches, we analyse the USA Forensic Science Service data set, also known as Forensic Glass data set. This data is available in UCI Machine Learning Repository \citep{uci2007repository}.  The data set is composed by  $214$ glass samples where the percentages of eight chemical elements were measured. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al); and three groups of glasses: containers, headlamps and vehicle windows. We call this dataset Reduced Forensic Glass data set (Table~\ref{example_glasses}). Figure~\ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the Aluminium element takes small values the data set is close to the vertex of part Silica (Si), inside the shadow area. For better illustration, Figure~\ref{fig04} includes a zoom of the shadow area.
 
 
 \begin{table}
@@ -349,7 +349,7 @@ The categorical covariate  (type) shows the provenance of glass.}
 \end{figure}
 
 
-To fit a traditional Gaussian mixture we eliminated the Calcium (Ca) component and used the standard R package \texttt{Rmixmod}. The corresponding mixture model obtained is
+We first use traditional approaches introduced in Section~\ref{real_section}. To fit a traditional Gaussian mixture, we need to eliminate one component in order to avoid the constant sum constraint. In this case we eliminated the Calcium (Ca) component and used the standard R package \texttt{Rmixmod}. The corresponding mixture model obtained is
 $
 \pi_1 f(\;\cdot\; ; \mu_1, \Sigma_1) + \pi_2 f(\;\cdot\; ; \mu_2, \Sigma_2) + \pi_3 f(\;\cdot\; ; \mu_3, \Sigma_3)
 $
@@ -366,7 +366,7 @@ Figure~\ref{fig05component_elimination} (top-left) shows the isodensity curves f
 \label{fig05component_elimination}
 \end{figure}
 
-Despite in Gaussian mixtures, the theoretical invariance of the maximum of the likelihood function wherever the part removed, we stated that in practice the numerical algorithm gets stuck in a local optimum. That is, the invariance of the results is not guaranteed, and different mixture may be obtained depending on the part removed. 
+Despite in Gaussian mixtures, the theoretical invariance of the maximum of the likelihood function whatever the part removed, we stated that in practice the numerical algorithm gets stuck in a local optimum. That is, the invariance of the results is not guaranteed, and different mixture may be obtained depending on the part removed. 
 
 To set a Dirichlet distribution in $\mathcal{S}^D$ it is necessary to specify its parameters $\left( \alpha^1, \dots ,\alpha^D \right)$. Therefore, to fit a mixture of $K$ Dirichlet distributions it is necessary to estimate the parameters $\pi_1$, \dots, $\pi_K$ and $\left( \alpha^1_1, \dots ,\alpha^D_1 \right), \dots, \left( \alpha^1_K, \dots, \alpha^D_K \right)$. Fitting the parameters of a Dirichlet mixture we approximated the MLE estimator of a Dirichlet mixture using the classification EM-algorithm proposed by \cite{celeux1992classification}. The mixture of dirichlet distributions $
 \pi_1 f(\;\cdot\; ; \alpha_1) + \pi_2 f(\;\cdot\; \alpha_2) + \pi_3 f(\;\cdot\; ; \alpha_3)
@@ -375,7 +375,7 @@ obtained has the parameters
 {\small \input{tex/pars_dirichlet_mixture.tex} }
 
 
-Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits the data set. Note that the estimated Dirichlet mixture is not be able to capture the structure of dependence between the three chemical elements, the three groups are not correctly detected. 
+Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits the data set. Due to the strong dependence structure of the Dirichlet model noted above in Section~\ref{simplex_section}, the Dirichlet density can only take nearly circular shapes. Consequently, the obtained mixture cannot capture not circular forms of variablity, as we can see in Figure~\ref{fig06fittingdirichlet}.
 
 \begin{figure}[htbp]
 \centering
@@ -384,10 +384,10 @@ Figure~\ref{fig06fittingdirichlet} shows how a Dirichlet mixture fits the data s
 \label{fig06fittingdirichlet}
 \end{figure}
 
-To fit a mixture of log-ratio distributions it is necessary first to express each composition with respect to a basis of $\mathcal{S}^3$. Consider the basis 
-\[
-\mathcal{B} = \left\{ C\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}}, 1 \Big), \; C\Big( e^{1/\sqrt{6}}, e^{1/\sqrt{6}}, 1/e^{\sqrt{2/3}} \Big) \right\}.
-\]
+To fit a mixture of log-ratio distributions it is necessary first to express each composition with respect to a basis of $\mathcal{S}^3$. Consider the same basis defined in Equation~\ref{basis3}.
+% \[
+% \mathcal{B} = \left\{ C\Big( e^{1/\sqrt{2}}, 1/e^{\sqrt{1/2}}, 1 \Big), \; C\Big( e^{1/\sqrt{6}}, e^{1/\sqrt{6}}, 1/e^{\sqrt{2/3}} \Big) \right\}.
+% \]
 
 Table~\ref{example_glasses} contains the data set expressed in log-ratio coordinates with respect to basis $\mathcal{B}$, resulting in coordinates $h_1 = \sqrt{1/2} \ln(\text{Ca}/\text{Si})$ and $h_2 = \sqrt{2/3} \ln(\sqrt{\text{Ca} \cdot \text{Si}} / \text{Al})$.
 
@@ -402,7 +402,7 @@ with parameters
 {\small \input{tex/pars_coda_gaussian_mixture.tex} }
 
 Note that, although mixture model is defined on the simplex, its parameters are defined with respect to coordinates $h_1$ and $h_2$. In Figure~\ref{fig07fittingcodaGaussian} the isocurves of density are represented in the space
-of coordinates (left) and in the ternary diagram (right).
+of coordinates (left) and in the ternary diagram (right). Looking at the coordinate space, we see that the normal mixtures can models ellictical forms of variability and consequently, on the simplex the estimated mixture is able to model those typical arc shaped forms (see Figure~\ref{fig07fittingcodaGaussian} (rigth)).
 
 \begin{figure}[htbp]
 \centering
@@ -412,7 +412,7 @@ of coordinates (left) and in the ternary diagram (right).
 \end{figure}
 
 
-Following an analogous approach, it is possible to fit other non-gaussian models. For example in Figure~\ref{skewcodadist} the dataset is modelled with a mixture of multivariate skew-normal distributions as defined in \citep{prates2013mixsmsn}. As commented in section \ref{codamix_section} multivariate skew-normal is basis invariant and therefore, working with another orthnormal logaratio basis results  the same mixture as the one represented in ternary diagram of Figure~\ref{skewcodadist}. In contrast, the multivariate skew-$t$ normal distributions as defined in \citep{mclachlan2013emmixuskew} is not basis invariant. As a consequence, the result using another log-ratio basis may differ.
+Following an analogous approach, it is possible to fit other non-gaussian models. For example in Figure~\ref{skewcodadist} the dataset is modelled with a mixture of multivariate skew-normal distributions as defined in \citep{prates2013mixsmsn}. The skew-normal option, because it contains the normal one as a particular case, extends the modelling possibilities. Nevertheless, the final model is more complicated as a a skew parameter is added for each density in the mixture. Here we rather prefer not to give the estimated parameters for short. As commented in section \ref{codamix_section} multivariate skew-normal is basis invariant and therefore, working with another orthonormal logaratio basis results in the same mixture as the one represented in ternary diagram of Figure~\ref{skewcodadist}. 
 
 \begin{figure}[htbp]
 \centering
@@ -421,19 +421,22 @@ Following an analogous approach, it is possible to fit other non-gaussian models
 \label{skewcodadist}
 \end{figure}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
-\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture_b.pdf}\\%{fig07_coda_skew_mixture2.pdf}
-\includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture_c.pdf}
-\caption{In this Figure a $t$-skew normal mixtures is adjusted for Forensic Glass data set: (top-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions; (top-right) the same mixture represented in a ternary diagram; (middle-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions after rotating the basis $\mathcal{B}$ 45 degrees anticlockwise; (middle-right) the same mixture represented in a ternary diagram; (bottom-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions after rotating basis $\mathcal{B}$ 90 degrees anticlockwise; (bottom-right) the same mixture represented in a ternary diagram.}
-\label{othercodadist}
-\end{figure}
+
+% In contrast, the multivariate skew-$t$ normal distributions as defined in \citep{mclachlan2013emmixuskew} is not basis invariant. As a consequence, the result using another log-ratio basis may differ.
+% 
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture.pdf}\\%{fig07_coda_skew_mixture2.pdf}
+% \includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture_b.pdf}\\%{fig07_coda_skew_mixture2.pdf}
+% \includegraphics[width=0.6\textwidth]{figures/coda_skew_t_mixture_c.pdf}
+% \caption{In this Figure a $t$-skew normal mixtures is adjusted for Forensic Glass data set: (top-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions; (top-right) the same mixture represented in a ternary diagram; (middle-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions after rotating the basis $\mathcal{B}$ 45 degrees anticlockwise; (middle-right) the same mixture represented in a ternary diagram; (bottom-left) log-ratio coordinates of the mixture of multivariate $t$-skew distributions after rotating basis $\mathcal{B}$ 90 degrees anticlockwise; (bottom-right) the same mixture represented in a ternary diagram.}
+% \label{othercodadist}
+% \end{figure}
 
 
 \section{Conclusions}
 \label{conclusion_section}
-Traditional distributions in finite mixtures for compositional data sets show important difficulties. If densities for real data are used, probabilities to impossible events are obtained and the results depend on the removed part. Dirichlet density and some generalizations on the simplex can not capture the variability of many compositional data sets due to its strong independence structure. Log-ratio distributions are flexible models that could describe different form of variability and dependence structures. Indeed, any mixture model defined on the real space can be used to model data on the simplex space using the principle of working on coordinates. In particular, we have introduced the methodology to fit a mixture of normal skew-normal and skew-$t$ distributions to the log-ratio coordinates of a compositional sample. This three options extend the range of possibilities we have up to now with the Dirichlet model or generalizations. The log-ratio normal distribution provides a rich enough parametric class of distributions on the appropriate sample space. 
+Traditional distributions in finite mixtures for compositional data sets show important difficulties. If densities for real data are used, probabilities to impossible events are obtained and the results depend on the removed part. Dirichlet density and some generalizations on the simplex can not capture the variability of many compositional data sets due to its strong independence structure. In contrast, log-ratio distributions are flexible models that could describe different form of variability and dependence structures. Indeed, any mixture model defined on the real space can be used to model data on the simplex space using the principle of working on coordinates. In particular, we have introduced the methodology to fit a mixture of normal and skew-normal distributions to the log-ratio coordinates of a compositional sample.  This two options extend the range of possibilities we have up to now with the Dirichlet model or its generalizations. Also, the proposed methodology could be extended and applied to other known distributions. In particular, we note that the log-ratio normal distribution is a simple model and provides a rich enough parametric class of distributions on the appropriate sample space. 
 
 \section*{Acknowledgments}
 This research was supported by the Ministerio de Econom\'ia y Competividad under the project
