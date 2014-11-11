@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
 \usepackage{apalike}
+\usepackage{authblk}
 
 %%%%% bold symbol in math enviornment
 \newcommand{\m}[1]{\boldsymbol{#1}}
@@ -18,8 +19,10 @@
 \newtheorem{definition}{Definition}
 
 \title{Logratio methods in mixture models for compositional data sets}
-\author{M. Comas-Cufí \and J.A. Martín-Fernández \and G. Mateu-Figueras}
-
+\author[1]{M. Comas-Cufí\thanks{correspondence to: Marc Comas-Cufí, Department of Computer Science, Applied Mathematics and Statistics, Univesitat de Girona, P4-Campus Montilivi, 17071 Girona, Spain}}%mcomas@imae.udg.edu}}
+\author[1]{J.A. Martín-Fernández}
+\author[1]{G. Mateu-Figueras}
+\affil[1]{\small Department of Computer Science, Applied Mathematics and Statistics, Universitat de Girona}
 \doublespacing
 \begin{document}
 
@@ -39,17 +42,19 @@
 % \cortext[cor2]{Corresponding author. Dept. Computer Science, Applied Mathematics and Statistics (UdG), Campus Montilivi (P4), E-17071 Girona, Spain. Tel.: +34 972 418426, Fax: +34 972 418792}
 % \address[imae]{Department of Computer Science, Applied Mathematics and Statistics,\\ University of Girona, Spain}
 
+\providecommand{\keywords}[1]{\textbf{Keywords:} #1}
+\providecommand{\msc}[1]{\textbf{MSC2010:} #1}
 
 \begin{abstract}
-%% Text of abstract
-Finite mixtures of multivariate distributions have shown increasing importance in recent years. New algorithms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
-However, misleading and incoherent results can be obtained when traditional statistical methods are applied to compositional data. This type of data has a constrained sample space, the simplex, with its particular algebraic-geometric structure. The log-ratio methodology has proven to be appropriate to analyse compositional data. In this paper, traditional strategies to fit a mixture model in compositional data sets are revisited and the most important difficulties are detailed. Afterwards, a new proposal using mixture of distributions defined on log-ratio coordinates is introduced. An analysis of a real data set is presented to illustrate and compare the different methodologies.
+Finite mixtures of multivariate distributions have shown increasing importance in recent years. However, misleading and incoherent results can be obtained when traditional statistical methods are applied to compositional data. The log-ratio methodology has proven to be appropriate to analyse compositional data. In this paper, traditional strategies to fit a mixture model in compositional data sets are revisited and the most important difficulties are detailed. Afterwards, a new proposal using mixture of distributions defined on log-ratio coordinates is introduced. An analysis of a real data set is presented to illustrate and compare the different methodologies.
 
-{\bf Keywords:} Compositional data, Finite Mixture, Log ratio, Model-based clustering, Normal distribution, Orthonormal coordinates, Simplex
+% Finite mixtures of multivariate distributions have shown increasing importance in recent years. New algorithms and software implementation facilitate its application in clustering, discriminant analysis and density estimation. 
+% However, misleading and incoherent results can be obtained when traditional statistical methods are applied to compositional data. The log-ratio methodology has proven to be appropriate to analyse compositional data. In this paper, traditional strategies to fit a mixture model in compositional data sets are revisited and the most important difficulties are detailed. Afterwards, a new proposal using mixture of distributions defined on log-ratio coordinates is introduced. An analysis of a real data set is presented to illustrate and compare the different methodologies.
 \end{abstract}
 
+\keywords{Compositional data, Finite Mixture, Log ratio, Model-based clustering, Normal distribution, Orthonormal coordinates, Simplex}
 
-
+\msc{62G07, 62H30, 62H99}
 % \begin{keyword}
 % Compositional data \sep
 % Finite Mixture\sep
