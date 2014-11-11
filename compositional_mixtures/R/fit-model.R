@@ -1,3 +1,4 @@
+
 library(mvtnorm)
 library(plyr)
 library(abind)
@@ -36,35 +37,22 @@ z.grid = function(x.points, y.points, func, ...){
 }
 
 
-
-
 load('data/selected-glass-data.RData')
 
+ang = pi/4
+rot = matrix(c(cos(ang), -sin(ang), sin(ang), cos(ang)), nrow=2)
+B = do.call('cbind',llply(ilr_basis(3), function(x) log(x) - mean(log(x)))) %*% rot
+
 set.seed(1)
-ilrX = data.frame(ilr_coordinates(X))
+ilrX = data.frame(ilr(X, V = B))
 ilrX = rbind(ilrX, ilrX[sample(1:nrow(ilrX), nrow(ilrX), replace = TRUE),])
 
-set.seed(6)
+set.seed(SEED)
 
 #ilrX = rbind(ilrX, ilrX)
 
 # mm_max = fmmst(g = 3, ilrX)
 # for(i in 1:20){
-  mm = fmmst(g = 3, ilrX, itmax=1000)
-#   if(mm_max$loglik < mm$loglik)
-#     mm_max = mm
-# }
-# mm = mm_max
+mm = fmmst(g = 3, ilrX, itmax=1000)
 
-steps = 150
-x.points = seq(-2, -1, length.out=steps) #range(X[,2]) # 0.8386535 0.9095565
-y.points = seq(1, 3.5, length.out=steps) #range(X[,3]) # 0.007071446 0.044158466
-#z1.points = z.grid(x1.points, y1.points, mclust_mixture(m1))
-z.points_mm = z.grid(x.points, y.points, emmix_mixture(mm))
-
-
-seqq = pretty(range(z.points_mm), n=40)
-
-cl = contourLines(x.points, y.points, z.points_mm, levels = seqq)
-
-save(cl, mm,  file='data/coda_skew_t_mixture.RData')
+save(mm, SEED, file=sprintf("data/fit-seed%03d.RData", SEED))

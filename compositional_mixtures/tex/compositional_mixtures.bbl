@@ -22,6 +22,13 @@ Andrews, J.~L. and McNicholas, P.~D. (2012).
 Asuncion, A. and Newman, D.~J. (2007).
 \newblock {UCI Machine Learning Repository}.
 
+\bibitem[Azzalini and Capitanio, 1999]{azzalini1999statistical}
+Azzalini, A. and Capitanio, A. (1999).
+\newblock {Statistical applications of the multivariate skew normal
+  distribution}.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 61(3):579--602.
+
 \bibitem[Banerjee et~al., 2005]{banerjee2005clustering}
 Banerjee, A., Dhillon, I.~S., Ghosh, J., and Sra, S. (2005).
 \newblock {Clustering on the Unit Hypersphere Using Von Mises-Fisher
