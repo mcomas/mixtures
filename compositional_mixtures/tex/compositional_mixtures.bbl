@@ -1,10 +1,10 @@
 \begin{thebibliography}{}
 
-\bibitem[Aitchison, 1982]{aitchison1986statistical}
-Aitchison, J. (1982).
-\newblock {The Statistical Analysis of Compositional Data}.
-\newblock {\em Journal of the Royal Statistical Society. Series B.
-  Methodological}, 44:139--177.
+\bibitem[Aitchison, 1986]{aitchison1986statistical}
+Aitchison, J. (1986).
+\newblock {\em {The Statistical Analysis of Compositional Data}}.
+\newblock Monographs on Statistics and Applied Probability. Chapman \& Hall
+  Ltd., London (UK).
 
 \bibitem[Albert and Gupta, 1982]{albert1982mixtures}
 Albert, J.~H. and Gupta, A.~K. (1982).
@@ -140,12 +140,6 @@ Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.~J. (2011).
 Mateu-Figueras, G., Pawlowsky-Glahn, V., and Egozcue, J.~J. (2013).
 \newblock {The normal distribution in some constrained sample spaces}.
 \newblock {\em SORT}, 37(1):29--56.
-
-\bibitem[McLachlan and Lee, 2013]{mclachlan2013emmixuskew}
-McLachlan, G.~J. and Lee, S.~X. (2013).
-\newblock {EMMIXuskew: An R Package for Fitting Mixtures of Multivariate Skew t
-  Distributions via the EM Algorithm}.
-\newblock {\em Journal of Statistical Software}, 55(12).
 
 \bibitem[McLachlan and Peel, 2000]{mclachlan2000finite}
 McLachlan, G.~J. and Peel, D. (2000).
