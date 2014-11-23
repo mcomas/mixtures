@@ -3,7 +3,7 @@
 
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{amsmath, amssymb, amsthm, bbm}
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
@@ -27,16 +27,16 @@
 
 Different he problem of merging the components of a Gaussian mixtures has received special atention \cite{melnykov2013distribution,lee2004combining,hennig2010methods,baudry2010combining,pastore2013merging}. 
 
-Hennig summarizes the hierarchical principle for merging Gaussian components as follows:
+In general, \cite{hennig2010methods} summarises the algorithm of hierarchically merging Gaussian components as follows:
 \begin{enumerate}
 \item Start with all components of the initially estimated Gaussian mixture as current clusters
-\item Find the pair of current clusters most promising to merge
-\item Apply a stopping criterion to decide wheter to merge them to form a new current cluster, or to use the current clustering as the final one.
+\item Find a pair of components to merge and forming a single cluster
+%\item Calculate the posterior probability of pertinence to a cluster 
+\item Apply a stopping criterion to decide whether to merge them to form a new current cluster, or to use the current clustering as the final one.
 \item If merged, go to 2.
 \end{enumerate}
 
-
-In this paper we focus on methods based on misclassification probabilities. Concretely, on those depending on the posterior probabilities \citep{melnykov2013distribution}, \citep{baudry2010combining} and \citep[in \textsc{demp} approach]{hennig2010methods}.
+In this paper we focus on methods based on misclassification probabilities. Concretely, on those depending on the posterior probabilities \citep{melnykov2013distribution}, \citep{baudry2010combining} and \citep[in \textsc{demp} approach]{hennig2010methods}. Our aim is to find strategies to hierachically merge components into clusters. In this article, for the different strategies we will not focus on stopping criteria, and therefore we will hierarchically merge all components until un sigle cluster with all the components is obtained.
 
 
 We exposes the problem in a general setting which contains the approaches proposed by Baudry and Hennig.
@@ -48,6 +48,53 @@ It is well known that there is a strong subjective component in the decision of 
 \begin{prob}
 Given a compositional sample $T = \{ \boldsymbol{\tau_1}, \dots, \boldsymbol{\tau_n} \}$, with $\boldsymbol{\tau_i} = (\tau_{i1}, \dots, \tau_{iK})$ denoting the pertinence to classes $C_1, \dots, C_K$, build a hierarchy over the set of classes.
 \end{prob}
+
+\section{Definitions}
+\label{definitions}
+
+Let $I$ be a subset of $\{1, \dots k\}$. We denote by $\tau_{i I}$ the posterior probability that $\textbf{x}_i$ belongs to some component $f_\ell$, $\ell \in I$,
+
+\begin{equation}
+\tau_{i I} = P( \bigcup_{\ell \in I}  \left\{ \textbf{x}_i \in C_\ell \right\}) = \sum_{\ell \in I} P( \left\{ \textbf{x}_i \in C_\ell \right\}) = \sum_{\ell \in I} \tau_{i \ell}
+\end{equation}
+where $\tau_{i \ell}$ is the posterior probability that $\textbf{x}_i$ belongs to component $f_\ell$.
+
+% Note that it is assumed that each element belongs to a unique class, i.e.,  \[ P \left( \{ x \in C_j \} \cap \{  x \in C_i\}  \right)=0 \mbox{,\;for $i\neq j$.}\] .
+
+A \emph{partition} $\mathcal{I}$ of $\{1, \dots, k\}$ is a set of subsets of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I \in \mathcal{I}} I = \{1, \dots, k\}$ and  if two parts $I$, $J$ are different, $I \cap J = \emptyset$ holds. To simplify, throught this paper we assume an order within the elements of a partition, $\mathcal{I} = \{ I_1, \dots, I_s\}$.
+
+
+A \emph{hierarchical combination of components} is a sequence of partitions $\mathcal{I}_1, \dots, \mathcal{I}_k$ of $\{1,...,k\}$, where $\mathcal{I}_1$ is the one-part partition $\mathcal{I}_1 = \{ \{1, \dots, k\} \}$, and for each $i$, $1 <  i \leq k$,
+
+\begin{itemize}
+\item $\mathcal{I}_i$ has $i$ elements  and
+\item if a part $I \in \mathcal{I}_{i-1}$ then there is a part $J \in \mathcal{I}_i$ with $J = I$ or there are two parts $J_1, J_2 \in \mathcal{I}_i$ with $I = J_1 \cup J_2$.
+\end{itemize}
+
+
+Let $\mathcal{I} = \{ I_1, \dots, I_s\}$. For each element $\textbf{x}_i$ the vector of probabilities to belong to a class indexed by $I_1, \dots, I_s$ is denoted with ${\boldsymbol\tau}^{\mathcal{I}}_i$, i.e. \[ {\boldsymbol\tau}^{\mathcal{I}}_i = ( \tau_{i I_1}, \dots, \tau_{i I_s}). \] 
+
+\section{Hierarchical algorithms based on posterior probabilities}
+
+Using definitions given in Section~\ref{definitions} we revisite some Hierarchical algorithms based on posterior probabilities
+
+\subsection*{Algorithm based on the total Entropy}
+
+Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors giving the probability that elements $\textbf{x}_1, \dots, \textbf{x}_n$ belongs to classes $C_1, \dots, C_k$.  \cite{baudry2010combining} proposes the  hierarchical combination of classes,  $\mathcal{I}_1 \dots, \mathcal{I}_k$, defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$, to be combined are those that maximize the criterion
+
+\[
+- \sum_{i=1}^n \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b})\right\} +  \sum_{i=1}^n  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b})
+\]
+
+in other words $\dots$
+
+\subsection*{DEMP algorithm}
+
+Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors giving the probability that elements $\textbf{x}_1, \dots, \textbf{x}_n$ belongs to classes $C_1, \dots, C_k$. DEMP approach \citep{hennig2010methods} proposes the hierarchical combination of classes,  $\mathcal{I}_1 \dots, \mathcal{I}_k$, defined as follows:starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that maximize the criterion
+
+\[
+\frac{ \frac{1}{n} \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}_{\left[ \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right]}}}{ \frac{1}{n} \sum_{i=1}^n \tau_{iI_a}}
+\]
 
 
 \bibliographystyle{apalike}
