@@ -10,7 +10,7 @@ S = m$parameters$variance$sigma
 
 
 require(ggplot2)
-devtools::load_all('../mixpack')
+devtools::load_all('../../packages/mixpack')
 
 cm = expand.grid(X1 = seq(-2.5,12.5, 0.05), X2 = seq(-2.5,10, 0.05))
 cm$z = dmixnorm(cm, Pi = Pi, Mu = Mu, S = S)
