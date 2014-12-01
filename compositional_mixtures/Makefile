@@ -23,12 +23,20 @@ SEED30=$(foreach v,$(SIM30),$(shell printf 'data/fit-seed%03d.RData' $(v)))
 
 .PHONY: article seeding
 
-article: pdf/compositional_mixtures.pdf
+article: pdf/compositional_mixtures_final.pdf pdf/compositional_mixtures.pdf pdf/cover_letter.pdf
 
 seeding: $(SEED30)
 
 data/fit-seed%.RData: R/fit-model.R
 	Rscript -e 'SEED=$*; source("R/fit-model.R")'
+
+pdf/compositional_mixtures_final.pdf : pdf/cover_letter.pdf pdf/compositional_mixtures.pdf
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=$@ pdf/cover_letter.pdf pdf/compositional_mixtures.pdf
+
+pdf/cover_letter.pdf : tex/cover_letter.tex
+	pdflatex -output-directory tex tex/cover_letter.tex
+	pdflatex -output-directory tex tex/cover_letter.tex
+	mv tex/cover_letter.pdf pdf/cover_letter.pdf
 
 pdf/compositional_mixtures.pdf : tex/compositional_mixtures.tex tex/compositional_mixtures.bbl $(FIGURES) $(DATA) $(TEX)
 	pdflatex -output-directory tex tex/compositional_mixtures.tex
