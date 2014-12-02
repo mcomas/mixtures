@@ -55,19 +55,19 @@ We exposes the problem in a general setting which contains the approaches propos
 \section{Definitions}
 \label{definitions}
 
-Let $\mathbb{X}$ be a sample space. A \emph{finite mixture of distributions} is a probability distribution with pdf defined as the linear combination of pdf from other probability distributions. In general, the pdf $f$ of a finite mixture of distributions can be written as
+Let $\mathbb{X}$ be a sample space. A \emph{finite mixture of distributions} is a probability distribution with a pdf defined as the linear combination of pdf from other probability distributions, all defined in $\mathbb{X}$. In general, the pdf $f$ of a finite mixture of distributions is
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
-where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $f$ is a pdf, we have the restriction $\sum_{i=1}^k \pi_i = 1$. The probability distributions $f_j$, $1 \leq j \leq k$, are called the \emph{components} of the finite mixture $f$.
+where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $f$ is a pdf, we have the restriction $\sum_{i=1}^k \pi_i = 1$. The probability distributions $f_j$, $1 \leq j \leq k$, are called the \emph{components} of the finite mixture $f$, or \emph{mixture components}.
 
-Let $f$ be finite mixture of distributions as defined in Equation~\ref{mixt} with  parameters  $\pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k$. Let $I$  be a subset of $\{1, \dots, k\}$. We denote by $f_I$ the finite mixture of distributions defined by
+Let $f$ be finite mixture of distributions as defined in Equation~\ref{mixt} with  parameters  $\pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k$ and let $I$  be a subset of $\{1, \dots, k\}$. We denote by $f_I$ the finite mixture of distributions with pdf defined by
 \[
 f_I = \sum_{i \in I} \frac{\pi_i}{\pi_I} f_i(\;\cdot\; ; \m\theta_i)
 \]
-where $\pi_I = \sum_{i \in I} \pi_i$. To simplify, we do not specify the parameters of $f_I$, which are parameters borrowed from $f$. Moreover, note that using this notation, we have that $f_{\{1, \dots, k\}} = f$ and $f_{\{j\}} = f_j$.
+where $\pi_I = \sum_{i \in I} \pi_i$. To simplify, we do not specify the parameters of $f_I$, which are parameters borrowed from $f$. Note that using this notation, we have that $f_{\{1, \dots, k\}} = f$ and $f_{\{j\}} = f_j$.
 
-A \emph{partition} $\mathcal{I}$ of $\{1, \dots, k\}$ is a set of subsets of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I \in \mathcal{I}} I = \{1, \dots, k\}$ and  if two parts $I$, $J$ are different, $I \cap J = \emptyset$ holds. To simplify, through this paper we assume an order within the elements of a partition, $\mathcal{I} = \{ I_1, \dots, I_s\}$. Note that for any partition $\mathcal{I} = \{ I_1, \dots, I_s\}$ the mixture $f$ can be rewritten as:
+A \emph{partition} $\mathcal{I}$ of $\{1, \dots, k\}$ is a set of subsets of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I \in \mathcal{I}} I = \{1, \dots, k\}$ and  if two parts $I$, $J$ are different, $I \cap J = \emptyset$ holds. To simplify, through this paper we assume an order within the elements of a partition. Doing so, we can index the partition and write $\mathcal{I} = \{ I_1, \dots, I_s\}$. Note that for any partition $\mathcal{I} = \{ I_1, \dots, I_s\}$ the mixture $f$ can be rewritten as:
 \[
 f = \pi_{I_1} f_{I_1} + \dots + \pi_{I_s} f_{I_s}.
 \]
@@ -82,77 +82,21 @@ A \emph{hierarchical combination of components} is a sequence of partitions $\ma
 
 \subsection*{Model-based clustering}
 
-When model-based clustering is based on a finite mixture of distributions $f_1, \dots, f_k$, a common approach is to classify observations according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
+When model-based clustering is based on finite mixtures, a common approach is to assume that our sample is following a finite mixture of distributions $f_1, \dots, f_k$, and then proceed as follows, 
+\begin{enumerate}
+\item find a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k$, and
+\item to classify each observation according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
 \[
-\argmax_{j=1}^k \frac{ \pi_j f_j(\m x ; \m\theta_j) }{\sum_{i=1}^k \pi_i f_i(\m x ; \m\theta_i) } = \argmax_{j=1}^k \frac{ \pi_j f_j(\m y ; \m\theta_j) }{ \sum_{i=1}^k \pi_i f_i(\m y ; \m\theta_i) },
+\argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x ; \hat{\m\theta}_j) }{\sum_{i=1}^k \hat{\pi}_i f_i(\m x ; \hat{\m\theta}_i) } = \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m y ; \hat{\m\theta}_j) }{ \sum_{i=1}^k \hat{\pi}_i f_i(\m y ; \hat{\m\theta}_i) }.
 \]
-or equivalently,
-\[
-\argmax_{j=1}^k \pi_j f_j(\m x ; \m\theta_j) = \argmax_{j=1}^k \pi_j f_j(\m y ; \m\theta_j).
-\]
-
-%Formally, two observations $\m x, \m y \in \mathbb{X}$ are assigned to the same cluster if and only if 
-%\[
-%\argmax_{j=1}^k P(\m x \sim f_j) = \argmax_{j=1}^k P(\m y \sim f_j),
-%\]
-%where $P(\m x \sim f_j)$ is the probability that $\m x$ has been generated by $f_j$ assuming that $\m x$ has been generated by $f$. Taking into account that
-%\[
-%P(\m x \sim f_j) = \frac{\pi_j f_j(\m x ; \m\theta_j) }{f(\m x)},
-%\]
-%we can simplify the criteria and say that two observations $\m x, \m y \in \mathbb{X}$ are assigned to the same cluster if and only if 
-%\[
-%\argmax_{j=1}^k \pi_j f_j(\m x ; \m\theta_j) = \argmax_{j=1}^k \pi_j f_j(\m y ; \m\theta_j).
-%\]
+\end{enumerate}
 
 
 \cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that classifying an element according to the probability of belonging to one component could be misleading. Instead, they propose that one cluster can be formed by the combination of different components. Formally, given a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, two elements $\m x, \m y \in \mathbb{X}$ are classified to the same cluster if and only if
 \[
-\argmax_{j=1}^s \frac{ \pi_{I_j} f_{I_j}(\m x ; \m\theta_{I_j}) }{\sum_{i=1}^k \pi_{I_j} f_{I_j}(\m x ; \m\theta_{I_j}) } = \argmax_{j=1}^k \frac{ \pi_{I_j} f_{I_j}(\m y ; \m\theta_{I_j}) }{ \sum_{i=1}^k \pi_{I_j} f_{I_j}(\m y ; \m\theta_{I_j}) },
+\argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x ) } = \argmax_{j=1}^k \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }{ \sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }
 \]
-or equivalently,
-\[
-\argmax_{j=1}^s \pi_{I_j} f_{I_j}(\m x) = \argmax_{j=1}^s \pi_{I_j} f_{I_j}(\m y).
-\]
-
-
-
-%%
-%%Let
-%%\begin{equation}\label{mixt}
-%%f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k)
-%%\end{equation}
-%%be a finite mixture of probability density functions $f_1(\;\cdot\; ; \m\theta_1), \dots, f_k(\;\cdot\; ; \m\theta_k)$ defined in $\mathbb{X}$. 
-%%
-%%Supose that an element $\m x \in \mathbb{X}$ is generated by a distribution with pdf $f$, $\m x \sim f$. Then, the probability that $\m x$ is generated by a distribution with probability density function $f_j$, $\m x \sim f_j$,  is
-%%\[
-%%P(\m x \sim f_j | \m x \sim f) =%
-%%%\frac{P(x \sim f_j \cap x \sim f)}{P(x \sim f)} =\\%
-%%\frac{P(\m x \sim f_j)}{P(\m x \sim f)} =%
-%%%\frac{\pi_j f_j(x ; \m\theta_j) }{f(x ; \pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k)} =%
-%%\frac{\pi_j f_j(\m x ; \m\theta_j)}{\sum_{i=1}^k \pi_i f_i(\m x ; \m\theta_i)}.
-%%\]
-%%
-
-%%
-%%
-%%The rule is commonly known as the maximum a posteriori criteria.
-%%
-%%
-%%Let $X = \{\textbf{x}_1, \dots, \textbf{x}_1\}$ be a sample defined on $\mathbb{X}$ and let $I$ be a subset of $\{1, \dots k\}$. We denote by $\tau_{i I}$ the probability that $\textbf{x}_i$ has been generated by distribution with pdf $f_\ell$, $\ell \in I$, conditioned to $\textbf{x}_i$ been generated by $f$,
-%%
-%%\begin{equation}
-%%\tau_{i I} = P( \bigcup_{\ell \in I}  \left\{ \textbf{x}_i \sim f_\ell | x \sim f \right\}) = \sum_{\ell \in I} P( \left\{ \textbf{x}_i \sim f_\ell | x \sim f \right\}) = \sum_{\ell \in I} \tau_{i \ell}
-%%\end{equation}
-%%where $\tau_{i \ell}$ is the posterior probability that $\textbf{x}_i$ belongs to component $f_\ell$.
-%%
-%%% Note that it is assumed that each element belongs to a unique class, i.e.,  \[ P \left( \{ x \in C_j \} \cap \{  x \in C_i\}  \right)=0 \mbox{,\;for $i\neq j$.}\] .
-%%
-
-%%
-%%
-%%
-%%
-%%Let $\mathcal{I} = \{ I_1, \dots, I_s\}$. For each element $\textbf{x}_i$ the vector of probabilities to belong to a class indexed by $I_1, \dots, I_s$ is denoted with ${\boldsymbol\tau}^{\mathcal{I}}_i$, i.e. \[ {\boldsymbol\tau}^{\mathcal{I}}_i = ( \tau_{i I_1}, \dots, \tau_{i I_s}). \] 
+where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{i \in I_j} \hat{\pi}_i f_i(\; \cdot \; ; \hat{\m\theta}_i)$ and $\hat{\pi}_{I_j} =  \sum_{i \in I} \hat{\pi}_i$.
 
 \section{Hierarchical algorithms based on posterior probabilities}
 
@@ -176,6 +120,7 @@ Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors
 \frac{ \frac{1}{n} \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}_{\left[ \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right]}}}{ \frac{1}{n} \sum_{i=1}^n \tau_{iI_a}}
 \]
 
+\subsection*{The log-ratio algorithm}
 
 \bibliographystyle{apalike}
 \bibliography{tex/combining_mixtures}{}
