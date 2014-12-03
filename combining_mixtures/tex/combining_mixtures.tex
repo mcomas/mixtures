@@ -96,7 +96,29 @@ When model-based clustering is based on finite mixtures, a common approach is to
 \[
 \argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x ) } = \argmax_{j=1}^k \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }{ \sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }
 \]
-where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{i \in I_j} \hat{\pi}_i f_i(\; \cdot \; ; \hat{\m\theta}_i)$ and $\hat{\pi}_{I_j} =  \sum_{i \in I} \hat{\pi}_i$.
+where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{i \in I_j} \hat{\pi}_i f_i(\; \cdot \; ; \hat{\m\theta}_i)$ and $\hat{\pi}_{I_j} =  \sum_{i \in I} \hat{\pi}_i$. 
+
+Let $X = \{\m x_1\dots, \m x_n\}$ be a sample in defined in $\mathbb{X}$. Along this paper we define
+\[
+\hat{\tau}_{i I_j} =  \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x_i) }{\sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x_i)},
+\]
+and, for a partition  $\mathcal{I} = \{ I_1, \dots, I_s\}$, we define
+\[
+\hat{\tau}_{i \mathcal{I}} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right).
+\]
+Note that whenever  $\mathcal{I} = \{ I_1, \dots, I_s\}$ is a partition, $\sum_{j=1}^s \hat{\tau}_{i I_j} = 1$ for $1 \leq i \leq n$.
+
+
+%To simplify, along this paper let
+%\[
+%\hat{\tau}_{I_j}(\m x ) =  \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x)},
+%\]
+%and, for a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, let
+%\[
+%\hat{\tau}_{\mathcal{I}}(\m x ) = \left( \hat{\tau}_{I_1}(\m x ) , \dots, \hat{\tau}_{I_s}(\m x )  \right).
+%\]
+%
+%Note that whenever  $\mathcal{I} = \{ I_1, \dots, I_s\}$ is a partition, $\sum_{j=1}^s \hat{\tau}_{I_j}(\m x) = 1$ for any $\m x \in \mathbb{X}$.
 
 \section{Hierarchical algorithms based on posterior probabilities}
 
@@ -104,20 +126,24 @@ Using definitions given in Section~\ref{definitions} we revisite some Hierarchic
 
 \subsection*{Algorithm based on the total Entropy}
 
-Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors giving the probability that elements $\textbf{x}_1, \dots, \textbf{x}_n$ belongs to classes $C_1, \dots, C_k$.  \cite{baudry2010combining} proposes the  hierarchical combination of classes,  $\mathcal{I}_1 \dots, \mathcal{I}_k$, defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$, to be combined are those that maximize the criterion
+%Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors giving the probability that elements $\textbf{x}_1, \dots, \textbf{x}_n$ belongs to classes $C_1, \dots, C_k$.  
+
+\cite{baudry2010combining} proposes the  hierarchical combination of components  $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$, to be combined are those that maximize the criterion
 
 \[
-- \sum_{i=1}^n \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b})\right\} +  \sum_{i=1}^n  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b})
+- \sum_{i=1}^n \left\{ \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})\right\} +  \sum_{i=1}^n  (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b})
 \]
 
-in other words $\dots$
+%in other words $\dots$
 
 \subsection*{DEMP algorithm}
 
-Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors giving the probability that elements $\textbf{x}_1, \dots, \textbf{x}_n$ belongs to classes $C_1, \dots, C_k$. DEMP approach \citep{hennig2010methods} proposes the hierarchical combination of classes,  $\mathcal{I}_1 \dots, \mathcal{I}_k$, defined as follows:starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that maximize the criterion
+%Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors giving the probability that elements $\textbf{x}_1, \dots, \textbf{x}_n$ belongs to classes $C_1, \dots, C_k$. 
+
+DEMP approach \citep{hennig2010methods} proposes the hierarchical combination of components  $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that maximize the criterion
 
 \[
-\frac{ \frac{1}{n} \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}_{\left[ \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right]}}}{ \frac{1}{n} \sum_{i=1}^n \tau_{iI_a}}
+\frac{ \frac{1}{n} \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}}}{ \frac{1}{n} \sum_{i=1}^n \hat{\tau}_{iI_a}}
 \]
 
 \subsection*{The log-ratio algorithm}
