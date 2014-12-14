@@ -1,0 +1,41 @@
+---
+title: "WDI data summary"
+output:
+  html_document:
+    toc: yes
+---
+
+### Data set description
+
+```{r, include=FALSE}
+load('/Users/marc/Research/mixtures/combining_mixtures/data/wdi_data.RData')
+library(plyr)
+library(dplyr)
+```
+
+Data was retrieved from the Worldbank data base. We get the following variables:
+
+```{r, echo=FALSE, comment=" "}
+count_valid = function(x) sum(!is.na(x) & x > 0)
+
+func = parse(text= paste( sapply(names(indicators), function(txt) sprintf("(is.na(%s) & %s > 0)", txt, txt) ), collapse = '+') )
+cd = group_by(dat, year, country) %>% summarise( 'count' = eval( func ) )
+
+for(i in 1:length(indicators)){
+ cat(sprintf("%s:\n\t\t%s\n", names(indicators)[i], indicators[[i]]))
+}
+```
+
+
+```{r, echo=FALSE}
+df.count = ldply(unique(dat$country), function(country){
+  d = dat[dat$country == country, c('year', names(indicators))]
+  y = d$year
+  x = d[,-1]
+  res = as.list( apply(!is.na(x) & x >0, 1, sum) / ncol(x) )
+  names(res) = y
+  data.frame(res)
+})
+rownames(df.count) = unique(dat$country)
+round(df.count, 2)
+```

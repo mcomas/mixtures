@@ -26,7 +26,7 @@ plot(princomp(SIM$X)$scores, col=SIM$id, main='Simulated data')
 dev.off()
 
 #suppressMessages( source('R/combining_partitions.R') ) 
-devtools::load_all('../mixpack')
+devtools::load_all('../../packages/mixpack')
 
 simulation = function(step, varphi, theta){
   ## A mixture model is adjusted to data. The adjustment is reapeted until the end.
