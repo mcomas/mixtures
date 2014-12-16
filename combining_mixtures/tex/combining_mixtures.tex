@@ -59,13 +59,13 @@ Let $\mathbb{X}$ be a sample space. A \emph{finite mixture of distributions} is 
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
-where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $f$ is a pdf, we have the restriction $\sum_{i=1}^k \pi_i = 1$. The probability distributions $f_j$, $1 \leq j \leq k$, are called the \emph{components} of the finite mixture $f$, or \emph{mixture components}.
+where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $f$ is a pdf, we have the restriction $\sum_{\ell = 1}^k \pi_\ell = 1$. The probability distributions $f_j$, $1 \leq j \leq k$, are called the \emph{components} of the finite mixture $f$, or \emph{mixture components}.
 
 Let $f$ be finite mixture of distributions as defined in Equation~\ref{mixt} with  parameters  $\pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k$ and let $I$  be a subset of $\{1, \dots, k\}$. We denote by $f_I$ the finite mixture of distributions with pdf defined by
 \[
-f_I = \sum_{i \in I} \frac{\pi_i}{\pi_I} f_i(\;\cdot\; ; \m\theta_i)
+f_I = \sum_{j \in I} \frac{\pi_i}{\pi_I} f_j(\;\cdot\; ; \m\theta_j)
 \]
-where $\pi_I = \sum_{i \in I} \pi_i$. To simplify, we do not specify the parameters of $f_I$, which are parameters borrowed from $f$. Note that using this notation, we have that $f_{\{1, \dots, k\}} = f$ and $f_{\{j\}} = f_j$.
+where $\pi_I = \sum_{\ell \in I} \pi_\ell$. To simplify, we do not specify the parameters of $f_I$, which are parameters borrowed from $f$. Note that using this notation, we have that $f_{\{1, \dots, k\}} = f$ and $f_{\{j\}} = f_j$.
 
 A \emph{partition} $\mathcal{I}$ of $\{1, \dots, k\}$ is a set of subsets of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I \in \mathcal{I}} I = \{1, \dots, k\}$ and  if two parts $I$, $J$ are different, $I \cap J = \emptyset$ holds. To simplify, through this paper we assume an order within the elements of a partition. Doing so, we can index the partition and write $\mathcal{I} = \{ I_1, \dots, I_s\}$. Note that for any partition $\mathcal{I} = \{ I_1, \dots, I_s\}$ the mixture $f$ can be rewritten as:
 \[
@@ -73,30 +73,30 @@ f = \pi_{I_1} f_{I_1} + \dots + \pi_{I_s} f_{I_s}.
 \]
 
 
-A \emph{hierarchical combination of components} is a sequence of partitions $\mathcal{I}_1, \dots, \mathcal{I}_k$ of $\{1,...,k\}$, where $\mathcal{I}_1$ is the one-part partition $\mathcal{I}_1 = \{ \{1, \dots, k\} \}$, and for each $i$, $1 <  i \leq k$,
+A \emph{hierarchical combination of components} is a sequence of partitions $\mathcal{I}_1, \dots, \mathcal{I}_k$ of $\{1,...,k\}$, where $\mathcal{I}_1$ is the one-part partition $\mathcal{I}_1 = \{ \{1, \dots, k\} \}$, and for each $k'$, $1 <  k' \leq k$,
 \begin{itemize}
-\item $\mathcal{I}_i$ has $i$ elements  and
-\item if a part $I \in \mathcal{I}_{i-1}$ then there is a part $J \in \mathcal{I}_i$ with $J = I$ or there are two parts $J_1, J_2 \in \mathcal{I}_i$ with $I = J_1 \cup J_2$.
+\item $\mathcal{I}_{k'}$ has $i$ elements  and
+\item if a part $I \in \mathcal{I}_{k'-1}$ then there is a part $J \in \mathcal{I}_{k'}$ with $J = I$ or there are two parts $J_1, J_2 \in \mathcal{I}_i$ with $I = J_1 \cup J_2$.
 \end{itemize}
 
 
 \subsection*{Model-based clustering}
 
-When model-based clustering is based on finite mixtures, a common approach is to assume that our sample is following a finite mixture of distributions $f_1, \dots, f_k$, and then proceed as follows, 
+When model-based clustering is based on finite mixtures, a common approach is to assume that a sample is following a finite mixture of distributions $f_1, \dots, f_k$, and then proceed as follows, 
 \begin{enumerate}
 \item find a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k$, and
 \item to classify each observation according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
 \[
-\argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x ; \hat{\m\theta}_j) }{\sum_{i=1}^k \hat{\pi}_i f_i(\m x ; \hat{\m\theta}_i) } = \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m y ; \hat{\m\theta}_j) }{ \sum_{i=1}^k \hat{\pi}_i f_i(\m y ; \hat{\m\theta}_i) }.
+\argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x ; \hat{\m\theta}_\ell) } = \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m y ; \hat{\m\theta}_j) }{ \sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m y ; \hat{\m\theta}_\ell) }.
 \]
 \end{enumerate}
 
 
 \cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that classifying an element according to the probability of belonging to one component could be misleading. Instead, they propose that one cluster can be formed by the combination of different components. Formally, given a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, two elements $\m x, \m y \in \mathbb{X}$ are classified to the same cluster if and only if
 \[
-\argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{i=1}^s \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x ) } = \argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }{ \sum_{i=1}^s \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }
+\argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x ) } = \argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }{ \sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m y) }
 \]
-where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{i \in I_j} \frac{\hat{\pi}_i}{\hat{\pi}_{I_j}} f_i(\; \cdot \; ; \hat{\m\theta}_i)$ and $\hat{\pi}_{I_j} =  \sum_{i \in I} \hat{\pi}_i$. 
+where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{j' \in I_j} \frac{\hat{\pi}_{j'}}{\hat{\pi}_{I_j}} f_{j'}(\; \cdot \; ; \hat{\m\theta}_{j'})$ and $\hat{\pi}_{I_j} =  \sum_{j' \in I} \hat{\pi}_{j'}$. 
 
 Let $X = \{\m x_1\dots, \m x_n\}$ be a sample in defined in $\mathbb{X}$. Along this paper we define
 \[
@@ -108,18 +108,17 @@ and, for a partition  $\mathcal{I} = \{ I_1, \dots, I_s\}$, we define
 \]
 Note that whenever  $\mathcal{I} = \{ I_1, \dots, I_s\}$ is a partition, $\sum_{j=1}^s \hat{\tau}_{i I_j} = 1$ for $1 \leq i \leq n$.
 
-For the sake of an example, consider the Gaussian mixture
+For the sake of an example, consider following  estimated Gaussian mixture
 
 \[
-\hat{f} = \sum_{j=1}^6 \hat{\pi_j} f(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)
+\hat{f} = \sum_{j=1}^6 \hat{\pi}_j \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)
 \]
-with 6 components defined by parameters
+with parameters
 {\small
 \input{tex/partition-example-pars.tex}
 }
 
-Mixture $\hat{f}$ has been adjusted to a sample generated by the R package \textsc{MixSim}. In Figure~\ref{ex_mixture} the sample is represented with the isodensity curves of the adjusted mixture $\hat{f}$.
-
+Mixture $\hat{f}$ has been estimated using a sample $X_{500}=\{\m x_1, \dots, \m x_{500}\}$ generated by the R package \textsc{MixSim}. The data points in sample $X_{500}$ follows a Gaussian mixture \emph{with 3 components}. The overlapping between components $\omega$ is a measure that defined the overlapping between components in a mixture. To generate sample $X_{500}$ a maximum overlapping of  $\check{\omega} = 0.01$ was fixed (see Melnykov for more details). In Figure~\ref{ex_mixture} the sample is represented with the isodensity curves of the adjusted mixture $\hat{f}$ and the estimated parameter $\hat{\mu}_j$ of each component.
 
 \begin{figure}[thbp]
 \begin{center}
@@ -131,15 +130,17 @@ Mixture $\hat{f}$ has been adjusted to a sample generated by the R package \text
 \end{center}
 \end{figure}
 
-Let $I = \{1,2,3,4,5,6\}$. As commented before, any partition of $I$ yields to a cluster algorithm. For example, considering the partition $\mathcal{I}_6 = \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}$ of $I$, we have that every data can be assigned to the part $\{i\}$ for which $\hat{\tau}_{i\{j\}}$ is maximum. In other words, $\m x \in \mathbb{R}^2$ is assigned to cluster labeled
-\[
-\argmax_{j=1}^6 \frac{ \hat{\pi}_{\{j\}} \hat{f}_{\{j\}}(\m x) }{\sum_{k=1}^6 \hat{\pi}_{I_k} \hat{f}_{I_k}(\m x ) }
-\]
+Let $I = \{1,2,3,4,5,6\}$. As commented before, any partition of $I$ yields to a cluster algorithm. For example, consider the partition 
+\[\mathcal{I}_6 = \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}\]
+of $I$. Using partition $\mathcal{I}_6$ every observation $\m x_i \in \mathbb{R}^2$ is assigned to the part $\{j\}$ for which $\hat{\tau}_{i\{j\}}$ is maximum. In Figure~\ref{ex_part6} each observation $\m x_i$ has been separated according to the assigned part. Moreover, the isodensity curves for each of the pdf $\hat{f}_{\{j\}} = \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)$, $1\leq j \leq 6$, have also been included in the graphic. 
+
+%In other words, $\m x_i \in \mathbb{R}^2$ is assigned to cluster labeled
+%\[
+%\argmax_{j=1}^6 \frac{ \hat{\pi}_{\{j\}} \hat{f}_{\{j\}}(\m x) }{\sum_{\ell=1}^6 \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x ) }
+%\]
 
 
- $\hat{f}_{\{j\}}(\;\cdot\;) = \frac{\hat{\pi}_j}{\hat{\pi}_j} f(\;\cdot\;; \hat{\m\mu}_j, \hat{\m\Sigma}_j) = f(\;\cdot\;; \hat{\m\mu}_j, \hat{\m\Sigma}_j)$ for $j = 1,...,6$. Partition $\mathcal{I}_6$ yields to the cluster algorithm where an element $x_i$ is assigned to the part $\{j\}$ of $\mathcal{I}_6$ such that $\hat{\tau}_{i\{j\}}$ is maximum.
-
-
+%$\hat{f}_{\{j\}}(\;\cdot\;) = \frac{\hat{\pi}_j}{\hat{\pi}_j} f(\;\cdot\;; \hat{\m\mu}_j, \hat{\m\Sigma}_j) = f(\;\cdot\;; \hat{\m\mu}_j, \hat{\m\Sigma}_j)$ for $j = 1,...,6$. Partition $\mathcal{I}_6$ yields to the cluster algorithm where an element $x_i$ is assigned to the part $\{j\}$ of $\mathcal{I}_6$ such that $\hat{\tau}_{i\{j\}}$ is maximum.
 
 
 \begin{figure}[!h]
@@ -152,17 +153,71 @@ Let $I = \{1,2,3,4,5,6\}$. As commented before, any partition of $I$ yields to a
 \end{center}
 \end{figure}
 
+In contrast, if we consider the partition
+\[\mathcal{I}_3 = \{\{1, 3, 6\},\{2, 5\},\{4\}\}\]
+which is grouping those components with closest mean. We get the 3 clusters given in Figure~\ref{ex_part3a}, where we have included the isodensity curves of pdf $\hat{f}_{\{1,3,6\}}$, $\hat{f}_{\{2, 5\}}$ and $\hat{f}_{\{4\}}$ given by
 
-%To simplify, along this paper let
-%\[
-%\hat{\tau}_{I_j}(\m x ) =  \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x)},
-%\]
-%and, for a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, let
-%\[
-%\hat{\tau}_{\mathcal{I}}(\m x ) = \left( \hat{\tau}_{I_1}(\m x ) , \dots, \hat{\tau}_{I_s}(\m x )  \right).
-%\]
-%
-%Note that whenever  $\mathcal{I} = \{ I_1, \dots, I_s\}$ is a partition, $\sum_{j=1}^s \hat{\tau}_{I_j}(\m x) = 1$ for any $\m x \in \mathbb{X}$.
+\[ 
+%\left\{ 
+\begin{array}{r c l}
+\hat{f}_{\{1,3,6\}} & = & \frac{1}{0.52}(0.13 \phi(\;\cdot\; ; \hat{\m\mu}_1, \hat{\m\Sigma}_1) + 0.07 \phi(\;\cdot\; ; \hat{\m\mu}_3, \hat{\m\Sigma}_3) + 0.32 \phi(\;\cdot\; ; \hat{\m\mu}_6, \hat{\m\Sigma}_6)), \\
+\hat{f}_{\{2, 5\}} & = &  \frac{1}{0.33}(0.09 \phi(\;\cdot\; ; \hat{\m\mu}_2, \hat{\m\Sigma}_2) + 0.24 \phi(\;\cdot\; ; \hat{\m\mu}_5, \hat{\m\Sigma}_5)), \\
+\hat{f}_{\{4\}} & = &\phi(\;\cdot\; ; \hat{\m\mu}_4, \hat{\m\Sigma}_4).
+\end{array} 
+%\right. 
+\]
+  
+
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.6\textwidth]{figures/partition-example-part3a.pdf} \\
+ \end{tabular}
+ \caption{Classifying assigning each observation to a single component}\label{ex_part3a}
+\end{center}
+\end{figure}
+
+Finally, suppose that instead of grouping by similar mean, we decide to group by similar covariance matrix. By choosing partition
+\[\mathcal{I}'_3 = \{\{1, 2, 3\},\{4\},\{5, 6\}\},\]
+we end up with the clustering given in Figure~\ref{ex_part3b}.
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.6\textwidth]{figures/partition-example-part3b.pdf} \\
+ \end{tabular}
+ \caption{Classifying assigning each observation to a single component}\label{ex_part3b}
+\end{center}
+\end{figure}
+
+Consider the following hierarchical combination of components given by the following sequence
+\begin{equation}
+\begin{array}{r c c}
+\mathcal{H}(\mathcal{I}) &=& \{ \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}, \\
+   & & \{\{1, 6\},\{2\},\{3\},\{4\},\{5\} \}, \\
+   & &    \{\{1, 6, 3\},\{2\},\{4\},\{5\} \}, \\
+   & &    \{\{1, 6, 3\},\{2\},\{4, 5\} \}, \\
+    & &   \{\{1, 6, 3\},\{2, 4, 5\} \}, \\
+   & &    \{\{1, 2, 3, 4, 5, 6\}\} \}.
+\end{array}
+\label{hier_ex}
+\end{equation}
+we obtain the hierarchical clustering given in Figure~\ref{hierarchical}
+
+\begin{figure}[!h]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[trim=0cm 0cm 0cm 0cm,width=\textwidth]{figures/partition-example-part6.pdf} \\
+    \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.83\textwidth]{figures/partition-example-part5.pdf} \\
+      \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.67\textwidth]{figures/partition-example-part4.pdf} \\
+        \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.5\textwidth]{figures/partition-example-part3a.pdf} \\
+          \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.33\textwidth]{figures/partition-example-part2.pdf} \\
+            \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.17\textwidth]{figures/partition-example-part1.pdf}
+ \end{tabular}
+ \caption{Hierarchical cluster obtained by the hierarchical combination of components given in Eq.~\ref{hier_ex}.}\label{ex_part3a}
+\end{center}
+\end{figure}
 
 \section{Hierarchical algorithms based on posterior probabilities}
 

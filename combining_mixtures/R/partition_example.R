@@ -67,12 +67,12 @@ ggsave(p.c6, filename = 'figures/partition-example-mixture.pdf', width = 7, heig
 CN = ldply(1:6, function(i){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = P[i] * dmvnorm(cn, mean = M[i,], sigma = S[[i]])
-  cn$id = sprintf('n_{%s}',i)
+  cn$id = sprintf('Part {%s}',i)
   cn
 })
 
 ii = apply( mixt@bestResult@proba, 1, which.max)
-df$id = laply(ii, function(i) sprintf('n_{%s}',paste(i, collapse=',')) )
+df$id = laply(ii, function(i) sprintf('Part {%s}',paste(i, collapse=',')) )
 
 p.all <- ggplot() + 
     stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.2) +
@@ -81,20 +81,116 @@ p.all <- ggplot() +
     facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") 
 ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 10, height=2.5)
 
-partition = list(c(1,3), 2, 4, 5, 6)
+partition = list(c(1, 3, 6), c(2, 5), 4)
 
-CN5 = ldply(partition, function(part){
+CN3 = ldply(partition, function(part){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
-  cn$id = sprintf('n_{%s}',paste(part, collapse=','))
+  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
   cn
 })
 
 ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
-df$id = laply(ii, function(i) sprintf('n_{%s}',paste(partition[[i]], collapse=',')) )
+df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
 
-( p.cn5 <- ggplot() + 
+p.cn3 <- ggplot() + 
     stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
     geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-    stat_contour(data=CN5, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
-    facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") )
+    stat_contour(data=CN3, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+    facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
+ggsave(p.cn3, filename = 'figures/partition-example-part3a.pdf', width = 5, height=2.5)
+
+partition = list(c(1, 2, 3), 4, c(5, 6))
+
+CN3b = ldply(partition, function(part){
+  cn = expand.grid(X1 = xlimits, X2 = ylimits)
+  cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
+  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn
+})
+
+ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
+df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+
+p.cn3b <- ggplot() + 
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
+  stat_contour(data=CN3b, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
+ggsave(p.cn3b, filename = 'figures/partition-example-part3b.pdf', width = 5, height=2.5)
+
+partition = list(c(1, 6), 2, 3, 4, 5)
+
+CN5 = ldply(partition, function(part){
+  cn = expand.grid(X1 = xlimits, X2 = ylimits)
+  cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
+  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn
+})
+
+ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
+df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+
+p.cn5 <- ggplot() + 
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
+  stat_contour(data=CN5, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
+ggsave(p.cn5, filename = 'figures/partition-example-part5.pdf', width = 8.3, height=2.5)
+
+partition = list(c(1, 3, 6), 2, 4, 5)
+
+CN4 = ldply(partition, function(part){
+  cn = expand.grid(X1 = xlimits, X2 = ylimits)
+  cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
+  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn
+})
+
+ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
+df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+
+p.cn4 <- ggplot() + 
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
+  stat_contour(data=CN4, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
+ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 6.6, height=2.5)
+
+partition = list(c(1, 3, 6), c(2, 4, 5))
+
+CN2 = ldply(partition, function(part){
+  cn = expand.grid(X1 = xlimits, X2 = ylimits)
+  cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
+  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn
+})
+
+ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
+df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+
+p.cn2 <- ggplot() + 
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
+  stat_contour(data=CN2, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
+ggsave(p.cn2, filename = 'figures/partition-example-part2.pdf', width = 3.3, height=2.5)
+
+partition = list(c(1, 2, 3, 4, 5, 6))
+
+CN1 = ldply(partition, function(part){
+  cn = expand.grid(X1 = xlimits, X2 = ylimits)
+  cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
+  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn
+})
+
+ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
+df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+
+p.cn1 <- ggplot() + 
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
+  stat_contour(data=CN1, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
+ggsave(p.cn1, filename = 'figures/partition-example-part1.pdf', width = 1.7, height=2.5)
