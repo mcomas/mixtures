@@ -1,4 +1,12 @@
-.IPHONY: seminari-girona granada article
+.IPHONY: seminari-girona granada article wdi-data
+
+all : article seminari-girona granada wdi-data
+
+wdi-data : data/wdi_data.RData
+
+data/wdi_data.RData : R/WDIdata_import.R
+	Rscript R/WDIdata_import.R
+
 
 article : pdf/combining_mixtures.pdf
 
