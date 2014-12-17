@@ -16,6 +16,7 @@ library(ggplot2)
 library(Rmixmod)
 library(stringr)
 library(Hmisc)
+library(abind)
 devtools::load_all('../../packages/mixpack')
 
 set.seed(SEED)
