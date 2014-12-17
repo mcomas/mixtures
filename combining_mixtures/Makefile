@@ -2,7 +2,7 @@
 
 article : pdf/combining_mixtures.pdf
 
-pdf/combining_mixtures.pdf : tex/combining_mixtures.tex tex/combining_mixtures.bbl $(FIGURES) $(DATA) $(TEX)
+pdf/combining_mixtures.pdf : tex/combining_mixtures.tex tex/combining_mixtures.bbl
 	pdflatex -output-directory tex tex/combining_mixtures.tex
 	pdflatex -output-directory tex tex/combining_mixtures.tex
 	mv tex/combining_mixtures.pdf pdf/combining_mixtures.pdf
