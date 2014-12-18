@@ -44,6 +44,7 @@ In this paper we focus on methods based on misclassification probabilities. Conc
 
 We exposes the problem in a general setting which contains the approaches proposed by Baudry and Hennig.
 
+
 % \section{The subjectiveness of clustering decisions}
 % 
 % It is well known that there is a strong subjective component in the decision of what a ``true cluster'' is \citep{hennig2010methods}.
@@ -259,7 +260,7 @@ or equivalently,
 
 \subsection*{The log-ratio algorithm}
 
-The log-ratio approach \citep{} proposed the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} the misclassification probabilities estimated by 
+The log-ratio approach \citep{} proposes the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} log-ratio criterion by
 
 \[
 \frac{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]} \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })}{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}}.
@@ -267,11 +268,23 @@ The log-ratio approach \citep{} proposed the hierarchical combination of compone
 
 \section{Unifying the approaches}
 
-The main when the log-ratio algorithm was presented was that 
+The log-ratio algorithm incorporates two idea
+
 \begin{itemize}
-\item the value of $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ is quantifying the confusion between between $\m x_i$ being classified to $a$\footnote{$\m x_i$ being classified to $a$ has to be defined} or $b$, and 
-\item we estimate the arithmetic mean of $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ for those $\m x_i$ classified to $a$, i.e. $\forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j}$.
+\item a local measure of how possible is to confuse $I_b$ with $I_a$ depending on each observation $x_i$, $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$, and
+\item a measure of how associated is an observation $x_i$ to cluster $I_a$, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$.
 \end{itemize}
+
+In this section, we extend the log-ratio algorithm idea to a general scenario. We consider a local measure given by function $\lambda(\m x_i, I, J)$ of how similar are the clusters given by part $I$ and part $J$ in $\m x_i$, and a measure of how associated is an observation $x_i$ to the cluster given by part $I$, $\omega(\m x, I)$. This general approach proposes the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} the general criterion given by
+
+\begin{equation}
+\frac{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) \lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) }.
+\end{equation}
+
+
+%to quantify the ``confusion' '  between two clusters, the event $\m x_i$ is classified to $a$ conditioned to the event  $\m x_i$ is classified to $a$. To quantify this confusion the measure $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ was proposed. Finally, because elements which where forthur
+
+
 
 
 \bibliographystyle{apalike}

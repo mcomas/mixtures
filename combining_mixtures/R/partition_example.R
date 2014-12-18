@@ -76,9 +76,9 @@ ii = apply( mixt@bestResult@proba, 1, which.max)
 df$id = laply(ii, function(i) sprintf('Part {%s}',paste(i, collapse=',')) )
 
 p.all <- ggplot() + 
-    stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.2) +
+    stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
     geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-    stat_contour(data=CN, aes(x=X1, y=X2, z=z, col=id), alpha=0.6) + 
+    stat_contour(data=CN, aes(x=X1, y=X2, z=z), alpha=0.6) + 
     facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") 
 ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 10, height=2.5)
 
@@ -95,9 +95,9 @@ ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
 df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn3 <- ggplot() + 
-    stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+    stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
     geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-    stat_contour(data=CN3, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+    stat_contour(data=CN3, aes(x=X1, y=X2, z=z), alpha=0.8) + 
     facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
 ggsave(p.cn3, filename = 'figures/partition-example-part3a.pdf', width = 5, height=2.5)
 
@@ -114,9 +114,9 @@ ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
 df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn3b <- ggplot() + 
-  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-  stat_contour(data=CN3b, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  stat_contour(data=CN3b, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
 ggsave(p.cn3b, filename = 'figures/partition-example-part3b.pdf', width = 5, height=2.5)
 
@@ -133,9 +133,9 @@ ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
 df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn5 <- ggplot() + 
-  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-  stat_contour(data=CN5, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  stat_contour(data=CN5, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
 ggsave(p.cn5, filename = 'figures/partition-example-part5.pdf', width = 8.3, height=2.5)
 
@@ -152,9 +152,9 @@ ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
 df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn4 <- ggplot() + 
-  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-  stat_contour(data=CN4, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  stat_contour(data=CN4, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
 ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 6.6, height=2.5)
 
@@ -171,9 +171,9 @@ ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
 df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn2 <- ggplot() + 
-  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-  stat_contour(data=CN2, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  stat_contour(data=CN2, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
 ggsave(p.cn2, filename = 'figures/partition-example-part2.pdf', width = 3.3, height=2.5)
 
@@ -190,8 +190,8 @@ ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
 df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn1 <- ggplot() + 
-  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+  stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-  stat_contour(data=CN1, aes(x=X1, y=X2, z=z, col=id), alpha=0.8) + 
+  stat_contour(data=CN1, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
 ggsave(p.cn1, filename = 'figures/partition-example-part1.pdf', width = 1.7, height=2.5)
