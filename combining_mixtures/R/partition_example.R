@@ -68,12 +68,12 @@ ggsave(p.c6, filename = 'figures/partition-example-mixture.pdf', width = 7, heig
 CN = ldply(1:6, function(i){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = P[i] * dmvnorm(cn, mean = M[i,], sigma = S[[i]])
-  cn$id = sprintf('Part {%s}',i)
+  cn$id = sprintf('{%s}',i)
   cn
 })
 
 ii = apply( mixt@bestResult@proba, 1, which.max)
-df$id = laply(ii, function(i) sprintf('Part {%s}',paste(i, collapse=',')) )
+df$id = laply(ii, function(i) sprintf('{%s}',paste(i, collapse=',')) )
 
 p.all <- ggplot() + 
     stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
@@ -87,12 +87,12 @@ partition = list(c(1, 3, 6), c(2, 5), 4)
 CN3 = ldply(partition, function(part){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
-  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn$id = sprintf('{%s}',paste(part, collapse=','))
   cn
 })
 
 ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
-df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+df$id = laply(ii, function(i) sprintf('{%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn3 <- ggplot() + 
     stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
@@ -106,12 +106,12 @@ partition = list(c(1, 2, 3), 4, c(5, 6))
 CN3b = ldply(partition, function(part){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
-  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn$id = sprintf('{%s}',paste(part, collapse=','))
   cn
 })
 
 ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
-df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+df$id = laply(ii, function(i) sprintf('{%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn3b <- ggplot() + 
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
@@ -125,12 +125,12 @@ partition = list(c(1, 6), 2, 3, 4, 5)
 CN5 = ldply(partition, function(part){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
-  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn$id = sprintf('{%s}',paste(part, collapse=','))
   cn
 })
 
 ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
-df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+df$id = laply(ii, function(i) sprintf('{%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn5 <- ggplot() + 
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
@@ -144,12 +144,12 @@ partition = list(c(1, 3, 6), 2, 4, 5)
 CN4 = ldply(partition, function(part){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
-  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn$id = sprintf('{%s}',paste(part, collapse=','))
   cn
 })
 
 ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
-df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+df$id = laply(ii, function(i) sprintf('{%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn4 <- ggplot() + 
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
@@ -163,12 +163,12 @@ partition = list(c(1, 3, 6), c(2, 4, 5))
 CN2 = ldply(partition, function(part){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
-  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn$id = sprintf('{%s}',paste(part, collapse=','))
   cn
 })
 
 ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
-df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+df$id = laply(ii, function(i) sprintf('{%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn2 <- ggplot() + 
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
@@ -182,16 +182,16 @@ partition = list(c(1, 2, 3, 4, 5, 6))
 CN1 = ldply(partition, function(part){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
   cn$z = dmixnorm_rmixmod(cn, mixt, part = part) #dmvnorm(cn, mean = Mu[,i], sigma = S[,,i])
-  cn$id = sprintf('Part {%s}',paste(part, collapse=','))
+  cn$id = sprintf('{%s}',paste(part, collapse=','))
   cn
 })
 
 ii = apply( prop_partition(mixt@bestResult@proba, partition), 1, which.max)
-df$id = laply(ii, function(i) sprintf('Part {%s}',paste(partition[[i]], collapse=',')) )
+df$id = laply(ii, function(i) sprintf('{%s}',paste(partition[[i]], collapse=',')) )
 
 p.cn1 <- ggplot() + 
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN1, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
-ggsave(p.cn1, filename = 'figures/partition-example-part1.pdf', width = 1.7, height=2.5)
+ggsave(p.cn1, filename = 'figures/partition-example-part1.pdf', width = 2, height=2.5)

@@ -99,17 +99,17 @@ When model-based clustering is based on finite mixtures, a common approach is to
 \]
 where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{j' \in I_j} \frac{\hat{\pi}_{j'}}{\hat{\pi}_{I_j}} f_{j'}(\; \cdot \; ; \hat{\m\theta}_{j'})$ and $\hat{\pi}_{I_j} =  \sum_{j' \in I} \hat{\pi}_{j'}$. 
 
-Let $X = \{\m x_1\dots, \m x_n\}$ be a sample in defined in $\mathbb{X}$. Along this paper we define
+Let $X = \{\m x_1\dots, \m x_n\}$ be a sample in defined in $\mathbb{X}$. Along this paper, given a partition $\mathcal{I} = \{ I_1, \dots, I_s \}$ we define the posterior probability  of $\m x_i$ begin classified to $I_j$ as
 \[
-\hat{\tau}_{i I_j} =  \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x_i) }{\sum_{i=1}^k \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x_i)},
+\hat{\tau}_{i I_j} =  \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x_i) }{\sum_{i=1}^s \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x_i)},
 \]
-and, for a partition  $\mathcal{I} = \{ I_1, \dots, I_s\}$, we define
+and, for a partition  $\mathcal{I} = \{ I_1, \dots, I_s\}$, we define the posterior probability vector
 \[
 \hat{\tau}_{i \mathcal{I}} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right).
 \]
 Note that whenever  $\mathcal{I} = \{ I_1, \dots, I_s\}$ is a partition, $\sum_{j=1}^s \hat{\tau}_{i I_j} = 1$ for $1 \leq i \leq n$.
 
-For the sake of an example, consider following  estimated Gaussian mixture
+For the sake of an example consider the following estimated Gaussian mixture
 
 \[
 \hat{f} = \sum_{j=1}^6 \hat{\pi}_j \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)
@@ -192,7 +192,7 @@ we end up with the clustering given in Figure~\ref{ex_part3b}.
 \end{center}
 \end{figure}
 
-Consider the following hierarchical combination of components given by the following sequence
+Consider the following hierarchical combination of components given by the following sequence of partitions
 \begin{equation}
 \begin{array}{r c c}
 \mathcal{H}(\mathcal{I}) &=& \{ \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}, \\
@@ -204,9 +204,9 @@ Consider the following hierarchical combination of components given by the follo
 \end{array}
 \label{hier_ex}
 \end{equation}
-we obtain the hierarchical clustering given in Figure~\ref{hierarchical}
+Each partition belonging to the hierarchical combination of components given by \ref{hier_ex} defines a clustering method where each element is classified to one of the parts each partition. Therefore, a hierarchical combination of components defines a hierarchical clustering. In Figure~\ref{hierarchical} is seen how each partition defines a clustering on sample $X$. The first partition $\{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}$ defines a clustering with 6 clusters, the partition $\{\{1, 6, 3\},\{2\},\{4\},\{5\} \}$ defines a clustering with 5 clusters, and so on.
 
-\begin{figure}[!h]
+\begin{figure}[thbp]
 \begin{center}
 \begin{tabular}{cc}
   \includegraphics[trim=0cm 0cm 0cm 0cm,width=\textwidth]{figures/partition-example-part6.pdf} \\
@@ -214,15 +214,18 @@ we obtain the hierarchical clustering given in Figure~\ref{hierarchical}
       \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.67\textwidth]{figures/partition-example-part4.pdf} \\
         \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.5\textwidth]{figures/partition-example-part3a.pdf} \\
           \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.33\textwidth]{figures/partition-example-part2.pdf} \\
-            \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.17\textwidth]{figures/partition-example-part1.pdf}
+            \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.2\textwidth]{figures/partition-example-part1.pdf}
  \end{tabular}
- \caption{Hierarchical cluster obtained by the hierarchical combination of components given in Eq.~\ref{hier_ex}.}\label{ex_part3a}
+ \caption{Hierarchical cluster obtained by the hierarchical combination of components given in Eq.~\ref{hier_ex}.}\label{hierarchical}
 \end{center}
 \end{figure}
 
+In this article, we are not interested in how to decide which of the different partitions in a hierarchical combination of components defines a ``better'' clustering, but to propose different methods to decide how to merge the components. More concretely, given a finite mixture we are interested in analysing methods to decide how to merge components only using only the information given by the posterior probabilities $\hat{\tau}_{i \mathcal{I}}$, $1\leq i \leq n$.
+
+
 \section{Hierarchical algorithms based on posterior probabilities}
 
-Using definitions given in Section~\ref{definitions} we revisite some Hierarchical algorithms based on posterior probabilities
+Using definitions given in Section~\ref{definitions} we revisite some Hierarchical algorithms based on posterior probabilities from the literature
 
 \subsection*{Algorithm based on the total Entropy}
 
@@ -268,23 +271,71 @@ The log-ratio approach \citep{} proposes the hierarchical combination of compone
 
 \section{Unifying the approaches}
 
-The log-ratio algorithm incorporates two idea
+When the log-ratio algorithm was proposed, the authors wanted to incorporate two idea
 
 \begin{itemize}
 \item a local measure of how possible is to confuse $I_b$ with $I_a$ depending on each observation $x_i$, $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$, and
 \item a measure of how associated is an observation $x_i$ to cluster $I_a$, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$.
 \end{itemize}
 
-In this section, we extend the log-ratio algorithm idea to a general scenario. We consider a local measure given by function $\lambda(\m x_i, I, J)$ of how similar are the clusters given by part $I$ and part $J$ in $\m x_i$, and a measure of how associated is an observation $x_i$ to the cluster given by part $I$, $\omega(\m x, I)$. This general approach proposes the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} the general criterion given by
+In this section, we extend the log-ratio algorithm idea to a general scenario. We consider a local measure given by function $\lambda(\hat{\m\tau}_{i \mathcal{I}}, I, J)$ of how similar are the clusters given by part $I$ and part $J$ in $\m x_i$, and a measure of how associated is an observation $x_i$ to the cluster given by part $I$, $\omega(\m x_i, I)$. This general approach proposes the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} the general criterion given by
 
 \begin{equation}
 \frac{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) \lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) }.
 \end{equation}
 
+For example, in the log-ratio algorithm $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\m x_i, I_a)$ are defined as follows
+\[
+\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })
+\]
+and
+\[
+\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) := \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}.
+\]
+In the log-ratio algorithm $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ plays the role of measuring how different are partition $I_a$ and $I_b$ using the posterior probabilities $\hat{\tau}_{i \mathcal{I}_s}$ of observation $\m x_i$. By contrast, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$ plays the role of how important is observation $x_i$ in the decision of asserting the differences of partition $I_a$ and $I_b$.
 
-%to quantify the ``confusion' '  between two clusters, the event $\m x_i$ is classified to $a$ conditioned to the event  $\m x_i$ is classified to $a$. To quantify this confusion the measure $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ was proposed. Finally, because elements which where forthur
 
+\begin{prop}
+The hierarchical combination of components given by the general approach with
+\[
+\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) + \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b})
+\]
+and
+\[
+\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) := const.
+\]
+is the same as the one obtained with the total Entropy algorithm.
+\end{prop}
+\begin{proof}
+Maximizing
+\[
+\sum_{i=1}^n \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) - \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}).
+\]
+respect to $I_a$ and $I_b$ is equivalent to minimize
+\[
+\sum_{i=1}^n \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}).
+\]
+and it is equivalent to minimize
+\[
+\frac{\sum_{i=1}^n c \; ( \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}) )}{\sum_{i=1}^n c}
+\]
 
+%The only difference between the defined function $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and the Total Entropy is that the first is a minimisation problem and the second is a maximisation problem. Therefore, multiplying by -1 results into the same optimisation problem.
+\end{proof}
+
+\begin{prop}
+The hierarchical combination of components given by the general approach with
+\[
+\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := \mathbbm{1}_{\left[ \exists j\; \hat{\tau}_{i I_{b}} < \hat{\tau}_{iI_j} \right]}
+\]
+and
+\[
+\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) := \hat{\tau}_{iI_a}
+\]
+is the same as the one obtained with the DEMP algorithm.
+\end{prop}
+\begin{proof}
+\end{proof}
 
 
 \bibliographystyle{apalike}
