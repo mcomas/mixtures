@@ -154,7 +154,7 @@ df$id = laply(ii, function(i) sprintf('{%s}',paste(partition[[i]], collapse=',')
 p.cn4 <- ggplot() + 
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
-  stat_contour(data=CN4, aes(x=X1, y=X2, z=z), alpha=0.8) + 
+  stat_contour(data=CN4, aes(x=X1, y=X2, col=id, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none")
 ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 6.6, height=2.5)
 

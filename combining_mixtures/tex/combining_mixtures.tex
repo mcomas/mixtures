@@ -252,15 +252,9 @@ or equivalently,
 
 DEMP approach \citep{hennig2010methods} proposes the hierarchical combination of components  $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that maximise the misclassification probabilities estimated by 
 
-\[
-\frac{ \frac{1}{n} \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}}}{ \hat{\pi}_{I_a}},
-\]
-
-or equivalently,
-
-\[
-\frac{ \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}}}{  \sum_{i=1}^n \hat{\tau}_{iI_a}}.
-\]
+\begin{equation}\label{demp_criteria}
+\frac{ \frac{1}{n} \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}}}{ \hat{\pi}_{I_a}}.
+\end{equation}
 
 \[
 \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]} =
@@ -303,6 +297,8 @@ and
 \]
 In the log-ratio algorithm $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ plays the role of measuring how different are partition $I_a$ and $I_b$ using the posterior probabilities $\hat{\tau}_{i \mathcal{I}_s}$ of observation $\m x_i$. By contrast, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$ plays the role of how important is observation $x_i$ in the decision of asserting the differences of partition $I_a$ and $I_b$.
 
+The following three propositions states that the DEMP
+
 
 \begin{prop}
 The hierarchical combination of components given by the general approach with
@@ -311,25 +307,23 @@ The hierarchical combination of components given by the general approach with
 \]
 and
 \[
-\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) := const.
+\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) := const
 \]
 is the same as the one obtained with the total Entropy algorithm.
 \end{prop}
 \begin{proof}
-Maximizing
+Maximising
 \[
 \sum_{i=1}^n \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) - \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}).
 \]
-respect to $I_a$ and $I_b$ is equivalent to minimize
-\[
+respect to $I_a$ and $I_b$ is equivalent to minimise
+\begin{equation}\label{min_entropy}
 \sum_{i=1}^n \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}).
-\]
-and it is equivalent to minimize
+\end{equation}
+respect to $I_a$ and $I_b$. Multiplying by a constant does not change the result of an optimisation problem. Therefore, multiplying by $\frac{1}{n}$ Eq.~\ref{min_entropy} can be written as
 \[
-\frac{\sum_{i=1}^n c \; ( \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}) )}{\sum_{i=1}^n c}
+\frac{\sum_{i=1}^n const \; ( \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}) )}{\sum_{i=1}^n const}.
 \]
-
-%The only difference between the defined function $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and the Total Entropy is that the first is a minimisation problem and the second is a maximisation problem. Therefore, multiplying by -1 results into the same optimisation problem.
 \end{proof}
 
 \begin{prop}
@@ -344,7 +338,29 @@ and
 is the same as the one obtained with the DEMP algorithm.
 \end{prop}
 \begin{proof}
+Because $\hat{\pi}_{I_a}$ is estimated as $\hat{\pi}_{I_a} = \sum_{i=1}^n \hat{\tau}_{iI_a}$, Eq.~\ref{demp_criteria} is equivalent to
+\begin{equation}\label{demp_criteria_taus}
+\frac{ \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}}}{  \sum_{i=1}^n \hat{\tau}_{iI_a}}.
+\end{equation}
+Maximising Eq.~\ref{demp_criteria_taus} with respect to $I_a$ and $I_b$ is equivalent to minimise
+\[
+\frac{ \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \exists j\; \hat{\tau}_{i I_{b}} < \hat{\tau}_{iI_j} \right]}}}{  \sum_{i=1}^n \hat{\tau}_{iI_a}}.
+\]
+respect to $I_a$ and $I_b$.
 \end{proof}
+
+\begin{prop}
+The hierarchical combination of components given by the general approach with
+\[
+\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })
+\]
+and
+\[
+\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) := \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}
+\]
+is the same as the one obtained with the total Entropy algorithm.\qed
+\end{prop}
+
 
 
 \bibliographystyle{apalike}
