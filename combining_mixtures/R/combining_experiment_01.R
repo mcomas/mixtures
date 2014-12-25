@@ -9,11 +9,11 @@ if(!exists('NDATA')) NDATA = 500
 
 if(!exists('OFILE')) OFILE = 'data/sim-01.RData'
 
-require(MixSim)
-require(plyr)
-require(reshape2)
-require(ggplot2)
-require(Rmixmod)
+library(MixSim)
+library(plyr)
+library(reshape2)
+library(ggplot2)
+library(Rmixmod)
 
 
 set.seed(SEED)
@@ -21,11 +21,8 @@ set.seed(SEED)
 ms = MixSim(MaxOmega=MAXOVERLAP, K=K0, p=DIM, PiLow=0.01, sph=TRUE)
 SIM = simdataset(n=NDATA, Pi=ms$Pi, Mu=ms$Mu, S=ms$S)
 
-pdf(file='figures/experiment_01_sim_dat.pdf', width=8, height=7)
 plot(princomp(SIM$X)$scores, col=SIM$id, main='Simulated data')
-dev.off()
 
-#suppressMessages( source('R/combining_partitions.R') ) 
 devtools::load_all('../../packages/mixpack')
 
 simulation = function(step, varphi, theta){

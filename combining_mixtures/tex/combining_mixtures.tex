@@ -85,7 +85,7 @@ A \emph{hierarchical combination of components} is a sequence of partitions $\ma
 
 When model-based clustering is based on finite mixtures, a common approach is to assume that a sample is following a finite mixture of distributions $f_1, \dots, f_k$, and then proceed as follows, 
 \begin{enumerate}
-\item finding a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k, \hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k$, and
+\item finding a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
 \item classifying each observation according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
 \[
 \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x ; \hat{\m\theta}_\ell) } = \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m y ; \hat{\m\theta}_j) }{ \sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m y ; \hat{\m\theta}_\ell) }.
@@ -256,6 +256,7 @@ DEMP approach \citep{hennig2010methods} proposes the hierarchical combination of
 \frac{ \frac{1}{n} \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}}}{ \hat{\pi}_{I_a}}.
 \end{equation}
 
+The function indicator $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}$ is defined by
 \[
 \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]} =
 \left\{\begin{array}{ll}	
@@ -297,7 +298,7 @@ and
 \]
 In the log-ratio algorithm $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ plays the role of measuring how different are partition $I_a$ and $I_b$ using the posterior probabilities $\hat{\tau}_{i \mathcal{I}_s}$ of observation $\m x_i$. By contrast, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$ plays the role of how important is observation $x_i$ in the decision of asserting the differences of partition $I_a$ and $I_b$.
 
-The following three propositions states that the DEMP
+The following three propositions state that the algorithm based on the total Entropy, the DEMP algorithm and the log-ratio algorithm can be formulated with the general criterion with suitable definitions for $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$.
 
 
 \begin{prop}
@@ -358,8 +359,10 @@ and
 \[
 \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) := \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}
 \]
-is the same as the one obtained with the total Entropy algorithm.\qed
+is the same as the one obtained with log-ratio algorithm.\qed
 \end{prop}
+
+The three algorithms give us three different possible definition for functions $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$. For the function $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ the entropy algorithm considers that the more the confusion is between two parts the higher is the difference between the entropy considering the partition with the two part together and merged. The way the confusion is defined by the DEMP algorithm is more subtle, it states that the higher the confusion between two parts the higher the number of observations not classified to one part. The log-ratio approach relates the confusion respect to the magnitude of the log-ratio. For the function $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$, the entropy algorithm weighs equally the local information of each observation to decide if $I_a$ should be merged to $I_b$. By contrast, the DEMP algorithm weighs the observation according to the probability of pertinence to $I_a$. Finally, the log-ratio algorithm weighs with respect the final pertinence to $I_a$.
 
 
 

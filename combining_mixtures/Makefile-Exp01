@@ -1,0 +1,28 @@
+DGEN = data/sim-mo_AA-BB-CC.RData
+
+OVERLAPS = $(subst AA,01,$(DGEN)) $(subst AA,02,$(DGEN)) $(subst AA,03,$(DGEN)) $(subst AA,04,$(DGEN)) $(subst AA,05,$(DGEN)) \
+           $(subst AA,06,$(DGEN)) $(subst AA,07,$(DGEN)) $(subst AA,08,$(DGEN)) $(subst AA,09,$(DGEN)) $(subst AA,10,$(DGEN)) \
+           $(subst AA,11,$(DGEN)) $(subst AA,12,$(DGEN)) $(subst AA,13,$(DGEN)) $(subst AA,14,$(DGEN)) $(subst AA,15,$(DGEN)) \
+           $(subst AA,16,$(DGEN)) $(subst AA,17,$(DGEN)) $(subst AA,18,$(DGEN)) $(subst AA,19,$(DGEN)) $(subst AA,20,$(DGEN)) \
+           $(subst AA,21,$(DGEN)) $(subst AA,22,$(DGEN)) $(subst AA,23,$(DGEN)) $(subst AA,24,$(DGEN)) $(subst AA,25,$(DGEN)) \
+           $(subst AA,26,$(DGEN)) $(subst AA,27,$(DGEN)) $(subst AA,28,$(DGEN)) $(subst AA,29,$(DGEN)) $(subst AA,30,$(DGEN)) \
+           $(subst AA,31,$(DGEN)) $(subst AA,32,$(DGEN)) $(subst AA,33,$(DGEN)) $(subst AA,34,$(DGEN)) $(subst AA,35,$(DGEN)) \
+           $(subst AA,36,$(DGEN)) $(subst AA,37,$(DGEN)) $(subst AA,38,$(DGEN)) $(subst AA,39,$(DGEN)) $(subst AA,40,$(DGEN)) \
+           $(subst AA,41,$(DGEN)) $(subst AA,42,$(DGEN)) $(subst AA,43,$(DGEN)) $(subst AA,44,$(DGEN)) $(subst AA,45,$(DGEN)) \
+           $(subst AA,46,$(DGEN)) $(subst AA,47,$(DGEN)) $(subst AA,48,$(DGEN)) $(subst AA,49,$(DGEN)) $(subst AA,50,$(DGEN))
+
+SIMS = $(subst BB,1000,$(OVERLAPS))
+
+M_DGEN = $(subst CC,spherical,$(SIMS))
+
+HP_DGEN = $(subst sim-mo,hp_sim-mo,$(M_DGEN))
+
+all : $(M_DGEN) $(HP_DGEN)
+
+
+## EXPERIMENT 01
+data/sim-mo_%-spherical.RData: R/spherical-posterioris.R
+	Rscript -e 'v=scan(text="$*", sep="-"); MAXOVERLAP=v[1]/100; NSIM=v[2]; OFILE="$@"; source("R/spherical-posterioris.R")'
+
+data/hp_% : data/% R/hpartition_fitting.R
+	Rscript -e 'IFILE="data/$*"; OFILE="$@"; source("R/hpartition_fitting.R")'
