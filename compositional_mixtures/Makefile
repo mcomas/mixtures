@@ -45,7 +45,7 @@ pdf/compositional_mixtures.pdf : tex/compositional_mixtures.tex tex/compositiona
 
 tex/compositional_mixtures.bbl : tex/compositional_mixtures.bib
 	pdflatex -output-directory tex -jobname compositional_mixtures tex/compositional_mixtures.tex
-	bibtex tex/compositional_mixtures
+	bibtex8 tex/compositional_mixtures
 
 tex/pars3_component_elimination.tex : tex/pars2_component_elimination.tex
 tex/pars2_component_elimination.tex : tex/pars1_component_elimination.tex

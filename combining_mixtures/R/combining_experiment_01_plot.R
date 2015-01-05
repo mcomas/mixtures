@@ -1,33 +1,36 @@
-# setwd("/home/marc/research/subjects/mixtures/combining_mixtures")
-require(plyr)
-require(reshape2)
-require(ggplot2)
-require(gridExtra)
+library(plyr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(reshape2)
 
-load(file='data/sim-01.RData')
+df.cluster = ldply(1:40, function(mo){
+  load(sprintf('data/hp_sim-mo_%02d-1000-spherical.RData', mo))
+  res = ldply(results, function(d) d$cluster )
+  res$mo = mo
+  res
+})
+V = ldply(strsplit(df.cluster$.id, '-', fixed = TRUE))
+names(V) = c('confusion', 'weight')
 
+df.cluster = cbind(df.cluster, V)
 
-sim.entropy$type = 'entropy'
-sim.entropy.prop$type = 'entropy.prop'
-sim.entropy.dichotomic$type = 'entropy.dichotomic'
-sim.atchison.prop$type = 'atchison.prop'
-sim.atchison.dichotomic$type = 'atchison.dichotomic'
-d = rbind(sim.entropy, sim.entropy.prop, sim.entropy.dichotomic,
-          sim.atchison.prop, sim.atchison.dichotomic)
-d = reshape2::melt(d)
-p1 <- ggplot(d, aes(y=value, x=type))+geom_boxplot()+facet_wrap(~variable, scales='free_y') + theme_bw() +
-  theme(axis.text.x=element_text(angle=45, vjust=0.5))+xlab(NULL)+ylab('Obtained score')
+ggplot(data = df.cluster, aes(y=AR, x=as.factor(mo))) +
+  geom_boxplot(outlier.size = 0) + facet_grid(confusion~weight) + 
+  scale_x_discrete(breaks=seq(5, 40 ,5))
 
-
-d = rbind(sim.entropy, sim.entropy.prop, sim.entropy.dichotomic,
-          sim.atchison.prop, sim.atchison.dichotomic)
-d = reshape2::melt(d)
-p2 <- ggplot(d, aes(y=value, x=type))+geom_boxplot()+facet_wrap(~variable, scales='free_y')+ theme_bw() +
-  theme(axis.text.x=element_text(angle=45, vjust=0.5))+xlab(NULL)+ylab('Obtained score') 
-
+RES = ldply(split(df.cluster, df.cluster$.id), function(df){
+  g = glm(AR~mo, data = df, family = gaussian())
+  data.frame('c0' = g$coefficients[1], 'mo' = g$coefficients[2], 'confusion' = df$confusion[1], 'weight' = df$weight[1])
+})
 
 
+noquote(
+matrix(
+  sprintf("%7.4f + %7.4f x",
+        as.matrix(dcast(data=RES[,c('confusion', 'weight', 'c0')], 
+                        formula = confusion~weight)[,-1]),
+        as.matrix(dcast(data=RES[,c('confusion', 'weight', 'mo')], 
+                        formula = confusion~weight)[,-1]) ),
+  nrow=3))
 
-pdf(file='tex/fig/experiment01.pdf', width=12, height=6)
-grid.arrange(p1,p2,nrow=1)
-dev.off()

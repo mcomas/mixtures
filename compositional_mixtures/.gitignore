@@ -14,3 +14,15 @@ pars2_component_elimination.tex
 pars3_component_elimination.tex
 pars_coda_gaussian_mixture.tex
 pars_dirichlet_mixture.tex
+../.gitignore
+../combining_mixtures/R/combining_experiment_01_plot.R
+../combining_mixtures/abstract/codawork-2015.tex
+../combining_mixtures/tex/combining_mixtures.bbl
+../combining_mixtures/tex/combining_mixtures.bib
+../combining_mixtures/tex/combining_mixtures.tex
+Makefile
+tex/compositional_mixtures.bbl
+tex/compositional_mixtures.bib
+tex/compositional_mixtures.tex
+tex/cover_letter.tex
+tex/cover_letter.out
