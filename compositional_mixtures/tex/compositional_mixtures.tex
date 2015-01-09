@@ -14,14 +14,17 @@
 %%%%% bold symbol in math enviornment
 \newcommand{\m}[1]{\boldsymbol{#1}}
 
+
 \DeclareMathOperator*{\argmax}{arg\,max}
 
 \newtheorem{prop}{Proposition}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 
+%\rhead{Compositional mixture models}
 
-\title{Logratio methods in mixture models for compositional data sets}
+\title{Logratio methods in mixture models for compositional data sets \\ {\large Proposed running headline: Compositional mixture models} }
+%\subtitle{Running headline: Compositional mixture models}
 \author[1]{M. Comas-Cufí}%mcomas@imae.udg.edu}}
 \author[1]{J.A. Martín-Fernández}
 \author[1]{G. Mateu-Figueras}
@@ -75,7 +78,7 @@ where $f_1, \dots, f_k$ are pdf's of distributions with parameters $\m\theta_1, 
 
 According to \cite{scott1971clustering} and \cite{mclachlan2000finite}, finite mixture models provide reasonable results in several multivariate techniques, for instance, model-based clustering, discriminant analysis and density estimation. The Gaussian mixture is the most common model thanks to its theoretical and computational simplicity \citep{mclachlan2000finite}. 
 However, because of its simplicity, Gaussian mixtures have some significant limitations 
-which triggered the proposal of alternative models. For example, $t$-student mixtures were introduced to fit distributions with heavier tails \citep{andrews2012model, lee2013finite, lin2010robust}; and skew-normal and skew-$t$ mixtures were proposed to fit asymmetrical distributions \citep{lee2011fitting}. Moreover, \cite{browne2013mixture} introduced the Generalized Hyperbolic mixture, a more general mixture model which includes, either asymptotically or explicitly, different types of well-known families of mixture models. A crucial point to note is that all these mixture models were designed for data in real space. For data in a different sample space, there is a general agreement that other distributions should be used. 
+which triggered the proposal of alternative models. For example, $t$-student mixtures were introduced to fit distributions with heavier tails \citep{andrews2012model, lee2013finite, lin2010robust}; and skew-normal \citep{azzalini1985class} and skew-$t$ mixtures were proposed to fit asymmetrical distributions \citep{lee2011fitting}. Moreover, \cite{browne2013mixture} introduced the Generalized Hyperbolic mixture, a more general mixture model which includes, either asymptotically or explicitly, different types of well-known families of mixture models. A crucial point to note is that all these mixture models were designed for data in real space. For data in a different sample space, there is a general agreement that other distributions should be used. 
 For example, \cite{bickel2004multi} used multinomial mixture distributions for discrete data in text classification, and  
  \cite{bouguila2011count} proposed other extensions of multinomial mixture distributions for count data. 
 Another example is circular data, whose sample space is the sphere.  \cite{banerjee2005clustering} and \cite{mardia2007protein} proposed mixtures of Von Mises probability distributions, defined for random vectors in the sphere.
@@ -448,11 +451,16 @@ Andrews, J.~L. \& McNicholas, P.~D. (2012).
 \bibitem[Asuncion \& Newman, 2007]{uci2007repository}
 Asuncion, A. \& Newman, D.~J. (2007).
 \newblock {UCI Machine Learning Repository}.
+ 
+\bibitem[Azzalini, 1985]{azzalini1985class}
+Azzalini, A. (1985)
+\newblock {A class of distributions which includes the normal ones}.
+\newblock {\em Scand. J. Statist.}, \textbf{12}, 171--178.
+
 
 \bibitem[Azzalini \& Capitanio, 1999]{azzalini1999statistical}
 Azzalini, A. \& Capitanio, A. (1999).
-\newblock {Statistical applications of the multivariate skew normal
-  distribution}.
+\newblock {Statistical applications of the multivariate skew normal distribution}.
 \newblock {\em J. R. Stat. Soc. Ser. B Stat. Methodol}, \textbf{61(3)}, 579--602.
 
 \bibitem[Banerjee et~al., 2005]{banerjee2005clustering}
@@ -491,6 +499,7 @@ Bouguila, N., Ziou, D. \& Vaillancourt, J. (2004).
 \bibitem[Browne \& McNicholas, 2013]{browne2013mixture}
 Browne, R.~P. \& McNicholas, P.~D. (2013).
 \newblock {A Mixture of Generalized Hyperbolic Distributions}.
+\newblock {ArXiv e-prints} arXiv:1305.1036
 
 \bibitem[Buccianti, 2011]{buccianti2011natural}
 Buccianti, A. (2011).
@@ -529,6 +538,7 @@ Hansen, L.~P. (1982).
 \bibitem[Lee \& McLachlan, 2011]{lee2011fitting}
 Lee, S.~X. \& McLachlan, G.~J. (2011).
 \newblock {On the fitting of mixtures of multivariate skew t-distributions via the EM algorithm}.
+\newblock {ArXiv e-prints} arXiv:1109.4706
 
 \bibitem[Lee \& McLachlan, 2014]{lee2013finite}
 Lee, S.~X. \& McLachlan, G.~J. (2014).
