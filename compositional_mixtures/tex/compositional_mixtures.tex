@@ -10,6 +10,8 @@
 \usepackage{apalike}
 \usepackage{authblk}
 \usepackage{endfloat}
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad}
 
 %%%%% bold symbol in math enviornment
 \newcommand{\m}[1]{\boldsymbol{#1}}
@@ -50,7 +52,7 @@
 % \cortext[cor2]{Corresponding author. Dept. Computer Science, Applied Mathematics and Statistics (UdG), Campus Montilivi (P4), E-17071 Girona, Spain. Tel.: +34 972 418426, Fax: +34 972 418792}
 % \address[imae]{Department of Computer Science, Applied Mathematics and Statistics,\\ University of Girona, Spain}
 
-\providecommand{\keywords}[1]{\textbf{Keywords:} #1}
+\providecommand{\keywords}[1]{\textbf{Key words:} #1}
 \providecommand{\msc}[1]{\textbf{MSC2010:} #1}
 
 \begin{abstract}
@@ -302,7 +304,7 @@ Most common distributions are basis invariant when we do not restrict the parame
 \section{A real data set: Forensic Glass}
 \label{example_section}
 
-\noindent To illustrate and compare the different approaches, we analyse the USA Forensic Science Service data set, also known as the Forensic Glass data set. This data is available from the UCI Machine Learning Repository \citep{uci2007repository}.  The data set is composed of $214$ glass samples where the percentages of eight chemical elements were measured. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al), and three groups of glass: containers, headlamps and vehicle windows. We call this dataset the Reduced Forensic Glass data set (Table~\ref{example_glasses}). Figure~\ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the Silica element takes large values the data set is close to the  ``Si'' vertex, inside the shadow area. To better illustrate this, Figure~\ref{fig04} includes a zoom of the shadow area.
+\noindent To illustrate and compare the different approaches, we analyse the USA Forensic Science Service data set, also known as the Forensic Glass data set. This data is available from the UCI Machine Learning Repository \citep{uci2013repository}.  The data set is composed of $214$ glass samples where the percentages of eight chemical elements were measured. In addition, we have information about a grouping variable with seven levels, which splits the glass samples in seven groups. For our purposes, we only consider three chemical elements: Calcium (Ca), Silica (Si) and Aluminium (Al), and three groups of glass: containers, headlamps and vehicle windows. We call this dataset the Reduced Forensic Glass data set (Table~\ref{example_glasses}). Figure~\ref{fig04} shows this data set formed by $59$ glass samples in the ternary diagram. Because the Silica element takes large values the data set is close to the  ``Si'' vertex, inside the shadow area. To better illustrate this, Figure~\ref{fig04} includes a zoom of the shadow area.
 
 
 \begin{table}
@@ -422,10 +424,13 @@ Following an analogous approach, it is possible to fit other non-Gaussian models
 \label{conclusion_section}
 Traditional distributions in finite mixtures for compositional data sets show significant difficulties. If densities for real data are used, probabilities to impossible events are obtained and the results depend on the part removed. Dirichlet density and some generalizations on the simplex can not capture the variability of many compositional data sets due to their strong independence structure. In contrast, log-ratio distributions are flexible models that can describe different forms of variability and dependence structures. Indeed, any mixture model defined on the real space can be used to model data on the simplex space using the principle of working on coordinates. In particular, we have introduced the methodology to fit a mixture of normal and skew-normal distributions to the log-ratio coordinates of a compositional sample.  These two options extend the range of possibilities we have had up to now with the Dirichlet model or its generalizations. Furthermore, the proposed methodology could be extended and applied to other known distributions. In particular, we note that the log-ratio normal distribution is a simple model and provides a rich enough parametric class of distributions on the appropriate sample space. 
 
+\newpage
+
 \section*{Acknowledgments}
 This research was supported by the Ministerio de Econom\'ia y Competividad under the project
 ``METRICS'' Ref. MTM2012-33236 and the Agència de Gestió d'Ajuts Universitaris i de Recerca (AGAUR), Generalitat de Catalunya (Ref: 2014SGR551).
 
+\newpage
 %\section*{References}
 
 \bibliographystyle{apalike}
@@ -433,24 +438,23 @@ This research was supported by the Ministerio de Econom\'ia y Competividad under
 
 \bibitem[Aitchison, 1986]{aitchison1986statistical}
 Aitchison, J. (1986).
-\newblock {\em {The Statistical Analysis of Compositional Data}}.
+\newblock {\em {The statistical analysis of compositional data}}.
 \newblock Chapman \& Hall, London (UK). Reprinted in 2003 by Blackburn Press.
 
 \bibitem[Albert \& Gupta, 1982]{albert1982mixtures}
 Albert, J.~H.    \& Gupta, A.~K. (1982).
-\newblock {Mixtures of Dirichlet Distributions and Estimation in Contingency
-  Tables}.
+\newblock {Mixtures of Dirichlet distributions and estimation in contingency tables}.
 \newblock {\em Ann. Statist.}, \textbf{10(4)}, 1261--1268.
 
 \bibitem[Andrews \& McNicholas, 2012]{andrews2012model}
 Andrews, J.~L. \& McNicholas, P.~D. (2012).
-\newblock {Model-based clustering, classification, and discriminant analysis
-  via mixtures of multivariate t-distributions: The tEIGEN family}.
+\newblock {Model-based clustering, classification, and discriminant analysis via mixtures of multivariate t-distributions: The tEIGEN family}.
 \newblock {\em Stat. Comput.}, \textbf{22}, 1021--1029.
 
-\bibitem[Asuncion \& Newman, 2007]{uci2007repository}
-Asuncion, A. \& Newman, D.~J. (2007).
-\newblock {UCI Machine Learning Repository}.
+\bibitem[Bache \& Lichman, 2013]{uci2013repository}
+Bache, K. \& Lichman, M. (2013).
+\newblock {UCI machine learning repository}. 
+\newblock [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
  
 \bibitem[Azzalini, 1985]{azzalini1985class}
 Azzalini, A. (1985)
@@ -465,57 +469,47 @@ Azzalini, A. \& Capitanio, A. (1999).
 
 \bibitem[Banerjee et~al., 2005]{banerjee2005clustering}
 Banerjee, A., Dhillon, I.~S., Ghosh, J., \& Sra, S. (2005).
-\newblock {Clustering on the Unit Hypersphere using von Mises-Fisher
-  Distributions}.
+\newblock {Clustering on the unit hypersphere using von Mises-Fisher distributions}.
 \newblock {\em J. Mach. Learn. Res.}, \textbf{6},1345--1382.
 
 \bibitem[Barcel\'{o}-Vidal et~al., 1999]{barcelo1999comment}
-Barcel\'{o}-Vidal, C., Mart\'{\i}n-Fern\'{a}ndez, J.~A., \& Pawlowsky-Glahn,
-  V. (1999).
-\newblock {Comment on ``Singularity and Nonnormality in the Classification of
-  Compositional Data'' by Bohling, G. C., Davis, J. C., Olea, R. A. \& Harff,
-  J.}
+Barcel\'{o}-Vidal, C., Mart\'{\i}n-Fern\'{a}ndez, J.~A., \& Pawlowsky-Glahn, V. (1999).
+\newblock {Comment on ``Singularity and nonnormality in the classification of compositional data'' by Bohling, G. C., Davis, J. C., Olea, R. A. \& Harff, J.}
 \newblock {\em Mathematical Geology}, \textbf{31(5)}, 581--585.
 
 \bibitem[Bickel \& Scheffer, 2004]{bickel2004multi}
 Bickel, S. \& Scheffer, T. (2004).
 \newblock {Multi-view clustering}.
-\newblock In Rastogi, R., Morik, K., Bramer, M., \& Wu, X., editors, {\em ICDM
-  2004, fourth IEEE International Conference on Data Mining}, 19--26,
-  Brighton. IEEE Computer Society.
+\newblock In Rastogi, R., Morik, K., Bramer, M., \& Wu, X., editors, {\em ICDM 2004, fourth IEEE International Conference on Data Mining}, 19--26, Brighton. IEEE Computer Society.
 
 \bibitem[Bouguila, 2011]{bouguila2011count}
 Bouguila, N. (2011).
-\newblock {Count data modeling and classification using finite mixtures of
-  distributions}.
+\newblock {Count data modeling and classification using finite mixtures of distributions}.
 \newblock {\em IEEE Transactions on Neural Networks}, \textbf{22}, 186--198.
 
 \bibitem[Bouguila et~al., 2004]{bouguila2004unsupervised}
 Bouguila, N., Ziou, D. \& Vaillancourt, J. (2004).
-\newblock {Unsupervised learning of a finite mixture model based on the
-  Dirichlet distribution and its application}.
+\newblock {Unsupervised learning of a finite mixture model based on the Dirichlet distribution and its application}.
 \newblock {\em IEEE Transactions on Image Processing}, \textbf{13}, 1533--1543.
 
 \bibitem[Browne \& McNicholas, 2013]{browne2013mixture}
 Browne, R.~P. \& McNicholas, P.~D. (2013).
-\newblock {A Mixture of Generalized Hyperbolic Distributions}.
+\newblock {A mixture of generalized hyperbolic distributions}.
 \newblock {ArXiv e-prints} arXiv:1305.1036
 
 \bibitem[Buccianti, 2011]{buccianti2011natural}
 Buccianti, A. (2011).
-\newblock {\em {Natural Laws Governing the Distribution of the Elements in Geochemistry: The Role of the Log-Ratio Approach}}, 255--266.
+\newblock {\em {Natural laws governing the distribution of the elements in geochemistry: the role of the log-ratio approach}}, 255--266.
 \newblock John Wiley \& Sons, Ltd.
 
 \bibitem[Celeux \& Govaert, 1992]{celeux1992classification}
 Celeux, G. \& Govaert, G. (1992).
-\newblock {A classification EM algorithm for clustering and two stochastic
-  versions}.
+\newblock {A classification EM algorithm for clustering and two stochastic versions}.
 \newblock {\em Comput. Statist. Data Anal.}, \textbf{14(3)}, 315--332.
 
 \bibitem[Connor \& Mosimann, 1969]{connor1969concepts}
 Connor, R.~J. \& Mosimann, J.~E. (1969).
-\newblock {Concepts of Independence for Proportions with a Generalization of
-  the Dirichlet Distribution}.
+\newblock {Concepts of independence for proportions with a generalization of the Dirichlet Distribution}.
 \newblock {\em J. Amer. Statist. Assoc.}, \textbf{64}, 194--206.
 
 \bibitem[Dempster et~al., 1977]{dempster1977maximum}
@@ -524,9 +518,8 @@ Dempster, A.~P., Laird, N.~M., \& Rubin, D.~B. (1977).
 \newblock {\em J. R. Stat. Soc. Ser. B Stat. Methodol.}, \textbf{39}, 1--38.
 
 \bibitem[Egozcue et~al., 2003]{egozcue2003isometric}
-Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., \& Barcel\'{o}-Vidal,
-  C. (2003).
-\newblock {Isometric Logratio Transformations for Compositional Data Analysis}.
+Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., \& Barcel\'{o}-Vidal, C. (2003).
+\newblock {Isometric logratio transformations for compositional data analysis}.
 \newblock {\em Mathematical Geology}, \textbf{35}, 279--300.
 
 \bibitem[Hansen, 1982]{hansen1982large}
@@ -552,18 +545,17 @@ Lin, T.~I. (2010).
 
 \bibitem[Mardia et~al., 2007]{mardia2007protein}
 Mardia, K.~V., Taylor, C.~C. \& Subramaniam, G.~K. (2007).
-\newblock {Protein bioinformatics and mixtures of bivariate von Mises
-  distributions for angular data}.
+\newblock {Protein bioinformatics and mixtures of bivariate von Mises distributions for angular data}.
 \newblock {\em Biometrics}, 63.
 
 \bibitem[Mateu-Figueras \& Pawlowsky-Glahn, 2007]{mateu2007skew}
 Mateu-Figueras, G. \& Pawlowsky-Glahn, V. (2007).
-\newblock {The Skew-Normal Distribution on the Simplex}.
+\newblock {The skew-normal distribution on the simplex}.
 \newblock {\em Comm. Statist. Theory Methods}, \textbf{36(9)}, 1787--1802.
 
 \bibitem[Mateu-Figueras et~al., 2011]{figueras2011principle}
 Mateu-Figueras, G., Pawlowsky-Glahn, V. \& Egozcue, J.~J. (2011).
-\newblock {The Principle of Working on Coordinates}.
+\newblock {The principle of working on coordinates}.
 \newblock In {\em Compositional Data Analysis}, 29--42. John Wiley \&
   Sons, Ltd.
 
@@ -574,7 +566,7 @@ Mateu-Figueras, G., Pawlowsky-Glahn, V. \& Egozcue, J.~J. (2013).
 
 \bibitem[McLachlan \& Peel, 2000]{mclachlan2000finite}
 McLachlan, G.~J. \& Peel, D. (2000).
-\newblock {\em {Finite Mixture Models, Willey Series in Probability and Statistics}}.
+\newblock {\em {Finite mixture models, Willey series in probability and statistics}}.
 \newblock John Wiley \& Sons, New York.
 
 \bibitem[Monti et~al., 2011]{monti2011shifted}
@@ -589,7 +581,7 @@ Narayanan, A. (1991).
 
 \bibitem[Ng et~al., 2011]{ng2011dirichlet}
 Ng, K.~W., Tian, G.-L. \& Tang, M.-L. (2011).
-\newblock {\em {Dirichlet and Related Distributions: Theory, Methods and Applications}}.
+\newblock {\em {Dirichlet and related distributions: theory, methods and applications}}.
 \newblock John Wiley \& Sons.
 
 \bibitem[Ongaro et~al., 2008]{ongaro2008new}
@@ -603,8 +595,8 @@ Palarea-Albaladejo, J., Mart\'{\i}n-Fern\'{a}ndez, J.~A., \& Buccianti, A. (2014
 \newblock {\em Journal of Geochemical Exploration}, \textbf{141}, 71--77.
 
 \bibitem[Papageorgiou et~al., 2001]{papageorgiou2001model}
-Papageorgiou, I., Baxter, M.~J. and Cau, M.~A. (2001).
-\newblock {Model-based Cluster Analysis of Artefact Compositional Data}.
+Papageorgiou, I., Baxter, M.~J. \& Cau, M.~A. (2001).
+\newblock {Model-based cluster analysis of artefact compositional data}.
 \newblock {\em Archaeometry}, 43(4):571--588.
 
 \bibitem[Pawlowsky-Glahn \& Egozcue, 2001]{pawlowsky2001geometric}
@@ -614,13 +606,13 @@ Pawlowsky-Glahn, V. \& Egozcue, J.~J. (2001).
 
 \bibitem[Prates et~al., 2013]{prates2013mixsmsn}
 Prates, M.~O., Lachos, V.~H. \& Cabral, C. R.~B. (2013).
-\newblock {mixsmsn: Fitting Finite Mixture of Scale Mixture of Skew-Normal Distributions}.
+\newblock {mixsmsn: Fitting finite mixture of scale mixture of skew-normal distributions}.
 \newblock {\em Journal of Statistical Software}, \textbf{54(12)}.
 
 \bibitem[{R Core Team}, 2014]{R2014soft}
 {R Core Team} (2014).
-\newblock {\em {R: A Language and Environment for Statistical Computing}}.
-\newblock R Foundation for Statistical Computing, Vienna, Austria.
+\newblock {\em {R: A language and environment for statistical computing}}.
+\newblock R Foundation for statistical computing, Vienna, Austria.
 
 \bibitem[Rayens \& Srinivasan, 1994]{rayens1994dependence}
 Rayens, W.~S. \& Srinivasan, C. (1994).
@@ -634,7 +626,7 @@ Scott, A. \& Symons, M. (1971).
 
 \bibitem[Vives-Mestres et~al., 2014]{vives2014individual}
 Vives-Mestres, M., Daunis-i Estadella, J. \& M\'{a}rtin-Fern\'{a}ndez, J.~A. (2014).
-\newblock {Individual T-2 Control Chart for Compositional Data}.
+\newblock {Individual T-2 control chart for compositional data}.
 \newblock {\em Journal of Quality Technology}, \textbf{46(2)}:127--139.
 
 \end{thebibliography}
