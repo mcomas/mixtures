@@ -4,7 +4,7 @@ library(plyr)
 library(dplyr)
 library(stringr)
 
-omega = 1:40
+omega = 1:50
 
 df = ldply(omega, function(om){
   load( sprintf("data/hp_sim-mo_%02d-10-spherical.RData", om) )
@@ -13,9 +13,13 @@ df = ldply(omega, function(om){
   d
 })
 df = cbind(df, ldply(str_split(df$.id, '-'), function(v){ names(v) = c('lambda', 'weight'); v }))
+df = df[!(df$lambda %in% c('demp2', 'cnst')),]
 
 df.sub = df[df$omega %in% c(10,20,30,40),]
-ggplot(df) + geom_boxplot(aes(x = as.factor(omega), y=AR), outlier.size=0) + facet_grid(lambda~weight)
+ggplot(df) + geom_boxplot(aes(x = as.factor(omega), y=AR), outlier.size=0) + 
+  facet_grid(lambda~weight) + theme_bw() +
+  xlab('Omega') + ylab('Adjusted Rand Index') +
+  scale_x_discrete(breaks=seq(5, 50, 5))
 
 df.AR = group_by(df, lambda, weight, omega) %>% summarise( 
   'median' = median(AR),

@@ -12,18 +12,19 @@ ar_index = function(tau,hp, g){
   MixSim::RandIndex(cluster_partition(hp[[n_orig]]), g)$AR
 }
 
-# Confusion functions
 l_confusion = list(
+  'cnst' = function(v_tau, a, b) 1,
   'entr' = function(v_tau, a, b) -xlog(v_tau[a] + v_tau[b]) + xlog(v_tau[a]) + xlog(v_tau[b]),
-  'demp' = function(v_tau, a, b) -if(which.max(v_tau) == b) 1 else 0,
-  'coda' = function(v_tau, a, b) log(v_tau[a] / v_tau[b])
+  'demp' = function(v_tau, a, b) if(which.max(v_tau) == b) 0 else 1,
+  'coda' = function(v_tau, a, b) log(v_tau[a] / v_tau[b]),
+  'prop' = function(v_tau, a, b) -v_tau[b]
 )
 
 # Weighing functions
 l_weight = list(
   'cnst' = function(v_tau, a) 1,
-  'prop' = function(v_tau, a) v_tau[a],
-  'dich' = function(v_tau, a) if(which.max(v_tau) == a) 1 else 0
+  'dich' = function(v_tau, a) if(which.max(v_tau) == a) 1 else 0,
+  'prop' = function(v_tau, a) v_tau[a]
 )
 
 LEVEL = max(simulation[[1]]$g)
