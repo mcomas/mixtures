@@ -9,6 +9,8 @@ omega = 1:50
 df = ldply(omega, function(om){
   load( sprintf("data/hp_sim-mo_%02d-10-spherical.RData", om) )
   d = ldply(results, function(d) d$cluster)
+  d$agreement = Reduce('c', llply(results, function(d) laply(d$hp, function(dd) ClassProp(dd$hp_clust, dd$g)) ))
+  d$varinf = Reduce('c', llply(results, function(d) laply(d$hp, function(dd) VarInf(dd$hp_clust, dd$g)) ))
   d$omega = om
   d
 })
@@ -36,32 +38,46 @@ p.M = ggplot(df) + geom_boxplot(aes(x = as.factor(omega), y=M), outlier.size=0) 
   xlab('Omega') + ylab('Mirkin metric') +
   scale_x_discrete(breaks=seq(5, 50, 5))
 
+p.agreement = ggplot(data=df) + geom_boxplot(aes(x = as.factor(omega), y=agreement), outlier.size=0) + 
+  facet_grid(lambda~weight) + theme_bw() +
+  xlab('Omega') + ylab('Partition Agreement') +
+  scale_x_discrete(breaks=seq(5, 50, 5))
+
+p.varinf = ggplot(data=df) + geom_boxplot(aes(x = as.factor(omega), y=varinf), outlier.size=0) + 
+  facet_grid(lambda~weight) + theme_bw() +
+  xlab('Omega') + ylab('Variation of information') +
+  scale_x_discrete(breaks=seq(5, 50, 5))
+
+
+  
 ggsave(filename = "class.R.png", p.R)
 ggsave(filename = "class.AR.png", p.AR)
 ggsave(filename = "class.F.png", p.F)
 ggsave(filename = "class.M.png", p.M)
+ggsave(filename = "class.agreement.png", p.agreement)
+ggsave(filename = "class.varinf.png", p.varinf)
 
-df.AR = group_by(df, lambda, weight, omega) %>% summarise( 
-  'median' = median(AR),
-  'min' = min(AR),
-  'max' = max(AR),
-  'Q1' = quantile(AR, 0.25),
-  'Q3' = quantile(AR, 0.75))
-
-
-ggplot(df.AR) + geom_line(aes(x=omega, y= median, col=lambda, linetype=weight))
-
-ggplot(df.AR) + geom_line(aes(x=omega, y= median)) + geom_line(aes(x=omega, y= Q1), col='red') + 
-  geom_line(aes(x=omega, y= Q3), col='green') + 
-  facet_grid(lambda~weight)
-
-df.AR %>% dcast( omega~.id) 
-
-results = rbind(df1, df2)
-df = melt(results, measure.vars=names(results)[1:7])
-
-ggplot(df, aes(x=variable, y=value))+geom_boxplot()+xlab(NULL)+ylab('Obtained score') +
-  theme_bw() +
-  theme(axis.text.x=element_text(angle=45, vjust=0.5),
-        strip.background = element_rect(colour="white", fill="white"))+
-  facet_grid(shape~omega, labeller = label_parsed)
+# df.AR = group_by(df, lambda, weight, omega) %>% summarise( 
+#   'median' = median(AR),
+#   'min' = min(AR),
+#   'max' = max(AR),
+#   'Q1' = quantile(AR, 0.25),
+#   'Q3' = quantile(AR, 0.75))
+# 
+# 
+# ggplot(df.AR) + geom_line(aes(x=omega, y= median, col=lambda, linetype=weight))
+# 
+# ggplot(df.AR) + geom_line(aes(x=omega, y= median)) + geom_line(aes(x=omega, y= Q1), col='red') + 
+#   geom_line(aes(x=omega, y= Q3), col='green') + 
+#   facet_grid(lambda~weight)
+# 
+# df.AR %>% dcast( omega~.id) 
+# 
+# results = rbind(df1, df2)
+# df = melt(results, measure.vars=names(results)[1:7])
+# 
+# ggplot(df, aes(x=variable, y=value))+geom_boxplot()+xlab(NULL)+ylab('Obtained score') +
+#   theme_bw() +
+#   theme(axis.text.x=element_text(angle=45, vjust=0.5),
+#         strip.background = element_rect(colour="white", fill="white"))+
+#   facet_grid(shape~omega, labeller = label_parsed)
