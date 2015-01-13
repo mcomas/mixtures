@@ -42,6 +42,7 @@ for(lambda in names(l_confusion)){
         'g' = sim$g )
     })
     results[[sprintf('%s-%s', lambda, omega)]] = list(
+      'hp' = HP,
       'cluster' = ldply(HP, function(hp) unlist(MixSim::RandIndex(hp$hp_clust, hp$g))),
       'timer' = ldply(HP, function(hp) hp$time) )
   }
