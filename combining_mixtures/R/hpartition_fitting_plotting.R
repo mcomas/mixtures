@@ -3,11 +3,12 @@ library(ggplot2)
 library(plyr)
 library(dplyr)
 library(stringr)
+library(MixSim)
 
-omega = 1:50
+omega = 1:30
 
 df = ldply(omega, function(om){
-  load( sprintf("data/hp_sim-mo_%02d-10-spherical.RData", om) )
+  load( sprintf("data/hp_sim-mo_%02d-100-spherical.RData", om) )
   d = ldply(results, function(d) d$cluster)
   d$agreement = Reduce('c', llply(results, function(d) laply(d$hp, function(dd) ClassProp(dd$hp_clust, dd$g)) ))
   d$varinf = Reduce('c', llply(results, function(d) laply(d$hp, function(dd) VarInf(dd$hp_clust, dd$g)) ))
