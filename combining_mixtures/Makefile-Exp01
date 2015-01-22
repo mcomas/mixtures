@@ -11,7 +11,7 @@ OVERLAPS = $(subst AA,01,$(DGEN)) $(subst AA,02,$(DGEN)) $(subst AA,03,$(DGEN)) 
            $(subst AA,41,$(DGEN)) $(subst AA,42,$(DGEN)) $(subst AA,43,$(DGEN)) $(subst AA,44,$(DGEN)) $(subst AA,45,$(DGEN)) \
            $(subst AA,46,$(DGEN)) $(subst AA,47,$(DGEN)) $(subst AA,48,$(DGEN)) $(subst AA,49,$(DGEN)) $(subst AA,50,$(DGEN))
 
-SIMS = $(subst BB,10,$(OVERLAPS))
+SIMS = $(subst BB,100,$(OVERLAPS))
 
 M_DGEN = $(subst CC,spherical,$(SIMS))
 

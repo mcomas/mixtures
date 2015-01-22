@@ -1,7 +1,7 @@
 library(reshape2)
 library(ggplot2)
 library(plyr)
-
+devtools::load_all('../../packages/mixpack')
 mods = list(
   'ci' = list('omega' = function(v_tau, a) 1,
               'lambda' = function(v_tau, a, b) v_tau[a]),
@@ -16,7 +16,7 @@ mods = list(
   'ab' = list('omega' = function(v_tau, a) v_tau[a],
              'lambda' = function(v_tau, a, b) -v_tau[b]))
 
-N = 10000
+N = 1000000
 
 fA = function(x) dnorm(x, 0, 1)
 xA = rnorm(N, 1, 0.5)
@@ -65,7 +65,15 @@ df = ldply(seq(0,1,0.01), function(pA){
         c(pA, 3, res3))
 })
 names(df) = c('p_A', 'f_B', names(mods))
+df$f_B = mapvalues(df$f_B, from=0:3, to=c('A', 'B1','B2', 'B3'))
 
+df.f = data.frame( 'x' = seq(-3, 3, 0.01))
+df.f$A = fA(df.f$x)
+df.f$B1 = fB1(df.f$x)
+df.f$B2 = fB2(df.f$x)
+df.f$B3 = fB3(df.f$x)
+
+save(df, df.f, file='data/confusion_index.RData')
 
 # id = data.frame('p_A' = unique(df$p_A),
 #            'f_B' = 'f_A', 
@@ -75,20 +83,13 @@ names(df) = c('p_A', 'f_B', names(mods))
 #            'Log' = 0,
 #            'KL' = 0)
            
-df$f_B = mapvalues(df$f_B, from=0:3, to=c('A', 'B1','B2', 'B3'))
+
 
 df.rest = melt(df, id.vars = c('p_A', 'f_B'))
 ggplot(data=df.rest) +  
   geom_line(aes(x=p_A, y=value, col=f_B)) + 
   facet_wrap(~variable,  scales = 'free') + theme_bw()
 
-df.f = data.frame( 'x' = seq(-3, 3, 0.01))
-df.f$A = fA(df.f$x)
-df.f$B1 = fB1(df.f$x)
-df.f$B2 = fB2(df.f$x)
-df.f$B3 = fB3(df.f$x)
-
-save(df, df.f, file='data/confusion_index.RData')
 df.f.res = melt(df.f, id.vars = 'x')
 ggplot(data=df.f.res, aes(x=x, y=value, col=variable)) + geom_line() +
   theme_bw()
