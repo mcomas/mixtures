@@ -1,0 +1,178 @@
+---
+title: "Confusion between components"
+author: "M. Comas-Cufí, J.A. Martín-Fernández and G. Mateu-Figueras"
+date: "24/01/2015"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(ggplot2)
+library(reshape2)
+```
+
+In a finite mixture model
+
+$$
+\label{mixt}
+\pi_1 f_1(x) + \dots + \pi_k f_k(x),
+$$
+
+with $k$ components, (Longford and Bartosova, 2014) defined what they called *the index of confusion* of one component, A, by another, B. The index was defined as the probability, $r_{A|B}$, that an observation drawn from component B is classified into component A. Expression
+
+\[
+r_{A|B} = \int_\Omega \frac{\pi_A f_A(x) }{\pi_A f_A(x) + \pi_B f_B(x)} df_B(x)
+\]
+
+can be approximated drawing a large sample from component $B$. To illustrate their index they proposed different scenarios for a two component mixture $\pi_A f_A(x) + (1-\pi_A) f_B(x)$.
+
+* Scenario B1: $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = N(x; \mu=1, \sigma=0.5)$,
+* Scenario B2: $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = N(x; \mu=0.5, \sigma=0.5)$,
+* Scenario B3: $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = N(x; \mu=0, \sigma=0.25)$ and
+* Scenario A:  $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = f_A(x) = N(x; \mu=0, \sigma=1)$.
+
+Using a large sample drawn from $f_B$ ($N = 10000$) we can evaluate the index of confusion for different values of $p_A$ and plot the index of confusion value respect to $p_A$.
+
+
+```{r, echo=FALSE, fig.width=6, fig.height=4}
+N = 10000
+
+A = list(
+  'f' = function(x) dnorm(x, 0, 1),
+  'x' = rnorm(N, 0, 1))
+
+B1 = list(
+  'f' = function(x) dnorm(x, 1, 0.5),
+  'x' = rnorm(N, 1, 0.5))
+
+B2 = list(
+  'f' = function(x) dnorm(x, 0.5, 0.5),
+  'x' = rnorm(N, 0.5, 0.5))
+
+B3 = list(
+  'f' = function(x) dnorm(x, 0, 0.25),
+  'x' = rnorm(N, 0, 0.25))
+
+post = function(pA, fA, B) data.frame(
+  'A' = (pA * fA(B$x))/(pA * fA(B$x) + (1-pA) * B$f(B$x)),
+  'B' = ((1-pA) * B$f(B$x))/(pA * fA(B$x) + (1-pA) * B$f(B$x)) )
+
+mods = list()
+mods[['ci']] = list('omega' = function(v_tau, a) 1,
+                    'lambda' = function(v_tau, a, b) v_tau[a])
+
+pAs = seq(0,1-0.01,0.01)[-1]
+ldf = lapply(list(B1, B2, B3, A), function(B){
+  df = data.frame('pA' = pAs)
+  df$ci = sapply(df$pA, function(pA) 
+    mean(apply(post(pA, A$f, B), 1, mods$ci$lambda, 1, 2)))
+  df
+})
+
+df = do.call('rbind', ldf)
+df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+
+  
+df.m = melt(df, id.vars = c('pA', 'scenario'), variable.name = 'index')
+ggplot(data=df.m, aes(x=pA, y=value,col=scenario)) + geom_line() + theme_bw() + ylab('Index of confusion')
+```
+
+The graphic shows that for any value of $p_A$, $N(0, 0.25)$ is more confused with $N(0, 1)$ than $N(0.5, 0.5)$ with $N(0,1)$. For any value of $p_A$, the highest confusion is obtained for $N(0,1)$ with itself.
+
+(Longford and Bartosova, 2012) defines an internal structure in a mixture by defining the concept of being a `satellite`. For a given threshold $T \in (1,1)$ $B$ is said to be a satellite of $A$ if $r_{A|B} > T$ and $r_{B|A} > T$. Moreover, they define the regular notions of being confused and being separated as
+
+* two components are confused if both $r_{A|B}$ and $r_{B|A}$ exceed $T$, and
+* two components are well separated if both $r_{A|B}$ and $r_{B|A}$ are smaller than $T$.
+
+### DEMP (Hennig)
+
+Hennig constructs a different confusion index which he calls *the misclassification probabilities*, defined as the probability of classifiying an observation to component $A$ if component $B$ has generate the observation.
+
+\[
+r_{A|B} = \int_\Omega \mathbb{1}[{\pi_A f_A(x) > \pi_B f_B(x)}] df_B(x) = r_{A|B} = \int_\Omega \frac{max\{\pi_A f_A(x) - \pi_B f_B(x), 0\}}{\pi_A f_A(x) - \pi_B f_B(x)} df_B(x)
+\]
+
+
+```{r, echo=FALSE, fig.width=6, fig.height=4}
+mods[['DEMP']] = list('omega' = function(v_tau, a) v_tau[a],
+                      'lambda' = function(v_tau, a, b) if(which.max(v_tau) == a) 1 else 0)
+
+ldf = lapply(list(B1, B2, B3, A), function(B){
+  df = data.frame('pA' = pAs)
+  df$ci = sapply(df$pA, function(pA) 
+    mean(apply(post(pA, A$f, B), 1, mods$DEMP$lambda, 1, 2)))
+  df
+})
+
+df = do.call('rbind', ldf)
+df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+
+  
+df.m = melt(df, id.vars = c('pA', 'scenario'), variable.name = 'index')
+ggplot(data=df.m, aes(x=pA, y=value,col=scenario)) + geom_line() + theme_bw() + ylab('Misclassification probability')
+```
+
+### Delta entropy (Baudry et al.)
+
+(Baudry and others, 2010) proposes a very different approach, instead of calculating a probability, they proposed a different measure of confusion between two component $A$ and $B$. Instead, they considered the difference between the entropy considering the entropy of both components separated and the entropy after merging those components.
+
+\[
+r_{A|B} = \int_\Omega - \{\tau_A(x) + \tau_B(x)\} log\{\tau_A(x) + \tau_B(x)\} +  \tau_A(x) log \tau_A(x) +  \tau_B(x) log \tau_B(x) df_B(x)
+\]
+
+where 
+$$
+\tau_A(x) = \frac{\pi_A f_A(x) }{\sum_j \pi_j f_j(x)}
+$$
+and
+$$
+\tau_B(x) = \frac{\pi_B f_B(x) }{\sum_j \pi_j f_j(x)}
+$$
+
+```{r, echo=FALSE, fig.width=6, fig.height=4}
+xlog = function(x) x * log(x)
+mods[['baudry']] = list('omega' = function(v_tau, a) 1,
+                        'lambda' = function(v_tau, a, b) -xlog(v_tau[a] + v_tau[b]) + xlog(v_tau[a]) + xlog(v_tau[b]))
+
+ldf = lapply(list(B1, B2, B3, A), function(B){
+  df = data.frame('pA' = pAs)
+  df$ci = sapply(df$pA, function(pA) 
+    mean(apply(post(pA, A$f, B), 1, mods$baudry$lambda, 1, 2)))
+  df
+})
+
+df = do.call('rbind', ldf)
+df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+
+  
+df.m = melt(df, id.vars = c('pA', 'scenario'), variable.name = 'index')
+ggplot(data=df.m, aes(x=pA, y=value,col=scenario)) + geom_line() + theme_bw() + ylab('Delta entropy')
+```
+
+### Aitchison norm (Comas-Cufí et al.)
+
+(Comas et al., 2013) proposed a index based on the log-ratio between posterior probabilities, *the Aitchison distance index*. This approach find its roots in the methodology developed by Aitchison to analise compositional data. In fact, can be seen that the proposed index is in fact the distance of a composition $(\tau_A(x), \tau_B(x))$ to the center of the simplex $(1/2, 1/2)$.
+
+
+\[
+r_{A|B} = \int_\Omega log(\frac{\pi_A f_A(x)}{\pi_B f_B(x)}) df_B(x)
+\]
+
+```{r, echo=FALSE}
+mods[['Log']] =  list('omega' = function(v_tau, a) if(which.max(v_tau) == a) 1 else 0,
+                      'lambda' = function(v_tau, a, b) log(v_tau[a] / v_tau[b]))
+
+ldf = lapply(list(B1, B2, B3, A), function(B){
+  df = data.frame('pA' = pAs)
+  df$ci = sapply(df$pA, function(pA) 
+    mean(apply(post(pA, A$f, B), 1, mods$Log$lambda, 1, 2)))
+  df
+})
+
+df = do.call('rbind', ldf)
+df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+
+  
+df.m = melt(df, id.vars = c('pA', 'scenario'), variable.name = 'index')
+ggplot(data=df.m, aes(x=pA, y=value,col=scenario)) + geom_line() + theme_bw() + ylab('Delta entropy')
+```
+

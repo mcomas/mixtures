@@ -46,6 +46,13 @@ X1s = data.frame('X1' = 6.75, 'X2' = 1)
     stat_contour(data=CN, aes(x=X1, y=X2, z=z, col=id)) + 
     facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") )
 
+( p.all.one.no.dot <- ggplot() +
+    stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
+    stat_contour(data=CN, aes(x=X1, y=X2, z=z, col=id)) + 
+    facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") )
+ggsave(p.all.one.no.dot, filename = 'figures/baudry_ex4_1_all_distributions_one_clean.pdf', width = 12, height = 3.5)
+
+
 ( p.all.one <- ggplot(X1s, aes(x=X1, y=X2)) + geom_point(size=3) + 
     stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
     stat_contour(data=CN, aes(x=X1, y=X2, z=z, col=id)) + 
@@ -64,7 +71,7 @@ X1s.tau = ldply(1:6, function(i){
 ( p.all.one.tau <- ggplot(X1s, aes(x=X1, y=X2)) + geom_point(size=3) + 
     stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.4) +
     stat_contour(data=CN, aes(x=X1, y=X2, z=z, col=id)) + 
-    geom_text(data=X1s.tau,  aes(x=X1, y=X2, col=id, label=tau), size=4, parse=TRUE) +
+    geom_text(data=X1s.tau,  aes(x=X1, y=X2, label=tau), size=6, parse=TRUE) +
     facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") )
 ggsave(p.all.one.tau, filename = 'figures/baudry_ex4_1_all_distributions_one_tau.pdf', width = 12, height = 3.5)
 

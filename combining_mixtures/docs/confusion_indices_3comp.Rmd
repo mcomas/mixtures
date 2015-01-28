@@ -1,0 +1,238 @@
+---
+title: "Confusion between components"
+author: "M. Comas-Cufí, J.A. Martín-Fernández and G. Mateu-Figueras"
+date: "24/01/2015"
+output: html_document
+---
+  
+```{r, include=FALSE}
+library(ggplot2)
+library(reshape2)
+```
+
+In a finite mixture model
+
+$$
+  \label{mixt}
+\pi_1 f_1(x) + \dots + \pi_k f_k(x)
+$$
+  
+with $k$ components, (Longford and Bartosova, 2014) defined what they called *the index of confusion* of one component, A, by another, B. The index is the probability, $r_{A|B}$, that an observation drawn from component B belongs to component A (the index of confusion assumes that an observation can be classified only in component A or in component B). As noted in (Longford and Bartosova, 2014) expression
+
+\[
+r_{A|B} = \int_\Omega \frac{\pi_A f_A(x) }{\pi_A f_A(x) + \pi_B f_B(x)} df_B(x)
+\]
+
+can be approximated drawing a large sample from component $B$. To illustrate their index they proposed different scenarios for a two component mixture $\pi_A f_A(x) + (1-\pi_A) f_B(x)$.
+
+* Scenario B1: $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = N(x; \mu=1, \sigma=0.5)$,
+* Scenario B2: $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = N(x; \mu=0.5, \sigma=0.5)$,
+* Scenario B3: $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = N(x; \mu=0, \sigma=0.25)$ and
+* Scenario A:  $f_A(x) = N(x; \mu=0, \sigma=1)$ and $f_B(x) = f_A(x) = N(x; \mu=0, \sigma=1)$.
+
+Using a large sample drawn from $f_B$ ($N = 10000$) we can evaluate the index of confusion for different values of $p_A$ and plot the index of confusion value respect to $p_A$.
+
+Next plot shows the index in a mixture with 3 components 
+$$
+p_A f_A(x) + (1-p_A-p_C) f_B(x) + p_C f_C(x),
+$$
+where $f_A$ and $f_B$ are defined as in scenario B1, B2, B3 and A and $f_C=N(x; \mu=-1, \sigma=0.5)$. We have restricted $p_C=0$, $p_C=0.2$, $p_C=0.4$, $p_C=0.6$ and $p_C=0.8$.
+
+```{r, echo=FALSE, fig.width=8, fig.height=10}
+N = 10000
+
+A = list(
+  'f' = function(x) dnorm(x, 0, 1),
+  'x' = rnorm(N, 0, 1))
+
+B1 = list(
+  'f' = function(x) dnorm(x, 1, 0.5),
+  'x' = rnorm(N, 1, 0.5))
+
+B2 = list(
+  'f' = function(x) dnorm(x, 0.5, 0.5),
+  'x' = rnorm(N, 0.5, 0.5))
+
+B3 = list(
+  'f' = function(x) dnorm(x, 0, 0.25),
+  'x' = rnorm(N, 0, 0.25))
+
+C = list(
+  'f' = function(x) dnorm(x, -1, 0.5),
+  'x' = rnorm(N, -1, 0.5))
+
+post = function(pA, pC, fA, fC, B) data.frame(
+  'A' = (pA * fA(B$x))/(pA * fA(B$x) + (1-pA) * B$f(B$x) + pC * fC(B$x)),
+  'B' = ((1-pA-pC) * B$f(B$x))/(pA * fA(B$x) + (1-pA) * B$f(B$x) + pC * fC(B$x)),
+  'C' = (pC * fC(B$x))/(pA * fA(B$x) + (1-pA) * B$f(B$x) + pC * fC(B$x)))
+
+mods = list()
+mods[['ci']] = list('omega' = function(v_tau, a) 1,
+                    'lambda' = function(v_tau, a, b) v_tau[a] * (v_tau[a] + v_tau[b])^-1)
+
+pCs = c(0, 0.2, 0.4, 0.6, 0.8)
+ldfC = lapply(pCs, function(pC){
+  pAs = seq(0.001, (1-pC)*0.999, length.out = 100)
+  ldf = lapply(list(B1, B2, B3, A), function(B){
+    df = data.frame('pA' = pAs)
+    df$ci = sapply(df$pA, function(pA) 
+      mean(apply(post(pA, pC, A$f, C$f, B), 1, mods$ci$lambda, 1, 2)))
+    df
+  })
+  df = do.call('rbind', ldf)
+  df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+  df
+})
+
+dfC = do.call('rbind', ldfC)
+dfC$pC = rep(c(0, 0.2, 0.4, 0.6, 0.8), sapply(ldfC, nrow))
+dfC$scaled_pA = dfC$pA / ( dfC$pA  + (1 - dfC$pA - dfC$pC) )
+
+df.m = melt(dfC, id.vars = c('scenario', 'pC', 'pA', 'scaled_pA'), variable.name = 'index', value.name = 'val')
+df.m.pA = melt(df.m, id.vars = c('scenario', 'pC', 'index', 'val'), variable.name = 'scale', value.name = 'pA')
+levels(df.m.pA$scale) = c('pA', 'after closuring')
+ggplot(data=df.m.pA, aes(x=pA, y=val,col=scenario)) + 
+  geom_line() + theme_bw() + ylab('Index of confusion') + facet_grid(pC~scale)
+```
+
+The graphic shows that for any value of $p_A$, $N(0, 0.25)$ is more confused with $N(0, 1)$ than $N(0.5, 0.5)$ with $N(0,1)$. For any value of $p_A$, the highest confusion is obtained for $N(0,1)$ with itself. Moreover, the figure shows that for different values of $p_C$ the confusion between A and B remains the same (subcompositional coherent).
+
+(Longford and Bartosova, 2012) defines an internal structure in a mixture by defining the concept of being a `satellite`. For a given threshold $T \in (1,1)$ $B$ is said to be a satellite of $A$ if $r_{A|B} > T$ and $r_{B|A} > T$. Moreover, they define the regular notions of being confused and being separated as
+
+* two components are confused if both $r_{A|B}$ and $r_{B|A}$ exceed $T$, and
+* two components are well separated if both $r_{A|B}$ and $r_{B|A}$ are smaller than $T$.
+
+### DEMP (Hennig)
+
+Hennig constructed a different confusion index which he called *the misclassification probabilities*. The index is defined as the probability of classifiying an observation to component $A$ if component $B$ has generate the observation. In contrast to the index of confusion: DEMP take into account the effect of other components, and instead of calculating *the probability to belong to component A*, DEMP calculates *the probability to be classified to component A*
+
+\[
+r_{A|B} = \int_\Omega \mathbb{1}[{\pi_A f_A(x) > \pi_\cdot f_\cdot (x)}] df_B(x) %= r_{A|B} = \int_\Omega \frac{max\{\pi_A f_A(x) - \pi_B f_B(x), 0\}}{\pi_A f_A(x) - \pi_B f_B(x)} df_B(x)
+\]
+
+
+```{r, echo=FALSE, fig.width=8, fig.height=10}
+mods[['DEMP']] = list('omega' = function(v_tau, a) v_tau[a],
+                      'lambda' = function(v_tau, a, b) if(which.max(v_tau) == a) 1 else 0)
+
+pCs = c(0, 0.2, 0.4, 0.6, 0.8)
+ldfC = lapply(pCs, function(pC){
+  pAs = seq(0.001, (1-pC)*0.999, length.out = 100)
+  ldf = lapply(list(B1, B2, B3, A), function(B){
+    df = data.frame('pA' = pAs)
+    df$ci = sapply(df$pA, function(pA) 
+      mean(apply(post(pA, pC, A$f, C$f, B), 1, mods$DEMP$lambda, 1, 2)))
+    df
+  })
+  df = do.call('rbind', ldf)
+  df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+  df
+})
+
+dfC = do.call('rbind', ldfC)
+dfC$pC = rep(c(0, 0.2, 0.4, 0.6, 0.8), sapply(ldfC, nrow))
+dfC$scaled_pA = dfC$pA / ( dfC$pA  + (1 - dfC$pA - dfC$pC) )
+
+df.m = melt(dfC, id.vars = c('scenario', 'pC', 'pA', 'scaled_pA'), variable.name = 'index', value.name = 'val')
+df.m.pA = melt(df.m, id.vars = c('scenario', 'pC', 'index', 'val'), variable.name = 'scale', value.name = 'pA')
+levels(df.m.pA$scale) = c('pA', 'after closuring')
+ggplot(data=df.m.pA, aes(x=pA, y=val,col=scenario)) + 
+  geom_line() + theme_bw() + ylab('Misclassification probability') + facet_grid(pC~scale)
+```
+
+
+The plot shows that DEMP index is not subcompositional coherent, and therefore, other components apart of A and B have an effect to the confusion between A and B.
+
+
+### Delta entropy (Baudry et al.)
+
+(Baudry and others, 2010) proposes a very different approach, instead of calculating a probability, they proposed a different measure of confusion between two component $A$ and $B$. Instead, they considered the difference between the entropy of the posterioris when both components are separated and the entropy of the posterioris after merging those components.
+
+\[
+  r_{A|B} = \int_\Omega - \{\tau_A(x) + \tau_B(x)\} log\{\tau_A(x) + \tau_B(x)\} +  \tau_A(x) log \tau_A(x) +  \tau_B(x) log \tau_B(x) df_B(x)
+  \]
+
+where 
+$$
+  \tau_A(x) = \frac{\pi_A f_A(x) }{\sum_j \pi_j f_j(x)}
+$$
+  and
+$$
+  \tau_B(x) = \frac{\pi_B f_B(x) }{\sum_j \pi_j f_j(x)}
+$$
+
+```{r, echo=FALSE, fig.width=8, fig.height=10}
+xlog = function(x) x * log(x)
+mods[['baudry']] = list('omega' = function(v_tau, a) 1,
+                        'lambda' = function(v_tau, a, b) -xlog(v_tau[a] + v_tau[b]) + xlog(v_tau[a]) + xlog(v_tau[b]))
+
+
+pCs = c(0, 0.2, 0.4, 0.6, 0.8)
+ldfC = lapply(pCs, function(pC){
+  pAs = seq(0.001, (1-pC)*0.999, length.out = 100)
+  ldf = lapply(list(B1, B2, B3, A), function(B){
+    df = data.frame('pA' = pAs)
+    df$ci = sapply(df$pA, function(pA) 
+      mean(apply(post(pA, pC, A$f, C$f, B), 1, mods$baudry$lambda, 1, 2)))
+    df
+  })
+  df = do.call('rbind', ldf)
+  df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+  df
+})
+
+dfC = do.call('rbind', ldfC)
+dfC$pC = rep(c(0, 0.2, 0.4, 0.6, 0.8), sapply(ldfC, nrow))
+dfC$scaled_pA = dfC$pA / ( dfC$pA  + (1 - dfC$pA - dfC$pC) )
+
+df.m = melt(dfC, id.vars = c('scenario', 'pC', 'pA', 'scaled_pA'), variable.name = 'index', value.name = 'val')
+df.m.pA = melt(df.m, id.vars = c('scenario', 'pC', 'index', 'val'), variable.name = 'scale', value.name = 'pA')
+levels(df.m.pA$scale) = c('pA', 'after closuring')
+ggplot(data=df.m.pA, aes(x=pA, y=val,col=scenario)) + 
+  geom_line() + theme_bw() + ylab('Entropy difference') + facet_grid(pC~scale)
+```
+
+Baudry's approach is not subcompositional coherent. Moreover, it is not an increasing function respect to $p_A$ as we would expect.
+
+
+### Aitchison norm (Comas-Cufí et al.)
+
+(Comas et al., 2013) proposed a index based on the log-ratio between posterior probabilities, *the Aitchison distance index*. This approach find its roots in the methodology developed by Aitchison to analise compositional data. In fact, can be seen that the proposed index is in fact the distance of a composition $(\tau_A(x), \tau_B(x))$ to the center of the simplex $(1/2, 1/2)$.
+
+
+\[
+  r_{A|B} = \int_\Omega log(\frac{\pi_A f_A(x)}{\pi_B f_B(x)}) df_B(x)
+  \]
+
+```{r, echo=FALSE, fig.width=8, fig.height=10}
+mods[['Log']] =  list('omega' = function(v_tau, a) if(which.max(v_tau) == a) 1 else 0,
+                      'lambda' = function(v_tau, a, b) log(v_tau[a] / v_tau[b]))
+
+
+pCs = c(0, 0.2, 0.4, 0.6, 0.8)
+ldfC = lapply(pCs, function(pC){
+  pAs = seq(0.001, (1-pC)*0.999, length.out = 100)
+  ldf = lapply(list(B1, B2, B3, A), function(B){
+    df = data.frame('pA' = pAs)
+    df$ci = sapply(df$pA, function(pA) 
+      mean(apply(post(pA, pC, A$f, C$f, B), 1, mods$Log$lambda, 1, 2)))
+    df
+  })
+  df = do.call('rbind', ldf)
+  df$scenario = factor(rep(c('B1', 'B2', 'B3', 'A'), each = length(pAs)), levels = c('B1', 'B2', 'B3', 'A'))
+  df
+})
+
+dfC = do.call('rbind', ldfC)
+dfC$pC = rep(c(0, 0.2, 0.4, 0.6, 0.8), sapply(ldfC, nrow))
+dfC$scaled_pA = dfC$pA / ( dfC$pA  + (1 - dfC$pA - dfC$pC) )
+
+df.m = melt(dfC, id.vars = c('scenario', 'pC', 'pA', 'scaled_pA'), variable.name = 'index', value.name = 'val')
+df.m.pA = melt(df.m, id.vars = c('scenario', 'pC', 'index', 'val'), variable.name = 'scale', value.name = 'pA')
+levels(df.m.pA$scale) = c('pA', 'after closuring')
+ggplot(data=df.m.pA, aes(x=pA, y=val,col=scenario)) + 
+  geom_line() + theme_bw() + ylab('Aitchison norm') + facet_grid(pC~scale)
+```
+
+Aitchison distance is subcompositional coherent. Moreover, it can be easily generalized to define an index of confusion between k components.
+

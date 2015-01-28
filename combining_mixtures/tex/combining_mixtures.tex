@@ -8,6 +8,9 @@
 \usepackage{graphicx}
 \usepackage[authoryear]{natbib}
 \usepackage{apalike}
+\usepackage{relsize}
+\usepackage{array}
+\usepackage{multirow}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -294,7 +297,7 @@ When the log-ratio algorithm was proposed, the authors wanted to incorporate two
 
 In this section, we extend the ideas that motivate the log-ratio algorithm to a general framework. We consider a local measure given by function $\lambda(\hat{\m\tau}_{i \mathcal{I}}, I, J)$ of how similar are the clusters given by part $I$ and part $J$ in $\m x_i$, and a measure of how associated is an observation $\m x_i$ to the cluster given by part $I$, $\omega(\m x_i, I)$. This general approach proposes the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} the general criterion given by
 
-\begin{equation}
+\begin{equation}\label{unifying_equation}
 \frac{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) \lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) }.
 \end{equation}
 
@@ -376,11 +379,37 @@ is the same as the one obtained with log-ratio algorithm.\qed
 Vull dir, quan es presetna cada índex aniria bé explicar la idea "geomètrica" que ha pensat l'autor (Henning,  Baudry, Comas). Després aquí, aquest aparta xulo s'entendrà molt més. }
 
 
-The three algorithms give us three different possible definition for functions $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$. For the function $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ the entropy algorithm considers that the more the confusion is between two parts the higher is the difference between the entropy considering the partition with the two part together and merged. The way the confusion is defined by the DEMP algorithm is more subtle, it states that the higher the confusion between two parts the higher the number of observations not classified to one part. The log-ratio approach relates the confusion respect to the magnitude of the log-ratio. For the function $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$, the entropy algorithm weighs equally the local information of each observation to decide if $I_a$ should be merged to $I_b$. By contrast, the DEMP algorithm weighs the observation according to the probability of pertinence to $I_a$. Finally, the log-ratio algorithm weighs with respect the final pertinence to $I_a$.
+The three algorithms give us three different possible definition for functions $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$. For the function $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ the entropy algorithm considers that the more the confusion is between two parts the higher is the difference between the entropy considering the partition with the two part together and merged. The way the confusion is defined by the DEMP algorithm is more subtle, it states that the higher the confusion between two parts the higher the number of observations not classified to one part. The log-ratio approach relates the confusion respect to the magnitude of the log-ratio. For the function $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$, the entropy algorithm weigths equally the local information of each observation to decide if $I_a$ should be merged to $I_b$. By contrast, the DEMP algorithm weigths the observation according to the probability of pertinence to $I_a$. Finally, the log-ratio algorithm weigths with respect the final pertinence to $I_a$.
+
+
+\begin{tabular}{c  c | >{\centering}m{0.7in} | >{\centering}m{0.7in} | >{\centering}m{0.7in} | m{0in}}
+ & \multicolumn{1}{c}{} & \multicolumn{3}{c}{$\omega(\boldsymbol\tau_i, a)$} &\\
+
+ & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}\\
+
+ & \multicolumn{1}{c}{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{$\tau_{ia}$} & \multicolumn{1}{c}{$\mathlarger{\mathbbm{1}}\left\{  \forall \ell\; \; \tau_{ia} \geq \tau_{i\ell}  \right\}$} &\\ \cline{3-5} 
+
+& $\large\substack{\tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b}) - \\ - (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b})}$ & Baudry &  &  &\\[5em] \cline{3-5}
+
+\rotatebox[origin=c]{90}{$\lambda(\boldsymbol\tau_i, a, b)$} & $\mathlarger{\mathbbm{1}}\left\{  \exists \ell \; \tau_{hb} < \tau_{h\ell}  \right\}$ & & DEMP  &  & \\[5em] \cline{3-5}
+
+& $\log{\tau_{i a} / \tau_{i b}}$ & & &  Log-ratio &\\[5em] \cline{3-5}
+
+& $-\tau_{i b}$ &  &  &  &\\[5em] \cline{3-5}
+
+& ${\tau_{i a}}({\tau_{i a}+\tau_{i b}})^{-1}$ &  &  &  &\\[5em] \cline{3-5}
+\end{tabular}
+
 
 {\color{red} Seguir l'exemple de les 6 components i estudiar com es calculen els tres indexos en un determinat pas de la jerarquia. Per exemple, quan es decideix fusion el {3} amb el {1,6}. O alguna cosa simila. Preparar-ho pel CoDaWor juntament amb un cas d'estudi final}
 
 {\color{red} Posar lo de Kullback Leibler prenent tau i logratio. Donar la idea que no només és una unificació de tres index si no que una generalització.}
+
+
+\section{Fitting a hierarchical model  to a mixture of gaussian distributions}
+
+Using Equation~\ref{unifying_equation} different methods can be proposed.
+
 
 \bibliographystyle{apalike}
 \bibliography{tex/combining_mixtures}{}
