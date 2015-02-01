@@ -1,7 +1,9 @@
 if(!exists('METHOD')) METHOD = 'CI'
-if(!exists('N')) N = 1000
+if(!exists('N')) N = 500
 if(!exists('SEED')) SEED = 1
 if(!exists('DIM')) DIM = 1
+if(!exists('NSIM')) NSIM = 1000
+if(!exists('NSTEPS')) NSTEPS = 100
 
 library(MixSim)
 library(ggplot2)
@@ -20,8 +22,8 @@ mods[['Entropy']] = list('omega' = function(v_tau, a) 1,
 mods[['Log']] =  list('omega' = function(v_tau, a) if(which.max(v_tau) == a) 1 else 0,
                       'lambda' = function(v_tau.log, a, b) v_tau.log[a] - v_tau.log[b])
 
-MULTI.SIM = lapply(1:100, function(SIM){
-  lapply(seq(0.001, 0.999, length.out = 100), function(overlap_mean){
+MULTI.SIM = lapply(1:NSIM, function(SIM){
+  lapply(seq(0.001, 0.999, length.out = NSTEPS), function(overlap_mean){
     ms = MixSim(BarOmega = overlap_mean, K=2, p=DIM, PiLow=0.01, sph=TRUE)
     list(
       'omega' = ms$BarOmega,
@@ -59,7 +61,7 @@ post_log = function(pA, pC, fA.log, fC.log, B) data.frame(
 # ldfC = lapply(pCs, function(pC){
   #pAs = seq(0.001, (1-pC)*0.999, length.out = 100)
 
-df = data.frame('omega' = Reduce('+', lapply(MULTI.SIM, function(SIM) sapply(SIM, function(sim) sim$omega ))) / 100)
+df = data.frame('omega' = Reduce('+', lapply(MULTI.SIM, function(SIM) sapply(SIM, function(sim) sim$omega ))) / NSIM)
 
 ll = lapply(MULTI.SIM, function(SIM)
   sapply(SIM, function(sim) mean(apply(post(sim$A$p, 0, sim$A$f, C$f, sim$B), 1, mods[['CI']]$lambda, 1, 2))))
