@@ -1,4 +1,4 @@
-.IPHONY: seminari-girona granada article wdi-data
+.IPHONY: seminari-girona granada article wdi-data confusion-indices
 
 all : article seminari-girona granada wdi-data
 
@@ -63,3 +63,11 @@ pdf/granada.pdf : tex/granada.main.tex \
 	pdflatex -output-directory pdf -jobname granada tex/granada.main.tex
 	rm -f pdf/granada.aux pdf/granada.log pdf/sgranada.nav pdf/granada.out pdf/granada.snm pdf/granada.toc tex/*.log
 
+DGEN = data/index_confusion-AA_BB_CC.RData
+DGEN_METH = $(subst AA,CI,$(DGEN)) $(subst AA,DEMP,$(DGEN)) $(subst AA,Entropy,$(DGEN)) $(subst AA,Log,$(DGEN))
+DGEN_N = $(subst BB,1000000,$(DGEN_METH))
+DGEN_FINAL = $(subst CC,1,$(DGEN_N))
+
+confusion-indices : $(DGEN_FINAL)
+data/index_confusion-%.RData : R/confusion_curves.R
+	Rscript -e 'v = strsplit("$*", "_")[[1]]; METHOD = v[1]; N = as.numeric(v[2]); SEED = as.numeric(v[3]); source("R/confusion_curves.R")'
