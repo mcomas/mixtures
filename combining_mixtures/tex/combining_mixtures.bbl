@@ -25,6 +25,11 @@ Lee, H.-j. and Cho, S. (2004).
   {\em Lecture Notes in Computer Science}, pages 666--671. Springer Berlin
   Heidelberg.
 
+\bibitem[Longford and Bartosova, 2014]{longford2014}
+Longford, N.~T. and Bartosova, J. (2014).
+\newblock {A confusion index for measuring separation and clustering}.
+\newblock {\em Statistical Modelling}, 14(3):229--255.
+
 \bibitem[Melnykov, 2013]{melnykov2013distribution}
 Melnykov, V. (2013).
 \newblock {On the Distribution of Posterior Probabilities in Finite Mixture
