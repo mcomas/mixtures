@@ -248,50 +248,61 @@ Each partition belonging to the hierarchical combination of components given by 
 \end{center}
 \end{figure}
 
-In this article, we are not interested in how to decide which of the different partitions in a hierarchical combination of components defines a ``better'' clustering. Instead, we propose different methods to decide how to merge the components. More concretely, given a finite mixture we are interested in analysing methods to decide how to merge components only using information given by the posterior probabilities $\hat{\tau}_{i \mathcal{I}}$, $1\leq i \leq n$.\marginpar{No m'agrada aquest paràgraf, no em sona bé començar que no estem interessats amb algo}
+In this article, we are not interested in how to decide which of the different partitions in a hierarchical combination of components defines a ``better'' clustering. Instead, we propose different methods to decide how to merge the components. More concretely, given a finite mixture we are interested in analysing methods to decide how to merge components only using information given by the posterior probabilities $\hat{\tau}_{i \mathcal{I}}$, $1\leq i \leq n$. {\color{red}No m'agrada aquest paràgraf, no em sona bé començar que no estem interessats amb algo}
 
 
 \section{Hierarchical algorithms based on posterior probabilities}
 \label{old_methods}
 
-In this section we review different approaches to build a hierarchical combination of components using the information contained in the posterior probabilities $\hat{\tau}_{iI}$. The motivation of this section are: to reformulate the different approaches with the same notation, and to indicate the idea behind this approaches. Moreover, in this section we present a new method to generate a hierarchical combination of components. The new approach is based the log-ratios.
+%In this section we review different approaches to build a hierarchical combination of components using the information contained in the posterior probabilities $\hat{\tau}_{iI}$. The motivation of this section are: to reformulate the different approaches with the same notation, and to indicate the idea behind this approaches. Moreover, in this section we present a new method to generate a hierarchical combination of components. The new approach is based the log-ratios.
+
+Once a finite mixture distibution is adjusted to a given sample $X=\{x_1, \dots, x_n\}$, for a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$ we can calculate the posterior probability vector   $\hat{\m\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ for $i$, $1 \leq i \leq n$.
+
+In this section we show different approaches to combine two parts from partition $\mathcal{I}_s$, $I_a$ and $I_b$, into one part $I_a \cup I_b$. The shown methods only use the information contained in the posterior probability vectors $\{ \hat{\m\tau}_{1 \mathcal{I}_s},\dots, \hat{\m\tau}_{n \mathcal{I}_s} \}$.
 
 
 \subsection*{Algorithm based on the total Entropy}
 
 %Let ${\boldsymbol\tau}_1, \dots, {\boldsymbol\tau}_n$ be the probability vectors giving the probability that elements $\textbf{x}_1, \dots, \textbf{x}_n$ belongs to classes $C_1, \dots, C_k$.  
 
-Once a finite mixture distribution is adjusted to a sample $X=\{x_1, \dots, x_n\}$. Given a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$, for each element $\m x_i$ we can calculate the posterior probabilities of $\m x_i$ being classified to each part, obtaining \emph{the posterior probability composition} $\hat{\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ summing up to one. \marginpar{Potser això estaria millor a definicions}
+%Once a finite mixture distribution is adjusted to a sample $X=\{x_1, \dots, x_n\}$. Given a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$, for each element $\m x_i$ we can calculate the posterior probabilities of $\m x_i$ being classified to each part, obtaining \emph{the posterior probability composition} $\hat{\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ summing up to one. \marginpar{Potser això estaria millor a definicions}
 
-The Entropy of the posterior probability composition $\hat{\m \tau}_{i \mathcal{I}}$ is
+Let $\hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}}$ be the posterior probability vector obtained  after joining the part $I_a$ and $I_b$ from $ \mathcal{I}_s$ into one part $I_{a \cup b}$. 
+
+The Entropy of a posterior probability vector $\hat{\m \tau}_{i \mathcal{I}_s}$ is
 \[
 Ent( \hat{\m \tau}_{i \mathcal{I}_s} ) = \sum_{j=1}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ).
 \]
-$Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is a function that takes its minimum when $\hat{\m \tau}_{i \mathcal{I}_s} = (\frac{1}{s},\dots,\frac{1}{s})$. This minimum occurs when the posterior probability of belonging to each component is the same, in other words, when the confusion between components is higher.
+$Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is a convex function with its minimum at $(\frac{1}{s},\dots,\frac{1}{s})$. In terms of posterior probabilities, the minimum is the point where the posterior probability of an observation $x_i$ to be generated from distributions $\hat{f}_{I_1}, \dots, \hat{f}_{I_s}$ is the same.
 
-\cite{baudry2010combining} proposes to merge the two components for which function $Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is minimum after merging the components. This is equivalent  to merge the two components for which the difference between the Entropy of the posterior probability composition after and before the merging is maximum. Formally, given a partition $\mathcal{I}_s = \{I_1,\dots, I_s\}$ \cite{baudry2010combining} suggest that the two parts, $I_a, I_b$, $1 \leq a,b \leq s$, to be combined are those that maximise the entropy criterion
+ \cite{baudry2010combining} proposes to merge the components, $I_a$ and $I_b$, such that $\sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}} )$ is minimum. The criteria is equivalent to combine the parts, $I_a$ and $I_b$, such that the difference 
+\begin{multline*}
+\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}}) - \sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{I}_s}) =  \\ = \sum_{i=1}^n  \left( \hat{\tau}_{i I_{a\cup b}}  log(\hat{\tau}_{i I_{a\cup b}} ) +  \sum_{\substack{j=1 \\
+                                                            j \neq a, b}}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ) \right)  - \sum_{i=1}^n \sum_{j=1}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ) = \\  =   \sum_{i=1}^n  (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \sum_{i=1}^n \left\{ \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})\right\}
+\end{multline*}
+is maximum.
 
-\[
-\sum_{i=1}^n  (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \sum_{i=1}^n \left\{ \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})\right\}.
-\]
+It is noteworthy to remark that function $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$ is symmetric, i.e. $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, b, a)$.
+
+
+%To ilustrate the total Entropy method consider the following scenario: suppose $\hat{f}_{I_a} = N(0, 1)$ is the standardized normal distribution and let $\hat{f_\lambda}_{I_b} = N(\lambda, 1)$. In Figure~\ref{entropy_plot} the value
 
 %\lambda_{\text{Ent}}(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := 
 
 \subsection*{DEMP algorithm}
 
-To merge the components of a finite mixture, \cite{hennig2010methods} proposes to use a consistent estimator (DEMP) for the probability that an observation generated by a component $\hat{f}_{I_a}$ is classified to component $\hat{f}_{I_b}$. The estimator takes the form
+DEMP method was introduced in \cite{hennig2010methods}. The approach proposes to combine the two parts $I_a$ and $I_b$ from $ \mathcal{I}_s$ such that \emph{the probability that an observation generated from component $\hat{f}_{I_a}$ is classified to component $\hat{f}_{I_b}$} is maximum.
+
+To estimate the previous probability,  \cite{hennig2010methods} suggests to use a consistent estimator (DEMP). The estimator takes the form
 \[
 \frac{ \frac{1}{n} \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)}}{ \hat{\pi}_{I_a}},
 \]
-where $\mathbbm{1}\left( \cdot \right)$ is the indicator function. Taking into an account that $ \hat{\pi}_{I_a} = \frac{1}{n} \sum_{i=1}^n \hat{\tau}_{iI_a}$, the estimator can be rewritten as a function only depending on the posterior probabilities as
+where $\mathbbm{1}\left( \cdot \right)$ is the indicator function. Because $ \hat{\pi}_{I_a} = \frac{1}{n} \sum_{i=1}^n \hat{\tau}_{iI_a}$, the estimator can be rewritten in terms of the posterior probability vector as
 \begin{equation}\label{demp_criteria}
- \frac{ \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)}}{\sum_{i=1}^n \hat{\tau}_{iI_a} }.
+DEMP(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\frac{ \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)}}{\sum_{i=1}^n \hat{\tau}_{iI_a} }.
 \end{equation}
-%\lambda_{\text{DEMP}}(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := 
 
-The DEMP method combines those two components for which Equation~\ref{demp_criteria} is maximum. Formally, given a partition $I_1,\dots, I_s$, the approach proposes to combine those two parts, $I_a, I_b$, $1 \leq a,b \leq s$, that maximise Equation~\ref{demp_criteria}.
-
-In contrast to the total Entropy method, DEMP method is not symmetric. In general, it is different to merge part $I_a$ to part $I_b$ than to merge part $I_b$ to part $I_a$. 
+In contrast to $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$, $DEMP(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$ function is not symmetric, and therefore, in general it is different to merge part $I_a$ to part $I_b$ than to merge part $I_b$ to part $I_a$. 
 
 For an observation generated from a pdf $\hat{f}_{I_a}$, the role played by the indicator function in Equation~\ref{demp_criteria} is to count the number of times the observation is classified to part $I_b$.
 
