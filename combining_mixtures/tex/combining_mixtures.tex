@@ -340,18 +340,27 @@ Similar to DEMP method, the modified version of DEMP algorithm is also not symme
 
 \subsection*{The log-ratio algorithm}
 
-For a partition $\mathcal{I}_s$, the dissimilarity measure $Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is minimum when components of the posterior probabilities vector, $\hat{\m \tau}_{i \mathcal{I}}$, is the same, $\m \tau_0 = (\frac{1}{s}, ...,\frac{1}{s})$. The function $Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ grows as the probability vectors separates from the $\m \tau_0$.
+In the total Entropy approach, the idea of confusion between components is build over the idea that closest the posterior probability vector are from $(\frac{1}{s}, \dots, \frac{1}{s})$ more confused are the components. In contrast. Instead, in DEMP approach the idea of confusion is build over the probability of classifiying an observation to one component when the observation was generated from another component.
+
+A completely different approach can be considered if the idea of confusion between part $I_a$ and $I_b$ is build by comparing the components $\hat{\tau}_{iI_a}$ and $\hat{\tau}_{iI_b}$ of the posterior probability vector $\hat{\m \tau}_{i \mathcal{I}_s}$. The approach is that if an observation is generated from probability density function $\hat{f}_{I_a}$ the higher is $\hat{\tau}_{iI_a}$ respect to $\hat{\tau}_{iI_b}$ the higher is the confusion between them. To measure the relative differences between  $\hat{\tau}_{iI_b}$ and $\hat{\tau}_{iI_a}$, we propose to use the log ratio between, i.e $log( \hat{\tau}_{iI_b}/\hat{\tau}_{iI_a})$
 
 
-The total Entropy approach is an approach which takes into an account 
+%For a partition $\mathcal{I}_s$, the dissimilarity measure $Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is minimum when components of the posterior probabilities vector, $\hat{\m \tau}_{i \mathcal{I}}$, is the same, $\m \tau_0 = (\frac{1}{s}, ...,\frac{1}{s})$. The function $Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ grows as the probability vectors separates from the $\m \tau_0$.
+%
+%
+%The total Entropy approach is an approach which takes into an account 
 
-The log-ratio approach \citep{ComasCufi2013} proposes the hierarchical combination of components $\mathcal{I}_1, \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combines two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} log-ratio criterion by
+The log-ratio approach, proposes the hierarchical combination of components $\mathcal{I}_1, \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combines two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} log-ratio criterion by
 
 \[
-\frac{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]} \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })}{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}}.
+\frac{\sum_{i=1}^n  \hat{\tau}_{iI_a}  \log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })}{\sum_{i=1}^n  \hat{\tau}_{iI_a} }.
 \]
 
-When the log-ratio algorithm was proposed, the authors wanted to incorporate two idea
+%\[
+%\frac{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]} \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })}{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}}.
+%\]
+
+
 
 {\color{red} Dir que la mesura és igual a la mitjana de les distàncies entre la subcomposició $(\tau_a, \tau_b)$ i $(0.5,0.5)$ per les observacions classificades a $a$.}
 
