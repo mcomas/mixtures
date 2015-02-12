@@ -21,7 +21,7 @@ library(reshape2)
 
 d = melt(df, id.vars = c('tau_a', 'tau_b'))
 ggplot(data=d) + 
-  geom_point(aes(x=tau_a, y=value, col=variable), size=1) + 
-  xlab(expression(tau[a])) + facet_grid('variable~.', scales ='free') + theme_bw()
+  geom_point(aes(x=tau_b, y=value, col=variable), size=1) + 
+  xlab(expression(tau[b])) + facet_grid('variable~.', scales ='free') + theme_bw()
 
 
