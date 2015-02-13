@@ -354,27 +354,27 @@ A completely different approach can be considered if the idea of confusion betwe
 To measure the relative differences between  $\hat{\tau}_{iI_b}$ and $\hat{\tau}_{iI_a}$, we propose to use the log ratio between them, i.e $log( \hat{\tau}_{iI_b}/\hat{\tau}_{iI_a})$. The approach proposes to combine those parts $I_a$ and $I_b$ maximising the following criteria, 
 
 \[
-\frac{\sum_{i=1}^n  \hat{\tau}_{iI_a}  \log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })}{\sum_{i=1}^n  \hat{\tau}_{iI_a} }.
+LOG(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \frac{\sum_{i=1}^n  \hat{\tau}_{iI_a}  \log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })}{\sum_{i=1}^n  \hat{\tau}_{iI_a} }.
 \]
 
-Similarly to the Entropy approach, the log-ratio approach is measuring how different is the posterior probability vector $(\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b})$ from $(\frac{1}{2}, \frac{1}{2})$. In fact, using the distance between compositions, $d_{\mathcal{A}}(\m x,\m y)$ defined in \citep{aitchison1986statistical} we have that
+The distance between compositions, $d_{\mathcal{A}}(\m x,\m y)$ defined in \citep{aitchison1986statistical} is
 \[
-d_{\mathcal{A}}\left((\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b}), (\frac{1}{2}, \frac{1}{2})\right) = \log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })
+d_{\mathcal{A}}\left((\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b}), (\frac{1}{2}, \frac{1}{2})\right) = \left| \log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} }) \right|.
 \]
+If an observation comes from $\hat{f}_{I_a}$ is expected to have $\hat{\tau}_{iI_a} > \hat{\tau}_{iI_b}$, and therefore, similarly to the Entropy approach, using the distance $d_{\mathcal{A}}(\m x,\m y)$, the log-ratio approach is measuring how different is the posterior probability vector $(\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b})$ of $(\frac{1}{2}, \frac{1}{2})$.
 
-
-%\[
-%\frac{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]} \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })}{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}}.
-%\]
-
-
-
-{\color{red} Dir que la mesura és igual a la mitjana de les distàncies entre la subcomposició $(\tau_a, \tau_b)$ i $(0.5,0.5)$ per les observacions classificades a $a$.}
-
-\begin{itemize}
-\item a local measure of how possible is to confuse $I_b$ with $I_a$ depending on each observation $\m x_i$, $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$, and
-\item a measure of how associated is an observation $\m x_i$ to cluster $I_a$, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$.
-\end{itemize}
+%%\[
+%%\frac{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]} \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })}{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}}.
+%%\]
+%
+%
+%
+%{\color{red} Dir que la mesura és igual a la mitjana de les distàncies entre la subcomposició $(\tau_a, \tau_b)$ i $(0.5,0.5)$ per les observacions classificades a $a$.}
+%
+%\begin{itemize}
+%\item a local measure of how possible is to confuse $I_b$ with $I_a$ depending on each observation $\m x_i$, $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$, and
+%\item a measure of how associated is an observation $\m x_i$ to cluster $I_a$, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$.
+%\end{itemize}
 
 \section{Unifying the approaches}
 \label{confusion}

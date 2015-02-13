@@ -1,0 +1,105 @@
+DGEN = data/data-fig01_AA-BB-CC-DD.RData
+
+## METHODS
+DGEN_AA = $(subst AA,DEMP,$(DGEN)) $(subst AA,DEMP.mod,$(DGEN)) $(subst AA,Log,$(DGEN)) $(subst AA,Entropy,$(DGEN))
+
+## PI DEFINITION
+DGEN_AA_BB = $(subst BB,090,$(DGEN_AA)) $(subst BB,080,$(DGEN_AA)) $(subst BB,070,$(DGEN_AA)) $(subst BB,060,$(DGEN_AA)) \
+             $(subst BB,050,$(DGEN_AA)) $(subst BB,040,$(DGEN_AA)) $(subst BB,030,$(DGEN_AA)) $(subst BB,020,$(DGEN_AA)) \
+             $(subst BB,010,$(DGEN_AA))
+
+## N
+DGEN_AA_BB_CC = $(subst CC,100000,$(DGEN_AA_BB)) # $(subst CC,100,$(DGEN_AA_BB)) $(subst CC,1000,$(DGEN_AA_BB))
+
+## SEED
+DGEN_AA_BB_CC_DD = $(subst DD,001,$(DGEN_AA_BB_CC))
+
+DATA = $(DGEN_AA_BB_CC_DD)
+
+all : $(DATA)
+
+
+## FIGURE 01
+# N = 100
+data/data-fig01_%-090-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.90; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-080-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.80; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-070-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.70; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-060-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.60; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-050-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.50; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-040-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.40; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-030-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.30; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-020-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.20; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-010-100-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.10; N=100; SEED=1; source("$<"); save(df, file="$@")'
+
+# N = 1000
+data/data-fig01_%-090-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.90; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-080-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.80; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-070-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.70; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-060-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.60; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-050-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.50; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-040-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.40; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-030-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.30; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-020-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.20; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-010-1000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.10; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+# N = 100000
+data/data-fig01_%-090-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.90; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-080-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.80; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-070-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.70; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-060-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.60; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-050-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.50; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-040-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.40; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-030-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.30; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-020-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.20; N=100000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-010-100000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.10; N=100000; SEED=1; source("$<"); save(df, file="$@")'

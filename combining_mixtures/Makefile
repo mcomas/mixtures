@@ -7,7 +7,6 @@ wdi-data : data/wdi_data.RData
 data/wdi_data.RData : R/WDIdata_import.R
 	Rscript R/WDIdata_import.R
 
-
 article : pdf/combining_mixtures.pdf
 
 pdf/combining_mixtures.pdf : tex/combining_mixtures.tex tex/combining_mixtures.bbl
