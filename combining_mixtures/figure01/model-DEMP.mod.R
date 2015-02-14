@@ -1,5 +1,5 @@
 mods[['DEMP.mod']] = list('omega' = function(v_tau, a) v_tau[a],
-                          'lambda' = function(v_tau, a, b) v_tau[b])
+                          'lambda' = function(v_tau, a, b) v_tau[b] * (v_tau[a] + v_tau[b])^-1)
 
 A = list(
   'f' = function(x) dnorm(x, 0, 1),

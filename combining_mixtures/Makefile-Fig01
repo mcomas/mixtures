@@ -9,7 +9,7 @@ DGEN_AA_BB = $(subst BB,090,$(DGEN_AA)) $(subst BB,080,$(DGEN_AA)) $(subst BB,07
              $(subst BB,010,$(DGEN_AA))
 
 ## N
-DGEN_AA_BB_CC = $(subst CC,100000,$(DGEN_AA_BB)) # $(subst CC,100,$(DGEN_AA_BB)) $(subst CC,1000,$(DGEN_AA_BB))
+DGEN_AA_BB_CC = $(subst CC,10000,$(DGEN_AA_BB)) # $(subst CC,100,$(DGEN_AA_BB)) $(subst CC,1000,$(DGEN_AA_BB)) # $(subst CC,100000,$(DGEN_AA_BB)) 
 
 ## SEED
 DGEN_AA_BB_CC_DD = $(subst DD,001,$(DGEN_AA_BB_CC))
@@ -75,6 +75,34 @@ data/data-fig01_%-020-1000-001.RData : figure01/data-generation.R figure01/model
 
 data/data-fig01_%-010-1000-001.RData : figure01/data-generation.R figure01/model-%.R
 	Rscript -e 'METHOD="$*"; PI=0.10; N=1000; SEED=1; source("$<"); save(df, file="$@")'
+
+# N = 10000
+data/data-fig01_%-090-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.90; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-080-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.80; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-070-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.70; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-060-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.60; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-050-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.50; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-040-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.40; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-030-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.30; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-020-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.20; N=10000; SEED=1; source("$<"); save(df, file="$@")'
+
+data/data-fig01_%-010-10000-001.RData : figure01/data-generation.R figure01/model-%.R
+	Rscript -e 'METHOD="$*"; PI=0.10; N=10000; SEED=1; source("$<"); save(df, file="$@")'
 
 # N = 100000
 data/data-fig01_%-090-100000-001.RData : figure01/data-generation.R figure01/model-%.R
