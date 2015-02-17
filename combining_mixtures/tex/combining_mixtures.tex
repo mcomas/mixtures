@@ -256,7 +256,7 @@ In this article, we are not interested in how to decide which of the different p
 
 %In this section we review different approaches to build a hierarchical combination of components using the information contained in the posterior probabilities $\hat{\tau}_{iI}$. The motivation of this section are: to reformulate the different approaches with the same notation, and to indicate the idea behind this approaches. Moreover, in this section we present a new method to generate a hierarchical combination of components. The new approach is based the log-ratios.
 
-Once a finite mixture distibution is adjusted to a given sample $X=\{x_1, \dots, x_n\}$, for a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$ we can calculate the posterior probability vector   $\hat{\m\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ for $i$, $1 \leq i \leq n$.
+Once a finite mixture distribution is adjusted to a given sample $X=\{x_1, \dots, x_n\}$, for a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$ we can calculate the posterior probability vector   $\hat{\m\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ for $i$, $1 \leq i \leq n$.
 
 In this section we show different approaches to combine two parts from partition $\mathcal{I}_s$, $I_a$ and $I_b$, into one part $I_a \cup I_b$. The shown methods only use the information contained in the posterior probability vectors $\{ \hat{\m\tau}_{1 \mathcal{I}_s},\dots, \hat{\m\tau}_{n \mathcal{I}_s} \}$.
 
@@ -443,94 +443,68 @@ is shown in Figure~\ref{fig:mu_varying} (top-right). For $\lambda$ fixed, it sho
 \section{Unifying the approaches}
 \label{confusion}
 
+In previous section, we have presented different approaches to merge the components of a finite mixture. Some of them were approaches presented by other authors, and the others, up to our knowledge were presented for the first time. In this section, we consider the previous methods into a more general setting.
 
-In this section, we extend the ideas that motivate the log-ratio algorithm to a general framework. We consider a local measure given by function $\lambda(\hat{\m\tau}_{i \mathcal{I}}, I, J)$ of how similar are the clusters given by part $I$ and part $J$ in $\m x_i$, and a measure of how associated is an observation $\m x_i$ to the cluster given by part $I$, $\omega(\m x_i, I)$. This general approach proposes the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} the general criterion given by
+Consider a posterior probability vector $\hat{\m \tau}_{i \mathcal{I}_s}$. Let $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$  be a function measuring the chances that an observation $\m x_i$ coming from $\hat{f}_{I_a}$ is classified to part $I_a$. In previous section we have seen different possibilities for this function:
+\begin{itemize}
+\item $(\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})$,
+\item $\mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$, 
+\item $\hat{\tau}_{iI_b}(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b})^{-1}$, 
+\item $\log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })$.
+\end{itemize}
+Moreover, let $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a)$ be a function measuring the representativeness of observation $x_i$ of part $I_a$. For example:
+\begin{itemize}
+\item $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) = const$,
+\item $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) =  \hat{\tau}_{iI_a}$ or
+\item $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) = \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right)$.
+\end{itemize}
+In the first example, each observation represents part $I_a$ equally. In the last example, only observations classified to part $I_a$ represent the element of part $I_a$.
 
+With functions $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$ and $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a)$ we can consider the following approach. For a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$ let $\hat{\m\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ for $i$, $1 \leq i \leq n$, be the posterior probability vectors calculated from sample $X$. With the set $\hat{\m\tau}_{i \mathcal{I}_s}$ consider the following approach. Given partition $\mathcal{I}_s$ merge the two parts $I_a$ and $I_b$, into one part $I_a \cup I_b$ which maximise
 \begin{equation}\label{unifying_equation}
 \frac{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) \lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) }.
 \end{equation}
 
-For example, in the log-ratio algorithm $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\m x_i, I_a)$ are defined as follows
-\[
-\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) = \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })
-\]
-and
-\[
-\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) = \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}.
-\]
-In the log-ratio algorithm $\log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })$ plays the role of measuring how different are partition $I_a$ and $I_b$ using the posterior probabilities $\hat{\tau}_{i \mathcal{I}_s}$ of observation $\m x_i$. By contrast, $\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}$ plays the role of how important is observation $\m x_i$ in the decision of asserting the differences of partition $I_a$ and $I_b$.
+%In this section, we extend the ideas that motivate the log-ratio algorithm to a general framework. We consider a local measure given by function $\lambda(\hat{\m\tau}_{i \mathcal{I}}, I, J)$ of how similar are the clusters given by part $I$ and part $J$ in $\m x_i$, and a measure of how associated is an observation $\m x_i$ to the cluster given by part $I$, $\omega(\m x_i, I)$. This general approach proposes the hierarchical combination of components $\mathcal{I}_1 \dots, \mathcal{I}_k$ defined as follows: starting from partition $\mathcal{I}_k = \{\{1\},\dots, \{k\}\}$ at each step the method combine two parts. If at current step we have the partition  $I_1, \dots, I_s$ the two parts, $I_a, I_b$, $1 \leq a,b \leq s$,  to be combined are those that \emph{minimise} the general criterion given by
 
-The following three propositions state that the algorithm based on the total Entropy, the DEMP algorithm and the log-ratio algorithm can be formulated with the general criterion with suitable definitions for $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$.
 
-{\color{red} Canviar les proposicions a explicacions a dins del text}
-\begin{prop}
-The hierarchical combination of components given by the general approach with
-\[
-\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) = \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) + \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b})
-\]
-and
-\[
-\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) = const
-\]
-is the same as the one obtained with the total Entropy algorithm.
-\end{prop}
-\begin{proof}
-Maximising
-\[
-\sum_{i=1}^n \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) - \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}).
-\]
-respect to $I_a$ and $I_b$ is equivalent to minimise
-\begin{equation}\label{min_entropy}
-\sum_{i=1}^n \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}).
-\end{equation}
-respect to $I_a$ and $I_b$. Multiplying by a constant does not change the result of an optimisation problem. Therefore, multiplying by $\frac{1}{n}$ Eq.~\ref{min_entropy} can be written as
-\[
-\frac{\sum_{i=1}^n const \; ( \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}) - \hat{\tau}_{i I_a \cup I_b} \log(\hat{\tau}_{i I_a \cup I_b}) )}{\sum_{i=1}^n const}.
-\]
-\end{proof}
+The Equation~\ref{unifying_equation} allows to model all the approaches given in previous section,
+\begin{itemize}
+\item Entropy
+\begin{itemize}
+\item $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) = const$
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})$
+\end{itemize}
 
-\begin{prop}
-The hierarchical combination of components given by the general approach with
-\[
-\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) = \mathbbm{1}_{\left[ \exists j\; \hat{\tau}_{i I_{b}} < \hat{\tau}_{iI_j} \right]}
-\]
-and
-\[
-\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) = \hat{\tau}_{iI_a}
-\]
-is the same as the one obtained with the DEMP algorithm.
-\end{prop}
-\begin{proof}
-Because $\hat{\pi}_{I_a}$ is estimated as $\hat{\pi}_{I_a} = \sum_{i=1}^n \hat{\tau}_{iI_a}$, Eq.~\ref{demp_criteria} is equivalent to
-\begin{equation}\label{demp_criteria_taus}
-\frac{ \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right]}}}{  \sum_{i=1}^n \hat{\tau}_{iI_a}}.
-\end{equation}
-Maximising Eq.~\ref{demp_criteria_taus} with respect to $I_a$ and $I_b$ is equivalent to minimise
-\[
-\frac{ \sum_{i=1}^n {\hat{\tau}_{iI_a} \mathbbm{1}_{\left[ \exists j\; \hat{\tau}_{i I_{b}} < \hat{\tau}_{iI_j} \right]}}}{  \sum_{i=1}^n \hat{\tau}_{iI_a}}.
-\]
-respect to $I_a$ and $I_b$.
-\end{proof}
+\item $DEMP$
+\begin{itemize}
+\item $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) = \hat{\tau}_{iI_a}$
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$
+\end{itemize}
 
-\begin{prop}
-The hierarchical combination of components given by the general approach with
-\[
-\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) = \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })
-\]
-and
-\[
-\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a) =<\mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}
-\]
-is the same as the one obtained with log-ratio algorithm.\qed
-\end{prop}
+\item $DEMP_2$
+\begin{itemize}
+\item $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) = \hat{\tau}_{iI_a}$
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \hat{\tau}_{iI_b}(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b})^{-1}$
+\end{itemize}
+
+\item $Log$
+\begin{itemize}
+\item $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) = \hat{\tau}_{iI_a}$
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })$
+\end{itemize}
+\end{itemize}
+
+
 
 {\color{red} Aquest paràgraf està molt "xulo". Però crec que cal haver-ne parlat abans quan s'ha presentat els índexos. 
 Vull dir, quan es presetna cada índex aniria bé explicar la idea "geomètrica" que ha pensat l'autor (Henning,  Baudry, Comas). Després aquí, aquest aparta xulo s'entendrà molt més. }
 
 
-The three algorithms give us three different possible definition for functions $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$. For the function $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ the entropy algorithm considers that the more the confusion is between two parts the higher is the difference between the entropy considering the partition with the two part together and merged. The way the confusion is defined by the DEMP algorithm is more subtle, it states that the higher the confusion between two parts the higher the number of observations not classified to one part. The log-ratio approach relates the confusion respect to the magnitude of the log-ratio. For the function $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$, the entropy algorithm weigths equally the local information of each observation to decide if $I_a$ should be merged to $I_b$. By contrast, the DEMP algorithm weigths the observation according to the probability of pertinence to $I_a$. Finally, the log-ratio algorithm weigths with respect the final pertinence to $I_a$.
+The three algorithms(Entropy, DEMP, Log) give us three different possible definition for functions $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ and $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$. For the function $\lambda(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b)$ the entropy algorithm considers that the more the confusion is between two parts the higher is the difference between the entropy considering the partition with the two part together and merged. The way the confusion is defined by the DEMP algorithm is more subtle, it states that the higher the confusion between two parts the higher the number of observations not classified to one part. The log-ratio approach relates the confusion respect to the magnitude of the log-ratio. For the function $\omega(\hat{\tau}_{i \mathcal{I}_s}, I_a)$, the entropy algorithm weigths equally the local information of each observation to decide if $I_a$ should be merged to $I_b$. By contrast, the DEMP and Log algorithm weigths the observation according to the probability of pertinence to $I_a$. 
+%Finally, the log-ratio algorithm weigths with respect the final pertinence to $I_a$.
 
-
+\begin{table}[!ht]
 \begin{tabular}{c  c | >{\centering}m{0.7in} | >{\centering}m{0.7in} | >{\centering}m{0.7in} | m{0in}}
  & \multicolumn{1}{c}{} & \multicolumn{3}{c}{$\omega(\boldsymbol\tau_i, a)$} &\\
 
@@ -538,17 +512,19 @@ The three algorithms give us three different possible definition for functions $
 
  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{$\tau_{ia}$} & \multicolumn{1}{c}{$\mathlarger{\mathbbm{1}}\left\{  \forall \ell\; \; \tau_{ia} \geq \tau_{i\ell}  \right\}$} &\\ \cline{3-5} 
 
-& $\large\substack{\tau_{i a} \log(\tau_{i a}) + \tau_{i b} \log(\tau_{i b}) - \\ - (\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b})}$ & Baudry &  &  &\\[5em] \cline{3-5}
+& $\large\substack{(\tau_{i a}+\tau_{i b}) \log(\tau_{i a} + \tau_{i b}) - \\ - \tau_{i a} \log(\tau_{i a}) - \tau_{i b} \log(\tau_{i b}) }$ & $Entropy$ &  &  &\\[5em] \cline{3-5}
 
-\rotatebox[origin=c]{90}{$\lambda(\boldsymbol\tau_i, a, b)$} & $\mathlarger{\mathbbm{1}}\left\{  \exists \ell \; \tau_{hb} < \tau_{h\ell}  \right\}$ & & DEMP  &  & \\[5em] \cline{3-5}
+\rotatebox[origin=c]{90}{$\lambda(\boldsymbol\tau_i, a, b)$} & $\mathlarger{\mathbbm{1}}\left\{  \forall \ell \; \tau_{hb} \geq \tau_{h\ell}  \right\}$ & & $DEMP$  & -- & \\[5em] \cline{3-5}
 
-& $\log{\tau_{i a} / \tau_{i b}}$ & & &  Log-ratio &\\[5em] \cline{3-5}
+& ${\tau_{i b}}({\tau_{i a}+\tau_{i b}})^{-1}$ &  &  $DEMP_2$ &  &\\[5em] \cline{3-5}
 
-& $-\tau_{i b}$ &  &  &  &\\[5em] \cline{3-5}
+& $\log{\tau_{i b} / \tau_{i a}}$ & & $Log$ &   &\\[5em] \cline{3-5}
 
-& ${\tau_{i a}}({\tau_{i a}+\tau_{i b}})^{-1}$ &  &  &  &\\[5em] \cline{3-5}
+& $\tau_{i b}$ &  &  &  &\\[5em] \cline{3-5}
+
 \end{tabular}
-
+\caption{Different combinations of score functions}
+\end{table}
 
 {\color{red} Seguir l'exemple de les 6 components i estudiar com es calculen els tres indexos en un determinat pas de la jerarquia. Per exemple, quan es decideix fusion el {3} amb el {1,6}. O alguna cosa simila. Preparar-ho pel CoDaWor juntament amb un cas d'estudi final}
 
