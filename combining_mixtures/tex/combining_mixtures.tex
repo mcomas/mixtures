@@ -447,10 +447,10 @@ In previous section, we have presented different approaches to merge the compone
 
 Consider a posterior probability vector $\hat{\m \tau}_{i \mathcal{I}_s}$. Let $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$  be a function measuring the chances that an observation $\m x_i$ coming from $\hat{f}_{I_a}$ is classified to part $I_a$. In previous section we have seen different possibilities for this function:
 \begin{itemize}
-\item $(\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})$,
-\item $\mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$, 
-\item $\hat{\tau}_{iI_b}(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b})^{-1}$, 
-\item $\log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })$.
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})$,
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$, 
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\hat{\tau}_{iI_b}(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b})^{-1}$, 
+\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })$.
 \end{itemize}
 Moreover, let $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a)$ be a function measuring the representativeness of observation $x_i$ of part $I_a$. For example:
 \begin{itemize}

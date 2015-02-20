@@ -1,0 +1,32 @@
+DGEN = data/sim-mo_AA-BB-CC-fig02.RData data/hp_sim-AA-BB-CC-DD-EE-fig02.RData
+
+OVERLAPS = $(subst AA,01,$(DGEN)) $(subst AA,02,$(DGEN)) $(subst AA,03,$(DGEN)) $(subst AA,04,$(DGEN)) $(subst AA,05,$(DGEN)) \
+           $(subst AA,06,$(DGEN)) $(subst AA,07,$(DGEN)) $(subst AA,08,$(DGEN)) $(subst AA,09,$(DGEN)) $(subst AA,10,$(DGEN)) \
+           $(subst AA,11,$(DGEN)) $(subst AA,12,$(DGEN)) $(subst AA,13,$(DGEN)) $(subst AA,14,$(DGEN)) $(subst AA,15,$(DGEN)) \
+           $(subst AA,16,$(DGEN)) $(subst AA,17,$(DGEN)) $(subst AA,18,$(DGEN)) $(subst AA,19,$(DGEN)) $(subst AA,20,$(DGEN)) \
+           $(subst AA,21,$(DGEN)) $(subst AA,22,$(DGEN)) $(subst AA,23,$(DGEN)) $(subst AA,24,$(DGEN)) $(subst AA,25,$(DGEN)) \
+           $(subst AA,26,$(DGEN)) $(subst AA,27,$(DGEN)) $(subst AA,28,$(DGEN)) $(subst AA,29,$(DGEN)) $(subst AA,30,$(DGEN)) \
+           $(subst AA,31,$(DGEN)) $(subst AA,32,$(DGEN)) $(subst AA,33,$(DGEN)) $(subst AA,34,$(DGEN)) $(subst AA,35,$(DGEN)) \
+           $(subst AA,36,$(DGEN)) $(subst AA,37,$(DGEN)) $(subst AA,38,$(DGEN)) $(subst AA,39,$(DGEN)) $(subst AA,40,$(DGEN)) \
+           $(subst AA,41,$(DGEN)) $(subst AA,42,$(DGEN)) $(subst AA,43,$(DGEN)) $(subst AA,44,$(DGEN)) $(subst AA,45,$(DGEN)) \
+           $(subst AA,46,$(DGEN)) $(subst AA,47,$(DGEN)) $(subst AA,48,$(DGEN)) $(subst AA,49,$(DGEN)) $(subst AA,50,$(DGEN))
+
+SIMS = $(subst BB,10,$(OVERLAPS))
+
+M_DGEN = $(subst CC,spherical,$(SIMS))
+
+CONFUSION = $(subst DD,entr,$(M_DGEN)) $(subst DD,demp,$(M_DGEN)) $(subst DD,demp.mod,$(M_DGEN)) $(subst DD,coda,$(M_DGEN)) $(subst DD,prop,$(M_DGEN))
+
+M_HPART = $(subst EE,cnst,$(CONFUSION)) $(subst EE,prop,$(CONFUSION)) $(subst EE,dich,$(CONFUSION))
+
+all : $(M_HPART)
+
+data/hp_sim-%-DD-EE-fig02.RData : 
+	touch $@
+
+data/hp_sim-%-fig02.RData: figure02/build_hierarchical_partitions.R $(M_DGEN)
+	Rscript -e 'v=scan(text="$*", sep="-", what="charcter"); lambda=v[4]; omega=v[5]; IFILE=sprintf("data/sim-mo_%s-%s-%s-fig02.RData", v[1], v[2], v[3]); OFILE="$@"; source("$<")'
+
+## EXPERIMENT 01
+data/sim-mo_%-spherical-fig02.RData: figure02/posterioris-scenarios.R
+	Rscript -e 'v=scan(text="$*", sep="-"); MAXOVERLAP=v[1]/100; NSIM=v[2]; OFILE="$@"; source("$<")'
