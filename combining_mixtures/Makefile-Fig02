@@ -1,5 +1,7 @@
 DGEN = data/sim-mo_AA-BB-CC-fig02.RData data/hp_sim-AA-BB-CC-DD-EE-fig02.RData
 
+HPRND =  data/rnd_hp_sim-AA-BB-CC-fig02.RData
+
 OVERLAPS = $(subst AA,01,$(DGEN)) $(subst AA,02,$(DGEN)) $(subst AA,03,$(DGEN)) $(subst AA,04,$(DGEN)) $(subst AA,05,$(DGEN)) \
            $(subst AA,06,$(DGEN)) $(subst AA,07,$(DGEN)) $(subst AA,08,$(DGEN)) $(subst AA,09,$(DGEN)) $(subst AA,10,$(DGEN)) \
            $(subst AA,11,$(DGEN)) $(subst AA,12,$(DGEN)) $(subst AA,13,$(DGEN)) $(subst AA,14,$(DGEN)) $(subst AA,15,$(DGEN)) \
@@ -11,18 +13,34 @@ OVERLAPS = $(subst AA,01,$(DGEN)) $(subst AA,02,$(DGEN)) $(subst AA,03,$(DGEN)) 
            $(subst AA,41,$(DGEN)) $(subst AA,42,$(DGEN)) $(subst AA,43,$(DGEN)) $(subst AA,44,$(DGEN)) $(subst AA,45,$(DGEN)) \
            $(subst AA,46,$(DGEN)) $(subst AA,47,$(DGEN)) $(subst AA,48,$(DGEN)) $(subst AA,49,$(DGEN)) $(subst AA,50,$(DGEN))
 
+OVERLAPS2 = $(subst AA,01,$(HPRND)) $(subst AA,02,$(HPRND)) $(subst AA,03,$(HPRND)) $(subst AA,04,$(HPRND)) $(subst AA,05,$(HPRND)) \
+           $(subst AA,06,$(HPRND)) $(subst AA,07,$(HPRND)) $(subst AA,08,$(HPRND)) $(subst AA,09,$(HPRND)) $(subst AA,10,$(HPRND)) \
+           $(subst AA,11,$(HPRND)) $(subst AA,12,$(HPRND)) $(subst AA,13,$(HPRND)) $(subst AA,14,$(HPRND)) $(subst AA,15,$(HPRND)) \
+           $(subst AA,16,$(HPRND)) $(subst AA,17,$(HPRND)) $(subst AA,18,$(HPRND)) $(subst AA,19,$(HPRND)) $(subst AA,20,$(HPRND)) \
+           $(subst AA,21,$(HPRND)) $(subst AA,22,$(HPRND)) $(subst AA,23,$(HPRND)) $(subst AA,24,$(HPRND)) $(subst AA,25,$(HPRND)) \
+           $(subst AA,26,$(HPRND)) $(subst AA,27,$(HPRND)) $(subst AA,28,$(HPRND)) $(subst AA,29,$(HPRND)) $(subst AA,30,$(HPRND)) \
+           $(subst AA,31,$(HPRND)) $(subst AA,32,$(HPRND)) $(subst AA,33,$(HPRND)) $(subst AA,34,$(HPRND)) $(subst AA,35,$(HPRND)) \
+           $(subst AA,36,$(HPRND)) $(subst AA,37,$(HPRND)) $(subst AA,38,$(HPRND)) $(subst AA,39,$(HPRND)) $(subst AA,40,$(HPRND)) \
+           $(subst AA,41,$(HPRND)) $(subst AA,42,$(HPRND)) $(subst AA,43,$(HPRND)) $(subst AA,44,$(HPRND)) $(subst AA,45,$(HPRND)) \
+           $(subst AA,46,$(HPRND)) $(subst AA,47,$(HPRND)) $(subst AA,48,$(HPRND)) $(subst AA,49,$(HPRND)) $(subst AA,50,$(HPRND))
+
 SIMS = $(subst BB,10,$(OVERLAPS))
+SIMS2 = $(subst BB,10,$(OVERLAPS2))
 
 M_DGEN = $(subst CC,spherical,$(SIMS))
+M_DGEN2 = $(subst CC,spherical,$(SIMS2))
 
-CONFUSION = $(subst DD,entr,$(M_DGEN)) $(subst DD,demp,$(M_DGEN)) $(subst DD,demp.mod,$(M_DGEN)) $(subst DD,coda,$(M_DGEN)) $(subst DD,prop,$(M_DGEN))
+CONFUSION = $(subst DD,entr,$(M_DGEN)) $(subst DD,demp,$(M_DGEN)) $(subst DD,demp.mod,$(M_DGEN)) $(subst DD,coda,$(M_DGEN)) $(subst DD,coda.norm,$(M_DGEN)) $(subst DD,prop,$(M_DGEN))
 
 M_HPART = $(subst EE,cnst,$(CONFUSION)) $(subst EE,prop,$(CONFUSION)) $(subst EE,dich,$(CONFUSION))
 
-all : $(M_HPART)
+all : $(M_HPART) $(M_DGEN2)
 
 data/hp_sim-%-DD-EE-fig02.RData : 
 	touch $@
+
+data/rnd_hp_sim-%-fig02.RData: figure02/build_random_hierarchical_partitions.R $(M_DGEN)
+	Rscript -e 'v=scan(text="$*", sep="-", what="charcter"); IFILE=sprintf("data/sim-mo_%s-%s-%s-fig02.RData", v[1], v[2], v[3]); OFILE="$@"; source("$<")'
 
 data/hp_sim-%-fig02.RData: figure02/build_hierarchical_partitions.R $(M_DGEN)
 	Rscript -e 'v=scan(text="$*", sep="-", what="charcter"); lambda=v[4]; omega=v[5]; IFILE=sprintf("data/sim-mo_%s-%s-%s-fig02.RData", v[1], v[2], v[3]); OFILE="$@"; source("$<")'
