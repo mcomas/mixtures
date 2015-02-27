@@ -80,11 +80,11 @@ The paper is organised as follows: In Section~\ref{definitions} we introduce two
 \section{Definitions}
 \label{definitions}
 
-Let $\mathbb{X}$ be a sample space. A \emph{finite mixture of distributions} is a probability distribution with pdf defined as the linear combination of pdf from other probability distributions all defined in $\mathbb{X}$. In general, the pdf $f$ of a finite mixture of distributions is
+Let $\mathbb{X}$ be a sample space. A \emph{finite mixture of distributions} is a probability distribution with probability density function (pdf) defined as the linear combination of pdf from other probability distributions defined in $\mathbb{X}$. In general, the pdf $f$ of a finite mixture of distributions is
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
-where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $f$ is a pdf, we have the restriction $\sum_{\ell = 1}^k \pi_\ell = 1$. The probability distributions $f_j$, $1 \leq j \leq k$, are called the \emph{components} of the finite mixture $f$, or \emph{mixture components}.
+where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $\int_{\mathbb{X}}f = 1$ the restriction $\sum_{\ell = 1}^k \pi_\ell = 1$ holds. The pdf's $f_1, \dots, f_k$ are called the \emph{components} of the finite mixture $f$, or simply the \emph{mixture components}.
 
 Let $f$ be a finite mixture of distributions with  parameters  $\pi_1, \dots, \pi_k, \m\theta_1 \dots \m\theta_k$ as defined in Equation~\ref{mixt}, and let $I$  be a subset of $\{1, \dots, k\}$. We denote by $f_I$ the finite mixture of distributions with pdf defined by
 \[
@@ -92,7 +92,7 @@ f_I = \sum_{j \in I} \frac{\pi_i}{\pi_I} f_j(\;\cdot\; ; \m\theta_j)
 \]
 where $\pi_I = \sum_{\ell \in I} \pi_\ell$. To simplify, we do not specify the parameters of $f_I$, which are parameters borrowed from $f$. Note that using this notation, we have that $f_{\{1, \dots, k\}} = f$ and $f_{\{j\}} = f_j$.
 
-A \emph{partition} $\mathcal{I}$ of $\{1, \dots, k\}$ is a set of subsets of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I \in \mathcal{I}} I = \{1, \dots, k\}$ and  if two parts $I$, $J$ are different, $I \cap J = \emptyset$ holds. To simplify, through this paper we assume an order within the elements of a partition. Doing so, we can index the partition and write $\mathcal{I} = \{ I_1, \dots, I_s\}$. Importantly, given any partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, the mixture $f$ (Eq.~\ref{mixt}) can be rewritten as:
+A \emph{partition} $\mathcal{I}$ of $\{1, \dots, k\}$ is a set of subsets of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I \in \mathcal{I}} I = \{1, \dots, k\}$ and  if two parts $I, J \in \mathcal{I}$ are different, $I \cap J = \emptyset$ holds. To simplify, through this paper we assume an order within the elements of a partition. Doing so, we can index the partition and write $\mathcal{I} = \{ I_1, \dots, I_s\}$. It is important to note that given any partition $\mathcal{I} = \{ I_1, \dots, I_s\}$ of $\{1, \dots, k\}$, the mixture $f$ (Eq.~\ref{mixt}) can be rewritten as
 \[
 f = \pi_{I_1} f_{I_1} + \dots + \pi_{I_s} f_{I_s}.
 \]
@@ -107,28 +107,28 @@ A \emph{hierarchical combination of components} is a sequence of partitions $\ma
 
 \subsection*{Model-based clustering}
 
-When model-based clustering is based on finite mixtures, a common approach is to assume that a sample is following a finite mixture of distributions $f_1, \dots, f_k$, and then proceed as follows, 
+When model-based clustering is based on finite mixtures, a common approach is to assume that a given sample follows a finite mixture of distributions $f_1, \dots, f_k$, and then proceed as follows, 
 \begin{enumerate}
-\item finding a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
-\item classifying each observation according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
+\item find a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
+\item classify each observation according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
 \[
 \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x ; \hat{\m\theta}_\ell) } = \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m y ; \hat{\m\theta}_j) }{ \sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m y ; \hat{\m\theta}_\ell) }.
 \]
 \end{enumerate}
 
 
-\cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that classifying an element according to the probability of belonging to one component could be misleading. Instead, they propose that one cluster can be formed by the combination of different mixture components. Formally, given a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, two elements $\m x, \m y \in \mathbb{X}$ are classified to the same cluster if and only if
+\cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that associating one mixture component to one cluster can be misleading, instead, they propose that one cluster can be formed by the combination of different mixture components. {\color{red}Formally, given a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, two elements $\m x, \m y \in \mathbb{X}$ are classified to the same cluster if and only if
 \begin{equation}\label{cluster_criteria}
 \argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x ) } = \argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }{ \sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m y) }
 \end{equation}
 
-where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{j' \in I_j} \frac{\hat{\pi}_{j'}}{\hat{\pi}_{I_j}} f_{j'}(\; \cdot \; ; \hat{\m\theta}_{j'})$ and $\hat{\pi}_{I_j} =  \sum_{j' \in I_j} \hat{\pi}_{j'}$. 
+where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{j' \in I_j} \frac{\hat{\pi}_{j'}}{\hat{\pi}_{I_j}} f_{j'}(\; \cdot \; ; \hat{\m\theta}_{j'})$ and $\hat{\pi}_{I_j} =  \sum_{j' \in I_j} \hat{\pi}_{j'}$.}
 
-Let $X = \{\m x_1\dots, \m x_n\}$ be a sample defined in $\mathbb{X}$. Along this paper, given a partition $\mathcal{I} = \{ I_1, \dots, I_s \}$ we define the posterior probability  of $\m x_i$ being classified to $I_j$ as
+Let $X = \{\m x_1\dots, \m x_n\}$ be a sample defined in $\mathbb{X}$. Given a partition $\mathcal{I} = \{ I_1, \dots, I_s \}$ the posterior probability  of $\m x_i$ being classified to $I_j$ is
 \[
 \hat{\tau}_{i I_j} =  \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x_i) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x_i)},
 \]
-and, for a partition  $\mathcal{I} = \{ I_1, \dots, I_s\}$, we define the posterior probability vector
+and, for a partition  $\mathcal{I} = \{ I_1, \dots, I_s\}$, we define the posterior probability vector as
 \[
 \hat{\tau}_{i \mathcal{I}} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right).
 \]
@@ -139,17 +139,17 @@ For the sake of an example consider the following estimated Gaussian mixture
 \[
 \hat{f} = \sum_{j=1}^6 \hat{\pi}_j \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)
 \]
-with parameters
+with parameters {\color{red}falta posar l'and i el punt al final dels paràmetres}
 {\small
 \input{tex/partition-example-pars.tex}
 }
 
-The mixture $\hat{f}$ with $6$ components has been obtained as follows:
+The mixture $\hat{f}$ with $6$ components was obtained as follows:
 \begin{enumerate}
-\item A sample  $X_{500}=\{\m x_1, \dots, \m x_{500}\}$ has been generated from a Gaussian mixture \emph{with 3 components}. The generation was done using the R package \textsc{MixSim}. The overlapping between components $\omega$ is a measure that defined the overlapping between components in a mixture (see Melnykov for more details). To generate sample $X_{500}$ a maximum overlapping of  $\check{\omega} = 0.01$ was fixed.
-\item A Gaussian mixture \emph{with 6 components} has been fitted to sample $X_{500}$. To fit the finite mixture the R package \textsc{Rmixmod} was used.
+\item A sample  $X_{500}=\{\m x_1, \dots, \m x_{500}\}$ was generated from a Gaussian mixture \emph{with 3 components}. The generation was done using the R package \textsc{MixSim}. The overlapping between components $\omega$ is a measure that defined the overlapping between components in a mixture (see Melnykov for more details). To generate sample $X_{500}$ a maximum overlapping $\check{\omega} = 0.01$ was fixed.
+\item A Gaussian mixture \emph{with 6 components} was fitted to sample $X_{500}$. To fit the finite mixture the R package \textsc{Rmixmod} was used.
 \end{enumerate}
-In Figure~\ref{ex_mixture} the sample is represented with the isodensity curves of the adjusted mixture $\hat{f}$. The estimated parameter $\hat{\mu}_j$ of each component is represented by a cross.
+In Figure~\ref{ex_mixture} the sample $X_{500}$ is represented with the isodensity curves of the adjusted mixture $\hat{f}$. The estimated parameter $\hat{\mu}_j$ of each component is represented by a cross.
 
 \begin{figure}[thbp]
 \begin{center}
@@ -161,9 +161,11 @@ In Figure~\ref{ex_mixture} the sample is represented with the isodensity curves 
 \end{center}
 \end{figure}
 
-Let $I = \{1,2,3,4,5,6\}$. As commented before, any partition of $I$ yields to a feasible final classification using Eq.\ref{cluster_criteria}. For example, consider the partition 
-\[\mathcal{I}_6 = \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}\]
-of $I$. Using partition $\mathcal{I}_6$ every observation $\m x_i \in \mathbb{R}^2$ was assigned to the part $\{j\}$ with maximum $\hat{\tau}_{i\{j\}}$. In Figure~\ref{ex_part6} each observation $\m x_i$ has been separated according to the assigned part. Moreover, the isodensity curves for each of the pdf $\hat{f}_{\{j\}} = \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)$, $1\leq j \leq 6$, have been included in the graphic. 
+Let $I = \{1,2,3,4,5,6\}$. As commented before, any partition of $I$ yields to a feasible final classification using Eq.\ref{cluster_criteria}. For example, the partition 
+\[
+\mathcal{I}_6 = \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}
+\]
+of $I$ yields to a classification where each observation $\m x_i \in \mathbb{R}^2$ is  assigned to the part $\{j\}$ with maximum $\hat{\tau}_{i\{j\}}$. In Figure~\ref{ex_part6} each observation $\m x_i$ is separated according to the assigned part. The isodensity curves for each of the pdf $\hat{f}_{\{j\}} = \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)$, $1\leq j \leq 6$, is included in the graphic. 
 
 %In other words, $\m x_i \in \mathbb{R}^2$ is assigned to cluster labeled
 %\[
@@ -180,7 +182,7 @@ of $I$. Using partition $\mathcal{I}_6$ every observation $\m x_i \in \mathbb{R}
  %   6 toy mixture
   \includegraphics[trim=0cm 0cm 0cm 0cm,width=\textwidth]{figures/partition-example-part6.pdf} \\
  \end{tabular}
- \caption{ Initial classifIation with 6 clusters: each observation was assigned to a single component.}\label{ex_part6}
+ \caption{Classification obtained considering the component partition $\{ \{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\} \}$ with 6 parts in sample $X_{500}$.}\label{ex_part6}
 \end{center}
 \end{figure}
 
@@ -205,7 +207,7 @@ which is grouping those components with closest mean, we get the 3 clusters give
 \begin{tabular}{cc}
   \includegraphics[trim=0cm 0cm 0cm 0cm,width=0.6\textwidth]{figures/partition-example-part3a.pdf} \\
  \end{tabular}
- \caption{Classifying assigning each observation to a single component}\label{ex_part3a}
+ \caption{Classification obtained considering the component partition $\{\{1, 3, 6 \}, \{2, 5\}, \{5\}\}$ with 3 parts in sample $X_{500}$.}\label{ex_part3a}
 \end{center}
 \end{figure}
 
@@ -234,7 +236,7 @@ Consider the following hierarchical combination of components given by the follo
 \end{array}
 \label{hier_ex}
 \end{equation}
-Each partition belonging to the hierarchical combination of components given by \ref{hier_ex} defines a clustering where each element is classified to one of the parts of each partition. Therefore, a hierarchical combination of components defines a hierarchical clustering structure. Figure~\ref{hierarchical} show that each partition defines a clustering on sample $X$. The first partition $\{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}$ defines a clustering with 6 clusters, the partition $\{\{1, 6\}, \{3\},\{2\},\{4\},\{5\} \}$ defines a clustering with 5 clusters, and so on.
+Each partition from the hierarchical combination of components given by \ref{hier_ex} defines a clustering where each element is classified to one of the parts of each partition. Therefore, a hierarchical combination of components defines a hierarchical clustering structure. Figure~\ref{hierarchical} shows the hierarchical clustering obtained in sample $X_{500}$ using the hierarchical combination of components given in Eq~\ref{hier_ex}. The first partition $\{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}$ defines a clustering with 6 clusters, the partition $\{\{1, 6\}, \{3\},\{2\},\{4\},\{5\} \}$ defines a clustering with 5 clusters, and so on.
 
 \begin{figure}[thbp]
 \begin{center}
@@ -250,7 +252,7 @@ Each partition belonging to the hierarchical combination of components given by 
 \end{center}
 \end{figure}
 
-In this article, we are not interested in how to decide which of the different partitions in a hierarchical combination of components defines a ``better'' clustering. Instead, we propose different methods to decide how to merge the components. More concretely, given a finite mixture we are interested in analysing methods to decide how to merge components only using information given by the posterior probabilities $\hat{\tau}_{i \mathcal{I}}$, $1\leq i \leq n$. {\color{red}No m'agrada aquest paràgraf, no em sona bé començar que no estem interessats amb algo}
+In this article, we are not interested in how to decide which of the different partitions in a hierarchical combination of components defines a ``better'' clustering. Instead, we review and propose different methods to decide how to merge the components. More concretely, given a finite mixture we analyse methods to decide how to merge components only using information given by the posterior probabilities $\hat{\tau}_{i \mathcal{I}}$, $1\leq i \leq n$. {\color{red}No m'agrada aquest paràgraf, no em sona bé començar que no estem interessats amb algo}
 
 
 \section{Hierarchical algorithms based on posterior probabilities}
