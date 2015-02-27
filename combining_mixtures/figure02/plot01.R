@@ -70,12 +70,19 @@ df = union(df.cluster, df.random_comb)
 df.agg = union(df.cluster.agg, df.random.agg_comb)
 library(ggplot2)
 
-ggplot(data=subset(df.agg, variable == 'AR' )) + geom_line(aes(x=maxoverlap-gap, y=median, linetype=procedure)) +
-  facet_grid(omega~lambda) + theme_bw() + theme(
+ggplot(data=subset(df.agg, variable == 'AR' )) + 
+  geom_line(aes(x=maxoverlap, y=median, col=lambda, linetype=procedure), size=0.8) +
+  xlab(expression(bold(paste("Overlap (", omega, ")")))) + ylab('Adjusted Rand Index') +
+  facet_grid(.~omega) + theme_bw() + theme(
     legend.position = 'top',
     legend.title = element_blank(),
-    legend.key = element_rect(colour = "white")) + xlab(expression(paste("Overlap (", omega, ")"))) + ylab('Adjusted Rand Index')
-ggsave('lines.pdf', width = 10, height = 6)
+    legend.key = element_rect(colour = "white"),
+    legend.text = element_text(size = 13),
+    axis.title.y = element_text(size=13, face='bold'),
+    axis.title.x = element_text(size=13, face='bold'))
+ggsave('figure02/lines.pdf', width = 10, height = 6)
+
+
 library(scales)
 every = 5
 ggplot(data=subset(df, variable == 'AR' & maxoverlap %% every == 0 ) %>% mutate('maxoverlap' = sprintf("%5.2f", maxoverlap/100))) + 

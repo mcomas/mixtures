@@ -1,16 +1,14 @@
 \begin{thebibliography}{}
 
+\bibitem[Aitchison, 1986]{aitchison1986statistical}
+Aitchison, J. (1986).
+\newblock {\em {The Statistical Analysis of Compositional Data}}.
+\newblock Monographs on Statistics and Applied Probability. Chapman \& Hall
+  Ltd., London (UK).
+
 \bibitem[Baudry et~al., 2010]{baudry2010combining}
 Baudry, J.-P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
 \newblock {Combining Mixture Components for Clustering}.
-
-\bibitem[Comas-Cuf\'{\i} et~al., 2013]{ComasCufi2013}
-Comas-Cuf\'{\i}, M., Mart\'{\i}n-Fern\'{a}ndez, J.~A., and Mateu-Figueras, G.
-  (2013).
-\newblock {Compositional entropies in model based clustering}.
-\newblock In {\em 6th International Conference of the ERCIM (European Research
-  Consortium for Informatics and Mathematics) Working Group on Computational
-  and Methodological Statistics (ERCIM 2013)}, page 122, London (UK).
 
 \bibitem[Hennig, 2010]{hennig2010methods}
 Hennig, C. (2010).
