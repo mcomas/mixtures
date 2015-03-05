@@ -107,22 +107,28 @@ A \emph{hierarchical combination of components} is a sequence of partitions $\ma
 
 \subsection*{Model-based clustering}
 
-When model-based clustering is based on finite mixtures, a common approach is to assume that a given sample follows a finite mixture of distributions $f_1, \dots, f_k$, and then proceed as follows, 
+When model-based clustering is based on finite mixtures, a common approach is to assume that a given sample follows a finite mixture of distributions $f_1, \dots, f_k$, and then to proceed as follows, 
 \begin{enumerate}
-\item find a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
-\item classify each observation according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
+\item to find a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
+\item to classify each observation according to the maximum a posteriori criteria, i.e., two observations $\m x, \m y \in \mathbb{X}$ are classified to same cluster if and only if
 \[
 \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x ; \hat{\m\theta}_\ell) } = \argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m y ; \hat{\m\theta}_j) }{ \sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m y ; \hat{\m\theta}_\ell) }.
 \]
 \end{enumerate}
 
 
-\cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that associating one mixture component to one cluster can be misleading, instead, they propose that one cluster can be formed by the combination of different mixture components. Using the notation of partitions introduced previously, we formalise the proposal as follows: given a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, two elements $\m x, \m y \in \mathbb{X}$ are classified to the same cluster if and only if
+\cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that associating one mixture component to one cluster can be misleading, because different mixture components can be not separated enough to be considered as a unique cluster. For example, Figure~\ref{ex_mixture} shows  a mixture with 6 Gausssian components adjusted to a dataset, and then we associate one cluster for each mixture component, ending up with 6 clusters. Instead, they proposed that one cluster can be formed by the combination of different mixture components. 
+
+We use the notation of partitions introduced previously to formalise the proposal of considering different mixture components as one cluster. We define the clustering defined by a partition as follows: given a partition $\mathcal{I} = \{ I_1, \dots, I_s\}$, two elements $\m x, \m y \in \mathbb{X}$ are classified to the same cluster if and only if
 \begin{equation}\label{cluster_criteria}
 \argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m x) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x ) } = \argmax_{j=1}^s \frac{ \hat{\pi}_{I_j} \hat{f}_{I_j}(\m y) }{ \sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m y) }
 \end{equation}
 
 where $\hat{f}_{I_j}(\; \cdot \;) = \sum_{j' \in I_j} \frac{\hat{\pi}_{j'}}{\hat{\pi}_{I_j}} f_{j'}(\; \cdot \; ; \hat{\m\theta}_{j'})$ and $\hat{\pi}_{I_j} =  \sum_{j' \in I_j} \hat{\pi}_{j'}$.
+
+
+Finally, because all methods presented in this articles are based on the posterior probabilities $\frac{ \hat{\pi}_j f_j(\m x ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x ; \hat{\m\theta}_\ell) }$, we introduce some notation to facilitate the exposition:
+
 
 Let $X = \{\m x_1\dots, \m x_n\}$ be a sample defined in $\mathbb{X}$. Given a partition $\mathcal{I} = \{ I_1, \dots, I_s \}$ the posterior probability  of $\m x_i$ being classified to $I_j$ is
 \[
@@ -133,6 +139,8 @@ and, for a partition  $\mathcal{I} = \{ I_1, \dots, I_s\}$, we define the poster
 \hat{\tau}_{i \mathcal{I}} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right).
 \]
 Note that whenever  $\mathcal{I} = \{ I_1, \dots, I_s\}$ is a partition, $\sum_{j=1}^s \hat{\tau}_{i I_j} = 1$ for $1 \leq i \leq n$.
+
+\subsection*{An example to be clear}
 
 For the sake of an example consider the following estimated Gaussian mixture
 
@@ -262,9 +270,11 @@ In next section we review and propose different methods to decide how to merge t
 
 %In this section we review different approaches to build a hierarchical combination of components using the information contained in the posterior probabilities $\hat{\tau}_{iI}$. The motivation of this section are: to reformulate the different approaches with the same notation, and to indicate the idea behind this approaches. Moreover, in this section we present a new method to generate a hierarchical combination of components. The new approach is based the log-ratios.
 
-Once a finite mixture distribution is adjusted to a sample $X=\{x_1, \dots, x_n\}$, given a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$ we can calculate the posterior probability vector   $\hat{\m\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ for $i$, $1 \leq i \leq n$. 
-
-In this section we show different approaches to combine two parts $I_a$ and $I_b$ from partition $\mathcal{I}_s$ into one part $I_a \cup I_b$. The shown methods only use the information contained in the posterior probability vectors $\{ \hat{\m\tau}_{1 \mathcal{I}_s},\dots, \hat{\m\tau}_{n \mathcal{I}_s} \}$.
+Once a finite mixture distribution is adjusted to a sample $X=\{x_1, \dots, x_n\}$, for any partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$ we can calculate the posterior probability vector   $\hat{\m\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ for $i$, $1 \leq i \leq n$. In this section we show different approaches to combine two parts $I_a$ and $I_b$ from partition $\mathcal{I}_s$ into one part $I_a \cup I_b$ to obtain a new partition
+\[
+\mathcal{I}_{s, a \cup b} = \left( \mathcal{I}_s \setminus \{ I_a, I_b \} \right) \cup \left\{ \{ i | i \in I_a\cup I_b \} \right\}
+\]
+with $s-1$ part. All this methods only use the information contained in the posterior probability vectors $\{ \hat{\m\tau}_{1 \mathcal{I}_s},\dots, \hat{\m\tau}_{n \mathcal{I}_s} \}$.
 
 
 \subsection*{Approach based on the total Entropy}
@@ -273,23 +283,24 @@ In this section we show different approaches to combine two parts $I_a$ and $I_b
 
 %Once a finite mixture distribution is adjusted to a sample $X=\{x_1, \dots, x_n\}$. Given a partition $\mathcal{I}_s = \{ I_1, \dots, I_s\}$, for each element $\m x_i$ we can calculate the posterior probabilities of $\m x_i$ being classified to each part, obtaining \emph{the posterior probability composition} $\hat{\tau}_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ summing up to one. \marginpar{Potser això estaria millor a definicions}
 
-Let $\hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}}$ be the posterior probability vector obtained  after joining the part $I_a$ and $I_b$ from $ \mathcal{I}_s$ into one part $I_{a \cup b}$. Put in other words, $\hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}}$ is the posterior probability vector for the partition
-\[
-\mathcal{I}_{s, a \cup b} = \left( \mathcal{I}_s \setminus \{ I_a, I_b \} \right) \cup \left\{ \{ i | i \in I_a\cup I_b \} \right\}.
-\]
+%Let $\hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}}$ be the posterior probability vector obtained  after joining the part $I_a$ and $I_b$ from $ \mathcal{I}_s$ into one part $I_{a \cup b}$. Put in other words, $\hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}}$ is the posterior probability vector for the partition
 
 The Entropy of a posterior probability vector $\hat{\m \tau}_{i \mathcal{I}_s}$ is
 \[
 Ent( \hat{\m \tau}_{i \mathcal{I}_s} ) = \sum_{j=1}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ).
 \]
-$Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is a convex function with its minimum at $(\frac{1}{s},\dots,\frac{1}{s})$. In terms of posterior probabilities, the minimum is the point where the posterior probability of an observation $x_i$ to be generated from distributions $\hat{f}_{I_1}, \dots, \hat{f}_{I_s}$ is the same when $x_i$ is generated from a finite mixture distribution with pdf given by Eq.~\ref{mixt_part}.
+$Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is a convex function with its minimum at $(\frac{1}{s},\dots,\frac{1}{s})$. In terms of posterior probabilities, the minimum is obtained when the probability of $x_i$ being generated by distributions with pdf $\hat{f}_{I_1}, \dots, \hat{f}_{I_s}$ is the same conditioned to $x_i$ being generated by the mixture distribution given by Eq.~\ref{mixt_part}.
 
- \cite{baudry2010combining} proposes to merge the components, $I_a$ and $I_b$, such that $\sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}} )$ is minimum. The criteria is equivalent to combine those parts, $I_a$ and $I_b$, such that the difference 
+Considering that the previous minimum is the point with more ``confusion' ' between parts, \cite{baudry2010combining} propose to merge those components, $I_a$ and $I_b$, such that $\sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}} )$ is minimum. Put it plainly, their criteria proposes to merge those components that after merging the resulting entropy is minimum.
+
+The previous criteria depends on the posterior probability of each part $\hat{\tau}_{iI_1}, \dots,\hat{\tau}_{iI_s}$, to reduce calculation \cite{baudry2010combining} propose to combine those parts, $I_a$ and $I_b$, such that the difference 
 \begin{multline*}
 \Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{I}_{s, a \cup b}}) - \sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{I}_s}) =  \\ = \sum_{i=1}^n  \left( \hat{\tau}_{i I_{a\cup b}}  log(\hat{\tau}_{i I_{a\cup b}} ) +  \sum_{\substack{j=1 \\
                                                             j \neq a, b}}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ) \right)  - \sum_{i=1}^n \sum_{j=1}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ) = \\  =   \sum_{i=1}^n  (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \sum_{i=1}^n \left\{ \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})\right\}
 \end{multline*}
-is maximum.
+is maximum. Doing so, the criteria depends only on the posterior probability of $\hat{\tau}_{iI_a}$ and$ \hat{\tau}_{iI_b}$.
+
+
 
 It is noteworthy to remark that function $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$ is symmetric, i.e. $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, b, a)$.
 
