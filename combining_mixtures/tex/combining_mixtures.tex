@@ -301,43 +301,9 @@ The previous criteria depends on the posterior probability of each part $\hat{\t
 is maximum. Doing so, the criteria depends only on the posterior probability of $\hat{\tau}_{iI_a}$ and$ \hat{\tau}_{iI_b}$.
 
 
-
-It is noteworthy to remark that function $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$ is symmetric, i.e. $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, b, a)$.
-
-To see the effect of the entropy criteria in a simple case , consider the finite mixture
-\begin{equation}\label{two_mixture}
-f = \pi_a \hat{f}_{I_a} + (1 - \pi_a) \hat{f}_{I_b, \lambda}
-\end{equation}
-where $\hat{f}_{I_a} = N(0, 1)$ is the normal with mean equal to $0$ and variance $1$, $\hat{f}_{I_b, \lambda} = N(\lambda, 1)$ to be the normal with mean equal to $\lambda$ and variance $1$ and $\pi_a = 0.1, 0.2, 0.3, 0.4, \dots, 0.9$. 
-
-We have approximated the expected value of the total entropy
-\[
-\mathbb{E}\left[ \Delta Ent\left(
- \left( 
- \frac{\pi_a \hat{f}_{I_a}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}, 
- \frac{(1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)} \right), a, b\right) | \m x \sim f \right]
-\]
-for different values of $\lambda$ and $\pi_a$ by simulating a large sample of observations ($100000$ observations)  following the mixture given by Equation~\ref{two_mixture}.
-
-%We have generated $100000$ observations following mixture given by Equation~\ref{two_mixture} 
-%%(we have generated $\pi_a * n$ values from $hat{f}_{I_a}$ and $(1-\pi_a) * n$ values from $hat{f}_{I_b}$), 
-%and we have calculate the total Entropy (the mean) for this sample.
-In Figure~\ref{fig:mu_varying} (top-left) the total Entropy is represented for $\lambda$, $0 \leq \lambda \leq 3$ and for $\pi_a \in \{ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9\}$. In the plot, because the total entropy is symmetric respect $a$ and $b$, the curves for $\pi_a = 1-\pi_a$ overlap. We can see that for a fixed $\lambda$, the higher confusion appears when $\pi_a = 0.5$.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[scale=.7]{figure01/fig01.eps}
-\caption{$\lambda$ varying}
-\label{fig:mu_varying}
-\end{figure}
-
-%To ilustrate the total Entropy method consider the following scenario: suppose $\hat{f}_{I_a} = N(0, 1)$ is the standardized normal distribution and let $\hat{f_\lambda}_{I_b} = N(\lambda, 1)$. In Figure~\ref{entropy_plot} the value
-
-%\lambda_{\text{Ent}}(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := 
-
 \subsection*{Directed Estimated misclassification Probabilities (DEMP) approach}
 
-DEMP method was introduced in \cite{hennig2010methods}. The approach proposes to combine the two parts $I_a$ and $I_b$ from $ \mathcal{I}_s$ such that \emph{the probability of classifying an observation generated from component $\hat{f}_{I_a}$ to component $\hat{f}_{I_b}$} is maximum.
+A different approach is introduced in \cite{hennig2010methods}. Hennig proposes to combine the two parts $I_a$ and $I_b$ from $ \mathcal{I}_s$ such that \emph{the probability of classifying an observation generated from component $\hat{f}_{I_a}$ to component $\hat{f}_{I_b}$} is maximum. 
 
 To estimate the previous probability,  \cite{hennig2010methods} suggests to use a consistent estimator (DEMP). Using the notation previously introduced, the estimator takes the form
 \[
@@ -350,15 +316,6 @@ DEMP(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\frac{ \sum_{i=1}^n {\hat{\tau}_{iI
 
 In contrast to $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$, $DEMP(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$ function is not symmetric, and therefore, in general it is different to merge part $I_a$ to part $I_b$ than to merge part $I_b$ to part $I_a$. 
 
-Similarly to the total Entropy, we have approximated the expected value of DEMP function
-\[
-\mathbb{E}\left[DEMP \left(
- \left( 
- \frac{\pi_a \hat{f}_{I_a}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}, 
- \frac{(1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)} \right), a, b\right) | \m x \sim f \right]
-\]
-for the finite mixture distribution with pdf given by Eq.~\ref{two_mixture}.
-In Figure~\ref{fig:mu_varying} (top-right) DEMP is represented for $\lambda$, $0 \leq \lambda \leq 3$ and for $\pi_a \in \{ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9\}$. As commented, in this approach there is no symmetry between $a$ and $b$, we obtain different curves for different values of $\pi_a$. In this case, for $\lambda$ fixed, the higher measure of confusion is obtained when $\pi_a$ is lower. Another feature is that when $\lambda$ tends to zero the curves tends to $0$ if $\pi_a > 0.5$, to $1$ if $\pi_a < 0.5$ and to $0.5$ if $\pi_a = 0.5$. This is due to the fact that when $\hat{f}_{I_a}$ and $\hat{f}_{I_b, \lambda}$ are close enough, deciding if $\hat{\tau}_{i I_{b}}$ is higher to $\hat{\tau}_{i I_{a}}$ depends only on the value of the fixed $\pi_a$.
 
 \subsection*{DEMP modified approach}
 
@@ -374,14 +331,7 @@ DEMP_2(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\frac{ \sum_{i=1}^n \hat{\tau}_{i
 
 Similar to DEMP approach, the modified version of DEMP approach is also not symmetric. An important difference between $DEMP$ and $DEMP_2$ is that $DEMP_2$ only depends on parts  $iI_a$ and $iI_b$ whilst $DEMP$ method is implicitly affected by the other parts.
 
-In Figure~\ref{fig:mu_varying} (bottom-left)  we have approximated the expected value of $DEMP_2$ function
-\[
-\mathbb{E}\left[DEMP_2 \left(
- \left( 
- \frac{\pi_a \hat{f}_{I_a}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}, 
- \frac{(1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)} \right), a, b\right) | \m x \sim f \right].
-\]
-Observe that the behaviour is similar tending to 0 when function $\hat{f}_{I_a}$ and $\hat{f}_{I_b, \lambda}$ are distant (when $\lambda$ grows). But when they are close (when $\lambda$ tends to 0), each curve tends to the value of $\pi_a$.
+
 
 
 %
@@ -454,6 +404,62 @@ LOG_2(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = - \sum_{i=1}^n  \log( \frac{ \hat
 %\label{fig:mu_varying_logit}
 %\end{figure}
 
+
+%In Figure~\ref{fig:mu_varying_logit} we have represented the inverse of the logit of the expected value.
+
+\section{Different aspects for existing methods}
+
+It is noteworthy to remark that function $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$ is symmetric, i.e. $\Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \Delta Ent(\hat{\m \tau}_{i \mathcal{I}_s}, b, a)$.
+
+To see the effect of the entropy criteria in a simple case , consider the finite mixture
+\begin{equation}\label{two_mixture}
+f = \pi_a \hat{f}_{I_a} + (1 - \pi_a) \hat{f}_{I_b, \lambda}
+\end{equation}
+where $\hat{f}_{I_a} = N(0, 1)$ is the normal with mean equal to $0$ and variance $1$, $\hat{f}_{I_b, \lambda} = N(\lambda, 1)$ to be the normal with mean equal to $\lambda$ and variance $1$ and $\pi_a = 0.1, 0.2, 0.3, 0.4, \dots, 0.9$. 
+
+We have approximated the expected value of the total entropy
+\[
+\mathbb{E}\left[ \Delta Ent\left(
+ \left( 
+ \frac{\pi_a \hat{f}_{I_a}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}, 
+ \frac{(1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)} \right), a, b\right) | \m x \sim f \right]
+\]
+for different values of $\lambda$ and $\pi_a$ by simulating a large sample of observations ($100000$ observations)  following the mixture given by Equation~\ref{two_mixture}.
+
+%We have generated $100000$ observations following mixture given by Equation~\ref{two_mixture} 
+%%(we have generated $\pi_a * n$ values from $hat{f}_{I_a}$ and $(1-\pi_a) * n$ values from $hat{f}_{I_b}$), 
+%and we have calculate the total Entropy (the mean) for this sample.
+In Figure~\ref{fig:mu_varying} (top-left) the total Entropy is represented for $\lambda$, $0 \leq \lambda \leq 3$ and for $\pi_a \in \{ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9\}$. In the plot, because the total entropy is symmetric respect $a$ and $b$, the curves for $\pi_a = 1-\pi_a$ overlap. We can see that for a fixed $\lambda$, the higher confusion appears when $\pi_a = 0.5$.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[scale=.7]{figure01/fig01.eps}
+\caption{$\lambda$ varying}
+\label{fig:mu_varying}
+\end{figure}
+
+
+Similarly to the total Entropy, we have approximated the expected value of DEMP function
+\[
+\mathbb{E}\left[DEMP \left(
+ \left( 
+ \frac{\pi_a \hat{f}_{I_a}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}, 
+ \frac{(1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)} \right), a, b\right) | \m x \sim f \right]
+\]
+for the finite mixture distribution with pdf given by Eq.~\ref{two_mixture}.
+In Figure~\ref{fig:mu_varying} (top-right) DEMP is represented for $\lambda$, $0 \leq \lambda \leq 3$ and for $\pi_a \in \{ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9\}$. As commented, in this approach there is no symmetry between $a$ and $b$, we obtain different curves for different values of $\pi_a$. In this case, for $\lambda$ fixed, the higher measure of confusion is obtained when $\pi_a$ is lower. Another feature is that when $\lambda$ tends to zero the curves tends to $0$ if $\pi_a > 0.5$, to $1$ if $\pi_a < 0.5$ and to $0.5$ if $\pi_a = 0.5$. This is due to the fact that when $\hat{f}_{I_a}$ and $\hat{f}_{I_b, \lambda}$ are close enough, deciding if $\hat{\tau}_{i I_{b}}$ is higher to $\hat{\tau}_{i I_{a}}$ depends only on the value of the fixed $\pi_a$.
+
+
+In Figure~\ref{fig:mu_varying} (bottom-left)  we have approximated the expected value of $DEMP_2$ function
+\[
+\mathbb{E}\left[DEMP_2 \left(
+ \left( 
+ \frac{\pi_a \hat{f}_{I_a}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}, 
+ \frac{(1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)} \right), a, b\right) | \m x \sim f \right].
+\]
+Observe that the behaviour is similar tending to 0 when function $\hat{f}_{I_a}$ and $\hat{f}_{I_b, \lambda}$ are distant (when $\lambda$ grows). But when they are close (when $\lambda$ tends to 0), each curve tends to the value of $\pi_a$.
+
+
 The approximation of the expected value of $LOG$ function
 \[
 \mathbb{E}\left[LOG \left(
@@ -462,9 +468,11 @@ The approximation of the expected value of $LOG$ function
  \frac{(1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)}{\pi_a \hat{f}_{I_a}(\m x) + (1-\pi_a) \hat{f}_{I_b, \lambda}(\m x)} \right), a, b\right) | \m x \sim f \right],
 \]
 is shown in Figure~\ref{fig:mu_varying} (top-right). For $\lambda$ fixed, it shows a similar behaviour as $DEMP$ and $DEMP_2$, that is, lower the $\pi_a$ values, the higher the confusion is. 
-%In Figure~\ref{fig:mu_varying_logit} we have represented the inverse of the logit of the expected value.
 
 
+%To ilustrate the total Entropy method consider the following scenario: suppose $\hat{f}_{I_a} = N(0, 1)$ is the standardized normal distribution and let $\hat{f_\lambda}_{I_b} = N(\lambda, 1)$. In Figure~\ref{entropy_plot} the value
+
+%\lambda_{\text{Ent}}(\hat{\tau}_{i \mathcal{I}_s}, I_a, I_b) := 
 
 %%\[
 %%\frac{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]} \log( \frac{ \hat{\tau}_{iI_a} }{ \hat{\tau}_{iI_b} })}{\sum_{i=1}^n \mathbbm{1}_{\left[ \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right]}}.
