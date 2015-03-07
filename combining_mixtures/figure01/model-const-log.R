@@ -1,4 +1,4 @@
-mods[['Log']] =  list('omega' = function(v_tau.log, a) exp(v_tau.log[a]),
+mods[['const-log']] =  list('omega' = function(v_tau.log, a) 1,
                       'lambda' = function(v_tau.log, a, b) v_tau.log[b] - v_tau.log[a])
 
 A = list(

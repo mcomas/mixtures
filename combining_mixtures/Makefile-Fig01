@@ -1,7 +1,8 @@
-DGEN = data/data-fig01_AA-BB-CC-DD.RData
+DGEN = data/data-fig01_AA1-AA2-BB-CC-DD.RData
 
 ## METHODS
-DGEN_AA = $(subst AA,DEMP,$(DGEN)) $(subst AA,DEMP.mod,$(DGEN)) $(subst AA,Log,$(DGEN)) $(subst AA,Entropy,$(DGEN))
+DGEN_AA1 = $(subst AA1,const,$(DGEN)) $(subst AA1,prop,$(DGEN)) $(subst AA1,dich,$(DGEN))
+DGEN_AA = $(subst AA2,entr,$(DGEN_AA1)) $(subst AA2,demp,$(DGEN_AA1)) $(subst AA2,degp,$(DGEN_AA1)) $(subst AA2,log,$(DGEN_AA1)) $(subst AA2,norm,$(DGEN_AA1)) 
 
 ## PI DEFINITION
 DGEN_AA_BB = $(subst BB,090,$(DGEN_AA)) $(subst BB,080,$(DGEN_AA)) $(subst BB,070,$(DGEN_AA)) $(subst BB,060,$(DGEN_AA)) \
@@ -9,7 +10,9 @@ DGEN_AA_BB = $(subst BB,090,$(DGEN_AA)) $(subst BB,080,$(DGEN_AA)) $(subst BB,07
              $(subst BB,010,$(DGEN_AA))
 
 ## N
-DGEN_AA_BB_CC = $(subst CC,10000,$(DGEN_AA_BB)) # $(subst CC,100,$(DGEN_AA_BB)) $(subst CC,1000,$(DGEN_AA_BB)) # $(subst CC,100000,$(DGEN_AA_BB)) 
+DGEN_AA_BB_CC = $(subst CC,10000,$(DGEN_AA_BB))
+
+# $(subst CC,10000,$(DGEN_AA_BB))  $(subst CC,100,$(DGEN_AA_BB)) $(subst CC,1000,$(DGEN_AA_BB)) # $(subst CC,100000,$(DGEN_AA_BB)) 
 
 ## SEED
 DGEN_AA_BB_CC_DD = $(subst DD,001,$(DGEN_AA_BB_CC))
