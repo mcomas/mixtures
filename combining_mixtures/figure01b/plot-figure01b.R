@@ -4,7 +4,7 @@ library(ggplot2)
 df = ldply(c('const', 'prop', 'dich'), function(METH1){
   ldply(c('entr', 'demp', 'degp', 'log', 'norm'), function(METH2){
     ldply(c(90, 80, 70, 60, 50, 40, 30, 20, 10), function(PI){
-      load(sprintf('data/data-fig01_%s-%s-%03d-10000-001.RData', METH1, METH2, PI))
+      load(sprintf('data/data-fig01b_%s-%s-%03d-10000-001.RData', METH1, METH2, PI))
       df$pi = PI
       df$meth1 = METH1
       df$meth2 = METH2
@@ -25,7 +25,7 @@ p = ggplot(data=df, aes(x=mu, y=ent, linetype=as.factor(pi))) + geom_line() + #,
     'legend.key' = element_rect(color='white'),
     'strip.background' = element_rect(fill='white', color='black'))
 
-ggsave(p, filename = 'figure01/fig01all.eps', width = 7, height = 10)
+ggsave(p, filename = 'figure01b/fig01ball.eps', width = 7, height = 10)
 
 # df = df[df$meth == 'Log',]
 # 
