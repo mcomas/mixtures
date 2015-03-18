@@ -397,6 +397,18 @@ This criteria measures how likely is to incorporate part $b$ into part $a$. Inst
 LOG^2_{dich}( \hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \frac{ \sum_{i=1}^n \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right) (-\log (\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })^2)}{\mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right)}.
 \]
 
+
+In this method, we have seen three different approaches to weight two different ways of measure the confusion ($\log (\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })$ and $-\log (\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })^2$). This three approach are
+\begin{description}
+\item[const] for each observation, we calculate the confusion measure and we sum (or average) all the confusion measurements.
+\item[prop] for each observation, we calculate the confusion measure and we calculate a weighted mean of them according to the probability of an observation to be generated from component $a$.
+\item[dich] for each observation, we calculate the confusion measure and we average the confusions only on those observationsassociated to component $a$.
+\end{description}
+
+Using this three approaches, in next section we define a new approach which generalise all the approaches seen in this section.
+
+
+
 %For a partition $\mathcal{I}_s$, the dissimilarity measure $Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ is minimum when components of the posterior probabilities vector, $\hat{\m \tau}_{i \mathcal{I}}$, is the same, $\m \tau_0 = (\frac{1}{s}, ...,\frac{1}{s})$. The function $Ent( \hat{\m \tau}_{i \mathcal{I}_s} )$ grows as the probability vectors separates from the $\m \tau_0$.
 %
 %
@@ -444,9 +456,7 @@ LOG^2_{dich}( \hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \frac{ \sum_{i=1}^n \math
 \section{Unifying the approaches}
 \label{confusion}
 
-In previous section, we have presented different approaches to merge the components of a finite mixture. Some of them were approaches presented by other authors, and others, up to our knowledge, were presented for the first time. In this section, we consider the previous methods into a more general setting. Allowing us to see all of them in a single formulation.
-
-To measure the ``confusion'' of part $I_b$ to be confused with part $I_b$, we have presented different types of measurement: 
+Suppose we have a measure of confusion $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$. For example, to measure the ``confusion'' of part $I_b$ to be confused with part $I_b$, we have seen 
 \begin{itemize}
 \item the entropy presented by Baudry \emph{et al.}, $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})$
 \item the misclassification probability presented by Hennig, $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$,
@@ -454,19 +464,15 @@ To measure the ``confusion'' of part $I_b$ to be confused with part $I_b$, we ha
 \item the Aitchison norm, $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \log (\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })^2$ or
 \item the log-ratio $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = \log (\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })$.
 \end{itemize}
+
+
+
 All this approaches provides us with different ways to measure the confusion between different components. Moreover, all this approaches are based only on the posterior probability 
 vector $(\hat{\tau}_{i I_{1}}, \dots, \hat{\tau}_{i I_{s}})$. 
 
-When we have introduced the log-ratio approach, we have introduced three different approaches in how to weight the confusion measurement. These were,
-%Consider a posterior probability vector $\hat{\m \tau}_{i \mathcal{I}_s}$. Let $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b)$  be a function measuring the chances that an observation $\m x_i$ coming from $\hat{f}_{I_a}$ is classified to part $I_a$. In previous section we have seen different possibilities for this function:
-%\begin{itemize}
-%\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) = (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b})$,
-%\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$, 
-%\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\hat{\tau}_{iI_b}(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b})^{-1}$, 
-%\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })$,
-%\item $\lambda(\hat{\m \tau}_{i \mathcal{I}_s}, a, b) =\log( \frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} })^2$.
-%\end{itemize}
-%Moreover, let $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a)$ be a function measuring the representativeness of observation $x_i$ of part $I_a$. For example:
+
+Suppose we have a measure of the relevance of an observation respect a component $a$, $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a)$. We have seen three different measures  (\emph{const}, \emph{prop}, \emph{rich}). They model the following assumptions.
+
 \begin{itemize}
 \item considering that the distribution was at random and independent, $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) = const$,
 \item considering that the measurements where generated by a finite mixture distribution, $\omega(\hat{\m \tau}_{i \mathcal{I}_s}, a) =  \hat{\tau}_{iI_a}$ or
