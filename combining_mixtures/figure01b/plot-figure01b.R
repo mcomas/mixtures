@@ -4,7 +4,7 @@ library(ggplot2)
 df = ldply(c('const', 'prop', 'dich'), function(METH1){
   ldply(c('entr', 'demp', 'degp', 'log', 'norm'), function(METH2){
     ldply(c(90, 80, 70, 60, 50, 40, 30, 20, 10), function(PI){
-      load(sprintf('data/data-fig01b_%s-%s-%03d-10000-001.RData', METH1, METH2, PI))
+      load(sprintf('data/data-fig01b_%s-%s-%03d-100000-001.RData', METH1, METH2, PI))
       df$pi = PI
       df$meth1 = METH1
       df$meth2 = METH2
@@ -13,7 +13,7 @@ df = ldply(c('const', 'prop', 'dich'), function(METH1){
   })
 })
 df = df[df$mu != 0,]
-df$pi = df$pi / 100
+df$pi = (df$pi/2) / 100
 df$meth1 = factor(df$meth1, levels=c('const', 'prop', 'dich'))
 df$meth2 = factor(df$meth2, levels=c('entr', 'demp', 'degp', 'log', 'norm'))
 
