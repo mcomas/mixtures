@@ -69,6 +69,13 @@ df.random.agg_comb$procedure = 'Random choise method'
 df = union(df.cluster, df.random_comb)
 df.agg = union(df.cluster.agg, df.random.agg_comb)
 library(ggplot2)
+df.agg = mutate(data.frame(df.agg), 
+       lambda = revalue(lambda, c("coda" = "log",
+                                  "coda.norm" = "norm",
+                                  "demp.mod" = "degp")))
+df.agg$lambda = factor(df.agg$lambda, levels=c('entr', 'demp', 'degp', 'log', 'norm', 'prop'))
+df.agg = df.agg[df.agg$lambda != 'prop',]
+df.agg$omega = factor(df.agg$omega, levels=c('cnst', 'prop', 'dich'))
 
 ggplot(data=subset(df.agg, variable == 'AR' )) + 
   geom_line(aes(x=maxoverlap, y=median, col=lambda, linetype=procedure), size=0.8) +
