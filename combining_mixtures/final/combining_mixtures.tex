@@ -14,6 +14,7 @@
 \usepackage{showlabels}
 \usepackage{setspace}
 \usepackage[normalem]{ulem}
+\usepackage{xspace}
 %Add line numbering
 %Line numbering can be incorporated by using the lineno package. Add these statements in the preamble:
 \usepackage{lineno}
@@ -27,6 +28,8 @@
 
 %%%%% bold symbol in math enviornment
 \newcommand{\m}[1]{\boldsymbol{#1}}
+
+\newcommand{\fmm}{\textsc{fmm}\xspace}
 
 \title{Merging the components of a finite mixture using  posterior probabilities}
 \author{M. Comas-Cufí \and J.A. Martín-Fernández \and G. Mateu-Figueras}
@@ -43,14 +46,14 @@
 \section{Introduction}
 
 %Cl
-The most standard parametric approach in cluster analysis assumes data can be modelled by a \emph{finite mixture of distributions} (FM){\color{blue} Martin: cal investigar si altres articles fan servir acrònim i quin? jo he posat FM però no estic gens segur..}. A FM is a probability distribution with probability density function (pdf) defined as the linear combination of pdf from other probability distributions defined in $\mathbb{X}$, the sample space. In general, the pdf $f$ of a FM is
+The most standard parametric approach in cluster analysis assumes data can be modelled by a \emph{finite mixture of distributions} or \emph{finite mixture models} (\fmm). A \fmm is a probability distribution with probability density function (pdf) defined as the linear combination of pdf from other probability distributions defined in $\mathbb{X}$, the sample space. In general, the pdf $f$ of a \fmm is
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
-where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $\int_{\mathbb{X}}f = 1$ the restriction $\sum_{\ell = 1}^k \pi_\ell = 1$ holds. The pdf $f_1, \dots, f_k$ are called the \emph{components} of the FM, or simply the \emph{mixture components}.
+where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $\int_{\mathbb{X}}f = 1$ the restriction $\sum_{\ell = 1}^k \pi_\ell = 1$ holds. The pdf $f_1, \dots, f_k$ are called the \emph{components} of the \fmm, or simply the \emph{mixture components}.
 
 
-When model-based clustering is based on a FM, after fixing the number of components $k$, a common approach consist of two steps:
+When model-based clustering is based on a \fmm a common approach consist of two steps:
 \begin{enumerate}
 \item to find a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
 \item to classify each observation according to the maximum posteriori criteria, i.e., one observation $\m x_i \in \mathbb{X}$ is classified to cluster $c$ if and only if
@@ -58,11 +61,11 @@ When model-based clustering is based on a FM, after fixing the number of compone
 c=\argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x_i ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x_i ; \hat{\m\theta}_\ell) }.
 \]
 \end{enumerate}
-
+Note that in this process, the number of cluster $k$ is fixed in advance.
 
 \cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that associating one mixture component to one cluster can be misleading, because different mixture components can be not separated enough to be considered as a unique cluster. Instead, they proposed that one cluster can be formed by the combination of different mixture components. Therefore, one crucial point of this clustering method is how to decide which components have to be merged, the focus of this article.
 
-Once the criterion for merging component is adopted, the common procedure to make the final clustering from the initial FM is a hierarchical combination of components, that is, a hierarchical sequence of \emph{partitions}. A partition $\mathcal{P}_s=\{ I_1, \dots, I_s\}$ of $\{1, \dots, k\}$ is a set of subsets $I_p$ of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for all two parts $I_a, I_b \in \mathcal{P}_s$, $I_a \cap I_b = \emptyset$ holds. Importantly, the pdf $f$ of a FM (Eq.~\ref{mixt}) can be rewritten as
+Once the criterion for merging component is adopted, the common procedure to make the final clustering from the initial \fmm is a hierarchical combination of components, that is, a hierarchical sequence of \emph{partitions}. A partition $\mathcal{P}_s=\{ I_1, \dots, I_s\}$ of $\{1, \dots, k\}$ is a set of subsets $I_p$ of $\{1, \dots, k\}$, called $parts$, such that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. Importantly, the pdf $f$ of a \fmm (Eq.~\ref{mixt}) can be rewritten as
 \begin{equation}
 f = \pi_{I_1} f_{I_1} + \dots + \pi_{I_s} f_{I_s},
 \label{mixt_part}
@@ -91,7 +94,7 @@ c= \argmax_{p=1}^s \{ \hat{\tau}_{i I_p} \}
 \end{equation}
 
 
-In this paper, we review different approaches that we can find in the literature \citep{baudry2010combining, hennig2010methods} to combine the components of a FM. We introduce new approaches based on the ideas introduced by \cite{longford2014} and inspired on the geometric nature of the posterior probabilities i.e using the log-ratio approach. Importantly, although this approaches have been commonly presented for Gaussian mixtures \citep{longford2014,melnykov2013distribution,hennig2010methods,baudry2010combining}, they can be applied using any other probability distribution mixtures because they are based only on the posterior probabilities vectors $\hat{\m\tau}_{i \mathcal{P}_s}$. This fact, encouraged us to introduce a generic definition where an integrated formulation unifies all these merging methods. In addition, this formulation opens a way to define new methods based on the posterior probabilities.
+In this paper, we review different approaches that we can find in the literature \citep{baudry2010combining, hennig2010methods} to combine the components of a \fmm using the posterior probabilities. Using similar ideas that previous methods, we introduce different new approaches inspired on the geometric nature of the posterior probabilities i.e using the log-ratio approach. Then, we introduce  introduce a generic definition where an integrated formulation unifies all these merging methods.  This formulation opens a way to define new methods based on the posterior probabilities. For example, based on ideas introduced by \cite{longford2014}, we extend the family of methods for merging components using posterior probabilities.  Importantly, although this approaches have been commonly presented for Gaussian mixtures \citep{longford2014,melnykov2013distribution,hennig2010methods,baudry2010combining}, they can be applied using any other probability distribution mixtures because they are based only on the posterior probabilities vectors $\hat{\m\tau}_{i \mathcal{P}_s}$.
 
 The paper is organised as follows: In Section~\ref{old_methods}, the approaches by \cite{hennig2010methods} and \cite{baudry2010combining} to obtain a hierarchical combination of components are presented using the new notation also adopted for the new proposals. This new notation is the crucial element for the integrated formulation that unifies the methods. In Section~\ref{comparison} a comparison of the different approaches is done using simulated data sets. Finally, Section~\ref{conclusions} contains the conclusions and final remarks.
 
@@ -106,12 +109,12 @@ The Shannon entropy of a posterior probability vector $\hat{\m\tau}_{i \mathcal{
 \[
 Ent( \hat{\m \tau}_{i \mathcal{P}_s} ) = - \sum_{j=1}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ).
 \]
-$Ent( \hat{\m \tau}_{i \mathcal{P}_s} )$ is a concave function with its maximum at $(\frac{1}{s},\dots,\frac{1}{s})$. In terms of posterior probabilities, the maximum is obtained when the probability of $\m x_i$ being generated by each distributions with pdf $\hat{f}_{I_1}, \dots, \hat{f}_{I_s}$ is the same. Due to the fact the maximum is the point with more ``confusion'' between parts, \cite{baudry2010combining} proposed to merge those components, $I_a$ and $I_b$, such that $\sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{P}_{s-1}} )$ is maximum. In other words, their criteria proposes to merge those components that after merging, the sum of the entropy of the resulting posterior probability vectors is maximum. The calculation of the previous criteria depends on the posterior probability of each part $\hat{\tau}_{i I_1}, \dots,\hat{\tau}_{i I_s}$. To reduce calculations \cite{baudry2010combining} proposed to combine those parts, $I_a$ and $I_b$, such that the difference
+$Ent( \hat{\m \tau}_{i \mathcal{P}_s} )$ is a concave function with its maximum at $(\frac{1}{s},\dots,\frac{1}{s})$. In terms of posterior probabilities, the maximum is obtained when the probability of $\m x_i$ being generated by distribution $\hat{f}_{I_j}$ is the same for $j$, $1\leq j \leq s$. Due to the fact the maximum is the point with more ``confusion'' between parts, \cite{baudry2010combining} proposed to merge those components, $I_a$ and $I_b$, forming a new partition\[ \mathcal{P}_{s-1} = \left( \mathcal{P}_s \setminus \{ I_a, I_b \} \right) \cup \left\{ \in I_a\cup I_b \right\} \] in such a way that $\sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{P}_{s-1}} )$ is maximum. In other words, the criteria proposes to merge those components that after merging, the sum of the entropy of the resulting posterior probability vectors is maximum. The calculation of the previous criteria depends on the posterior probability of each part $\hat{\tau}_{i I_1}, \dots,\hat{\tau}_{i I_s}$. To reduce calculations \cite{baudry2010combining} proposed to combine those parts, $I_a$ and $I_b$, such that the difference
 \begin{multline*}
 \Delta Ent_{const}(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{P}_{s-1}}) - \sum_{i=1}^n Ent( \hat{\m \tau}_{i \mathcal{P}_s}) =  \\ = \sum_{i=1}^n  \left( \hat{\tau}_{i I_{a\cup b}}  log(\hat{\tau}_{i I_{a\cup b}} ) +  \sum_{\substack{j=1 \\
                                                             j \neq a, b}}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ) \right)  - \sum_{i=1}^n \sum_{j=1}^s \hat{\tau}_{i I_j}  log(\hat{\tau}_{i I_j} ) = \\  =   \sum_{i=1}^n  (\hat{\tau}_{i I_a}+\hat{\tau}_{i I_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{i I_b}) - \sum_{i=1}^n \left\{ \hat{\tau}_{i I_a} \log(\hat{\tau}_{i I_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{i I_b})\right\}
 \end{multline*}
-is maximum. Importantly, note that this criteria depends only on the posterior probability of $\hat{\tau}_{iI_a}$ and $\hat{\tau}_{iI_b}$. Indeed, once the vectors $\hat{\m\tau}_{i \mathcal{P}_s}$ are calculated for the partition $\mathcal{P}_k$, the hierarchical merging procedure makes the clusters regardless the type of pdf $f_j$ used to fit the FM.
+is maximum. Importantly, note that this criteria depends only on the posterior probability of $\hat{\tau}_{iI_a}$ and $\hat{\tau}_{iI_b}$. Indeed, once the vectors $\hat{\m\tau}_{i \mathcal{P}_s}$ are calculated for the partition $\mathcal{P}_k$, the hierarchical merging procedure makes the clusters regardless the type of pdf $f_j$ used to fit the \fmm.
 
 \subsection{Directed Estimated Misclassification Probabilities (DEMP) approach}
 
@@ -126,12 +129,9 @@ Note that the idea behind the approach proposed by \cite{baudry2010combining} is
 \subsection{The log-ratio approaches}
 \label{lr_approach}
 
-In the total Entropy approach, the idea of confusion between components is measured using the idea that the closer the posterior probability vector are from $(\frac{1}{s}, \dots, \frac{1}{s})$ the more confused are the components. Following this idea, we propose to measure the chances of confusing $I_b$ with $I_a$  by measuring how different are $(\frac{\hat{\tau}_{i I_a}}{\hat{\tau}_{i I_a} + \hat{\tau}_{i I_b}}, \frac{\hat{\tau}_{i I_b}}{\hat{\tau}_{i I_a} + \hat{\tau}_{i I_b}})$ from $(\frac{1}{2}, \frac{1}{2})$. To measure the difference between these two posterior probability vectors, we use the norm defined in the Simplex space. The norm of a posterior probability vector, $\| (\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b}) \|$  defined by \cite{aitchison2002simplicial} is
-\[
-\left\| (\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b}) \right\|^2 = \log^2 \left(\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} }\right).
-\]
+In the total Entropy approach, confusion between components is measured using the notion that the closer the posterior probability vector is from $(\frac{1}{s}, \dots, \frac{1}{s})$ the more confused are the components. Following this notion, we propose to measure the chances of confusing $I_b$ with $I_a$  by measuring how different are $(\frac{\hat{\tau}_{i I_a}}{\hat{\tau}_{i I_a} + \hat{\tau}_{i I_b}}, \frac{\hat{\tau}_{i I_b}}{\hat{\tau}_{i I_a} + \hat{\tau}_{i I_b}})$ from $(\frac{1}{2}, \frac{1}{2})$. That is, we restrict only on the components taking part in the merging process. Moreover, to measure the difference between these two posterior probability vectors, we use the norm defined in the Simplex space. Doing so, we guarantee subcompositional coherence in this measurement. {\color{blue} Marc: cita de coherencia subcomposicional} The norm of a posterior probability vector, $\| (\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b}) \|$  defined by \cite{aitchison2002simplicial} is \[ \left\| (\hat{\tau}_{iI_a}, \hat{\tau}_{iI_b}) \right\|^2 = \log^2 \left(\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} }\right). \] 
 
-In contrast, the DEMP approach defines the idea of confusion using the probability of classifying an observation to one component when the observation was generated from another component. Following this aproach, we propose to measure the chances of confusing $I_b$ with $I_a$. The idea is that if an observation was generated from the probability density function $\hat{f}_{I_a}$, the higher is $\hat{\tau}_{i I_b}$ respect to $\hat{\tau}_{i I_a}$ the higher are the chances of confusing $I_b$ with $I_a$. To measure the relative differences between  $\hat{\tau}_{i I_b}$ and $\hat{\tau}_{i I_a}$, we propose to use the log ratio between them, i.e $\log( \hat{\tau}_{i I_b}/\hat{\tau}_{i I_a})$. The measure is negative for those observations which are more likely to be assigned to $a$ (to be well classified) and positive for those observation more likely to be assigned to $b$ (to be misclassified). {\color{blue} Martin: dos comments: \sout{1r. cal posar una frase que com a mínim suggereixi d'on surt la idea de prendre log-ratios.} 2n. no acabo de veure clar que NO calgui agafar valor absolut del logaritme. Quan  les probabilitats són diferents pot molt positiu o molt negatiu i després compensar-se. No sé si no seria millor eliminar-lo directament aquest cas...o posar-lo com a exemple de noves mesures...}
+In contrast, DEMP approach defines the notion of confusion between two components $I_a$ and $I_b$ by measuring the probability of \emph{classifying an observation to component $I_b$ when the observation was generated from component $I_a$}. Conditioning that the observation is generated by $I_a$ DEMP approach measures this probability by observing if the observation has been classified to $I_b$, i.e.  measuring the value $\mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{i I_j} \right)$. Conditioning that the observation is generated by $I_a$ we propose to measure how likely is to classify an observation to $I_b$ when it was generated from $I_a$ by measuring the relative difference between $\hat{\tau}_{i I_b}$ and $\hat{\tau}_{i I_a}$. Therefore, we propose to use the log-ratio between them, i.e.  $\log( \hat{\tau}_{i I_b}/\hat{\tau}_{i I_a})$. Note that, the measure is negative for those observations which are more likely to be assigned to $a$ (to be well classified) and positive for those observation more likely to be assigned to $b$ (to be misclassified). {\color{blue} Martin: dos comments: \sout{1r. cal posar una frase que com a mínim suggereixi d'on surt la idea de prendre log-ratios.} 2n. no acabo de veure clar que NO calgui agafar valor absolut del logaritme. Quan  les probabilitats són diferents pot molt positiu o molt negatiu i després compensar-se. No sé si no seria millor eliminar-lo directament aquest cas...o posar-lo com a exemple de noves mesures...}
 
 To summarise, using log-ratio approaches we have build two different criteria for measuring the confusion between two parts $(\log ( \hat{\tau}_{iI_b} / \hat{\tau}_{iI_a}) $ and $\log^2 (\hat{\tau}_{iI_b} / \hat{\tau}_{iI_a} ))$. For each of them, we introduce three different strategies to combine the scores obtained for each observation $\m x_i$. This three strategies are
 \begin{description}
@@ -176,7 +176,7 @@ Let $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b)$ be a function measuring the
 \item the entropy presented by \cite{baudry2010combining},
 \[\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = (\hat{\tau}_{iI_a}+\hat{\tau}_{iI_b}) \log(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}) - \hat{\tau}_{iI_a} \log(\hat{\tau}_{iI_a}) + \hat{\tau}_{iI_b} \log(\hat{\tau}_{iI_b}),\]
 \item the misclassification probability presented by \cite{hennig2010methods}, \[\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right),\]
-\item the ``misgeneration'' probability presented by \cite{longford2014}, \[\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \frac{\hat{\tau}_{iI_b}}{\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}},\]{\color{blue} Marc: Després d'eliminar el mètode DEGP de la secció anterior aquesta mesura és nova pel lector}
+\item the ``misgeneration'' probability presented by \cite{longford2014}, \[\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \frac{\hat{\tau}_{iI_b}}{\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}},\]{\color{blue} Marc: Després d'eliminar el mètode DEGP de la secció anterior aquesta mesura és nova pel lector. Millor posar-la quan es presenti el mètode més endavant}
 \item the Aitchison norm, \[\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \log^2 (\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} }) \text{ and}\]
 \item the log-ratio \[ \lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \log (\frac{ \hat{\tau}_{iI_b} }{ \hat{\tau}_{iI_a} }).\]
 \end{itemize}
@@ -197,7 +197,7 @@ Let $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a)$ be a function measuring the rel
 
 
 
-For a partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ and with  functions $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b)$ and $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a)$ fixed, we can define a mixture component merging approach as follows: if $\hat{\m\tau}_{i \mathcal{P}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ are the posterior probability vectors of observation $x_i$, $1 \leq i \leq n$,  merge those two parts $I_a$ and $I_b$, into one part $I_a \cup I_b$ which maximise
+For a partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ and with  functions $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b)$ and $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a)$ fixed, we can define a mixture component merging approach as follows: if $\hat{\m\tau}_{i \mathcal{P}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ is the posterior probability vectors of observation $x_i$, $1 \leq i \leq n$,  merge those two parts $I_a$ and $I_b$, into one part $I_a \cup I_b$ which maximise
 \begin{equation}\label{unifying_equation}
 S_{\omega, \lambda}( \hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \frac{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{P}_s}, I_a) \lambda(\hat{\tau}_{i \mathcal{P}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\hat{\tau}_{i \mathcal{P}_s}, I_a) }.
 \end{equation}
@@ -209,12 +209,12 @@ S_{\omega, \lambda}( \hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \sum_{i=1}^n \lamb
 \]
 and therefore, Equation~\ref{unifying_equation} also includes as particular cases the Entropy approach, $LOG_{const}$ and $LOG^2_{const}$ approaches. Particularly, by using the functions $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b)$ and $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a)$ already defined in Section~\ref{old_methods} we have all the combinations given by Table~\ref{table_methods}. Note that the method with $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) =  \mathlarger{\mathbbm{1}}\left\{  \forall \ell \; \tau_{hb} \geq \tau_{h\ell}  \right\}$ and  $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a) = \mathlarger{\mathbbm{1}}\left\{  \forall \ell\; \; \tau_{ia} \geq \tau_{i\ell}  \right\}$ it always evaluate 0, and therefore, it is of no use.
 
-A part of containing the approaches from Section~\ref{old_methods}, Equation~\ref{unifying_equation} permits to introduce a broad range of new approaches by varying functions $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b)$ and $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a)$. Note that for an observation generated from a pdf $\hat{f}_{I_a}$, the role played by the indicator function in Equation~\ref{demp_criteria} is to count the number of times the observation is classified to part $I_b$, this counting is used to estimate the probability of classifying an observation to part $I_b$. \cite{longford2014} proposed a different approach using the probability of classifying to part $b$, that is, the probability of being generated is used. In this case, the indicator function in Equation~\ref{demp_criteria} takes the form $\frac{\hat{\tau}_{iI_b}}{\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}}$. The main difference between these approaches is that $\mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$ estimates the probability of classifying an observation $\m x_i$ to $I_b$, whereas $\frac{\hat{\tau}_{iI_b}}{\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}}$ estimates the probability of $\m x_i$ being generated by $\hat{f}_{I_b}$ conditioned to $\m x_i$  being generated by $\hat{f}_{I_a}$ or $\hat{f}_{I_b}$. In this paper, one can use this idea to weighting the approach used in DEMP estimator and define the Directed Estimated Generation Probabilities estimator (DEGP)
+A part of containing the approaches from Section~\ref{old_methods}, Equation~\ref{unifying_equation} permits to introduce a broad range of new approaches by varying functions $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b)$ and $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a)$. For example, \cite{longford2014} proposed to measure the confusion between two component $I_a$ and $I_b$ by measuring the probability of $\m x_i$ being generated by $\hat{f}_{I_b}$ conditioned to $\m x_i$  being generated by $\hat{f}_{I_a}$ or $\hat{f}_{I_b}$. In other words, they proposed to measure the confusion between components by measuring $\frac{\hat{\tau}_{iI_b}}{\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}}$. Although the approach presented in \cite{longford2014} was estimated by simulation. In this paper, one can use their notion of confusion defining
+\[\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \frac{\hat{\tau}_{iI_b}}{\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b}}.\]
+Combining with the already defined weighing functions, we get three new methods to combine components. 
 
-\begin{equation}\label{demp2_criteria}
-DEGP(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) =\frac{ \sum_{i=1}^n \hat{\tau}_{iI_a} \hat{\tau}_{iI_b}(\hat{\tau}_{iI_a} + \hat{\tau}_{iI_b})^{-1}  }{\sum_{i=1}^n \hat{\tau}_{iI_a} }.
-\end{equation}
-Then we combine parts $I_a$ and $I_b$, such that the $DEGP(\hat{\m \tau}_{i \mathcal{P}_s}, a, b)$ is maximum. The main difference between DEGP estimator and the one proposed by \cite{longford2014} is that the former is obtained from sample $\m X$, the later is obtained from simulation once the parameters of mixture $f$ have been obtained.
+The notion of confusion given by DEMP criteria is similar to the one given at \cite{longford2014}. The former estimates the probability of \emph{classifying} an observation $\m x_i$ to $I_b$ when the observation was generated by $I_a$, whereas the later estimates the probability of $\m x_i$ being \emph{generated} by $\hat{f}_{I_b}$ conditioned to $\m x_i$  being generated by $\hat{f}_{I_a}$ or $\hat{f}_{I_b}$. Because of this, we refer to the methods derived from \cite{longford2014} by Directed Estimated Generation Probabilities methods (DEGP). Note that the main difference between the approach proposed in \cite{longford2014} and the ones introduced here are that the first is an estimator obtained by simulation, the second is obtained directly from the sample $\m X$.
+
 
 \begin{table}[htpb]
 \caption{Different combinations of score functions}
@@ -246,7 +246,7 @@ Then we combine parts $I_a$ and $I_b$, such that the $DEGP(\hat{\m \tau}_{i \mat
 
 {\color{blue} Martin: a partir d'aquí no he tocat res, tinc comentaris petits com: 1. per què ara les f porten barret?; 2. canviar la lletra w del overlaping level per theta o similar, es confon amb la funció w dels apartats anteriors. També tinc un comentari més important: en aquest apartat del simple case jo deixaria o bé la mixtura de 2 o bé la mixtura de 3, però no les dues. Agafa la més informativa (la de 2?) i l'altra la resumeixes dient que si es fes es veuria fàcilement que aleshores surt una altra cosa...no sé si m'explico..}
 
-Consider the FM
+Consider the \fmm
 \begin{equation}\label{two_mixture}
 f_2 = \pi_a \hat{f}_{I_a} + (1 - \pi_a) \hat{f}_{I_b, \mu_b}
 \end{equation}
@@ -268,7 +268,7 @@ In the second column we have plot the methods using the function $\omega(\hat{\m
 In the third column, the score is represented using the function $\omega(\hat{\m \tau}_{i \mathcal{P}_s}, a) = \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{a}} \geq \hat{\tau}_{iI_j} \right)$. In this case, all the approaches perform as expected except when $\lambda(\hat{\m \tau}_{i \mathcal{P}_s}, a, b) = \mathbbm{1}\left( \forall j\; \hat{\tau}_{i I_{b}} \geq \hat{\tau}_{iI_j} \right)$. In this case the function is constantly $0$, and therefore it is of no use to decide which components needs to be merged.
 
 
-To compare, now we include another component keeping the two previous components inside the mixture. Consider the FM
+To compare, now we include another component keeping the two previous components inside the mixture. Consider the \fmm
 \begin{equation}\label{three_mixture}
 f_3 = \pi_a \hat{f}_{I_a} + (0.5 - \pi_a) \hat{f}_{I_b, \mu_b} + 0.5 \hat{f}_{I_c}
 \end{equation}
