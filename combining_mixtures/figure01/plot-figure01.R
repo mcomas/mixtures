@@ -4,7 +4,7 @@ library(ggplot2)
 df = ldply(c('const', 'prop', 'dich'), function(METH1){
   ldply(c('entr', 'demp', 'degp', 'log', 'norm'), function(METH2){
     ldply(c(90, 80, 70, 60, 50, 40, 30, 20, 10), function(PI){
-      load(sprintf('data/data-fig01_%s-%s-%03d-100000-001.RData', METH1, METH2, PI))
+      load(sprintf('data/data-fig01_%s-%s-%03d-10000-001.RData', METH1, METH2, PI))
       df$pi = PI
       df$meth1 = METH1
       df$meth2 = METH2
@@ -18,7 +18,7 @@ df$meth1 = factor(df$meth1, levels=c('const', 'prop', 'dich'))
 df$meth2 = factor(df$meth2, levels=c('entr', 'demp', 'degp', 'log', 'norm'))
 
 p = ggplot(data=df, aes(x=mu, y=ent, linetype=as.factor(pi))) + geom_line() + #, col=as.factor(pi)
-  facet_grid(meth2~meth1, scales='free') + theme_bw() + ylab('Given score') + xlab(expression(mu[b])) +
+  facet_grid(meth2~meth1, scales='free') + theme_bw() + ylab('Confusion measurement (averaged)') + xlab(expression(mu[b])) +
   #scale_color_discrete(name=expression(paste(pi[a],' value'))) + 
   scale_linetype_discrete(name=expression(paste(pi[a],' value'))) + theme(
     'legend.position' = 'top',

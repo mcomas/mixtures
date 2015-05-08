@@ -1,6 +1,6 @@
 .IPHONY: seminari-girona granada article wdi-data confusion-indices
 
-all : article seminari-girona granada wdi-data
+all : article seminari-girona granada #wdi-data
 
 wdi-data : data/wdi_data.RData
 
