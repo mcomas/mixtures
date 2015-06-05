@@ -8,4 +8,4 @@ En aquest repositori hi han arxius d'R i LaTeX relacionats amb la recerca feta s
 
 ### Manteniment d'aquest repositori ###
 
-* Aquest repositori conté la investigació que he fet durant la tesis doctoral. Pots contactar amb mi a mcomas@imae.udg.edu
+* Aquest repositori conté la investigació que he fet durant la tesis doctoral.
